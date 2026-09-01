@@ -1,0 +1,18 @@
+model Attachment {
+  id          String @id @default(uuid())
+
+  workOrderId String
+  uploadedById String
+
+  url         String
+  fileName    String
+  mimeType    String
+  size        Int
+
+  workOrder   WorkOrder @relation(fields: [workOrderId],references: [id],onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([workOrderId])
+  @@map("attachments")
+}

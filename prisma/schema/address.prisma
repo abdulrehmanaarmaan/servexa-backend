@@ -1,0 +1,25 @@
+model Address {
+    id         String @id @default(uuid())
+    customerId String
+
+    label       String?
+    addressLine String
+    city        String
+    state       String?
+    postalCode  String?
+    country     String
+
+    latitude  Decimal? @db.Decimal(10, 7)
+    longitude Decimal? @db.Decimal(10, 7)
+
+    customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+    workOrders      WorkOrder[]
+    serviceRequests ServiceRequest[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([customerId])
+    @@map("addresses")
+}

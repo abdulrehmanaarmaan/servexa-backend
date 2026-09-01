@@ -1,0 +1,17 @@
+model Assignment {
+  id           String @id @default(uuid())
+
+  workOrderId  String
+  technicianId String
+
+  assignedAt   DateTime @default(now())
+  unassignedAt DateTime?
+
+  workOrder    WorkOrder @relation(fields: [workOrderId],references: [id],onDelete: Cascade)
+
+  technician   Technician @relation(fields: [technicianId],references: [id])
+
+  @@index([workOrderId])
+  @@index([technicianId])
+  @@map("assignments")
+}

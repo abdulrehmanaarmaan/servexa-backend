@@ -1,0 +1,37 @@
+model WorkOrder {
+  id               String @id @default(uuid())
+
+  serviceRequestId String @unique
+  customerId       String
+  serviceId        String
+  addressId        String
+
+  status           WorkOrderStatus @default(OPEN)
+
+  scheduledStart   DateTime?
+  scheduledEnd     DateTime?
+
+  description      String?
+
+  serviceRequest   ServiceRequest @relation( fields: [serviceRequestId],references: [id])
+
+  customer         Customer @relation(fields: [customerId],references: [id])
+
+  service          Service @relation(fields: [serviceId],references: [id])
+
+  address          Address @relation(fields: [addressId],references: [id])
+
+  assignments      Assignment[]
+  statusHistory    JobStatusHistory[]
+  attachments Attachment[]
+  notes            WorkOrderNote[]
+  invoice          Invoice?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([customerId, createdAt])
+  @@index([status])
+  @@index([scheduledStart])
+  @@map("work_orders")
+}

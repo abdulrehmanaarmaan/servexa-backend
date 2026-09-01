@@ -1,0 +1,19 @@
+model Customer {
+  id        String @id @default(uuid())
+  userId    String @unique
+
+  name      String
+  phone     String?
+  company   String?
+
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  addresses      Address[]
+  serviceRequests ServiceRequest[]
+  workOrders      WorkOrder[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("customers")
+}

@@ -1,0 +1,26 @@
+model Payment {
+  id              String @id @default(uuid())
+
+  invoiceId       String
+
+  amount          Decimal @db.Decimal(10, 2)
+  currency        String @default("BDT")
+
+  provider        PaymentProvider
+  status          PaymentStatus
+
+  transactionId   String?
+  gatewayReference String?
+
+  paidAt          DateTime?
+
+  invoice         Invoice @relation(fields: [invoiceId], references: [id])
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([invoiceId])
+  @@index([status])
+  @@index([transactionId])
+  @@map("payments")
+}

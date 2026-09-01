@@ -1,0 +1,74 @@
+enum UserRole {
+  CUSTOMER
+  TECHNICIAN
+  STAFF
+  ADMIN
+}
+
+enum ServiceRequestStatus {
+  PENDING
+  REVIEWED
+  APPROVED
+  REJECTED
+  CONVERTED
+  CANCELLED
+}
+
+enum ServicePriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+enum WorkOrderStatus {
+  OPEN
+  SCHEDULED
+  ASSIGNED
+  EN_ROUTE
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+}
+
+enum AvailabilityStatus {
+  AVAILABLE
+  UNAVAILABLE
+  BOOKED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PARTIALLY_PAID
+  PAID
+  OVERDUE
+  VOID
+}
+
+enum PaymentProvider {
+  STRIPE
+  BKASH
+  SSLCOMMERZ
+  CASH
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+enum NotificationType {
+  SERVICE_REQUEST
+  WORK_ORDER
+  ASSIGNMENT
+  SCHEDULE
+  STATUS_UPDATE
+  INVOICE
+  PAYMENT
+  SYSTEM
+}

@@ -1,0 +1,18 @@
+model JobStatusHistory {
+  id          String @id @default(uuid())
+
+  workOrderId String
+
+  fromStatus  WorkOrderStatus?
+  toStatus    WorkOrderStatus
+
+  changedById String?
+  reason      String?
+
+  changedAt   DateTime @default(now())
+
+  workOrder   WorkOrder @relation(fields: [workOrderId],references: [id],onDelete: Cascade)
+
+  @@index([workOrderId, changedAt])
+  @@map("job_status_history")
+}

@@ -1,0 +1,16 @@
+model WorkOrderNote {
+  id          String @id @default(uuid())
+
+  workOrderId String
+  authorId    String
+
+  content     String
+
+  workOrder   WorkOrder @relation( fields: [workOrderId], references: [id],onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([workOrderId, createdAt])
+  @@map("work_order_notes")
+}

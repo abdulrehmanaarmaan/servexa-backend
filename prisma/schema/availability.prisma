@@ -1,0 +1,19 @@
+model Availability {
+  id           String @id @default(uuid())
+
+  technicianId String
+
+  startAt      DateTime
+  endAt        DateTime
+
+  status       AvailabilityStatus @default(AVAILABLE)
+
+  technician   Technician @relation(fields: [technicianId],references: [id],onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([technicianId, startAt])
+  @@index([status])
+  @@map("availabilities")
+}
