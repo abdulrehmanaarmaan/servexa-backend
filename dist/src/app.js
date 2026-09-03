@@ -12,6 +12,8 @@ import { paymentRoutes } from "./app/module/payments/payment.route.js";
 import { invoiceRoutes } from "./app/module/invoices/invoice.route.js";
 import { workOrderRoutes } from "./app/module/work-orders/work-order.route.js";
 import { serviceRoutes } from "./app/module/services/service.route.js";
+import { serviceRequestRoutes } from "./app/module/service-requests/service-request.route.js";
+import { addressRoutes } from "./app/module/addresses/address.route.js";
 // import { getBkashIdToken } from "./app/lib/bkash";
 // import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 // import { notFound } from "./app/middleware/notFound";
@@ -35,36 +37,23 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/customer", customerRoutes);
-app.use("/api/v1", paymentRoutes);
-app.use("/api/v1", invoiceRoutes);
-app.use("/api/v1", workOrderRoutes);
+app.use("/api/v1/payments", paymentRoutes);
+app.use("/api/v1/invoices", invoiceRoutes);
+app.use("/api/v1/work-orders", workOrderRoutes);
 app.use("/api/v1/services", serviceRoutes);
+app.use("/api/v1/service-requests", serviceRequestRoutes);
+app.use("/api/v1/addresses", addressRoutes);
 // app.use("/api/v1/appointment", AppointementRoutes);
 // app.use("/api/v1/doctor", DoctorRoutes);
 // app.use("/api/v1/schedule", ScheduleRoutes);
 // app.use("/api/v1/payment", PaymentRoutes);
 // app.use("/api/v1/prescription", PrescriptionRoutes);
 // app.use("/api/v1/analytics", AnalyticsRoutes);
-app.get("/test", async (req, res, next) => {
-    try {
-        // const grantIdTokenResult = await getBkashIdToken();
-        // console.log(grantIdTokenResult);
-        res.status(httpStatus.OK).json({
-            success: true,
-            message: "Welcome to PH Healthcare System Backend",
-            data: null,
-        });
-    }
-    catch (error) {
-        console.log(error);
-        next(error);
-    }
-});
 // Basic route
 app.get("/", async (req, res) => {
     res.status(httpStatus.OK).json({
         success: true,
-        message: "Welcome to Servexa backend",
+        message: "Welcome to Servexa backend.",
     });
 });
 app.use(globalErrorHandler);

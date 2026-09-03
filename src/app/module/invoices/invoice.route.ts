@@ -9,7 +9,7 @@ import { invoiceController } from "./invoice.controller.js";
 const router = Router();
 
 router.post(
-  "/work-orders/:workOrderId/invoice",
+  "/work-orders/:workOrderId",
   auth(UserRole.ADMIN),
   validateRequest({
     params: createInvoiceParamsSchema,
@@ -19,7 +19,7 @@ router.post(
 );
 
 router.get(
-  "/invoices/:invoiceId",
+  "/:invoiceId",
   auth(UserRole.ADMIN, UserRole.CUSTOMER),
   validateRequest({
     params: invoiceParamsSchema,
@@ -46,7 +46,7 @@ router.get(
 // );
 
 router.patch(
-  "/admin/invoices/:invoiceId",
+  "/admin/:invoiceId",
   auth(UserRole.ADMIN),
   validateRequest({
     params: updateInvoiceParamsSchema,

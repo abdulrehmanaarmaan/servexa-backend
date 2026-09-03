@@ -19,7 +19,7 @@ src/
 │   └── rate-limit.middleware.ts
 │
 ├── modules/
-│   ├── auth/
+├──  auth/
 │   ├── users/
 │   ├── customers/
 │   ├── technicians/
@@ -29,12 +29,13 @@ src/
 │   ├── work-orders/
 │   ├── assignments/
 │   ├── availability/
-│   ├── invoices/
-│   ├── payments/
 │   ├── notes/
 │   ├── attachments/
+│   ├── invoices/
+│   ├── payments/
 │   ├── notifications/
-│   └── audit-logs/
+│   ├── audit-logs/
+│   └── admin/
 │
 ├── integrations/
 │   ├── google/
@@ -49,3 +50,6 @@ src/
 │   └── response.ts
 │
 └── jobs/              # optional later
+
+need to fix validate function,
+need to check Google AUTH.

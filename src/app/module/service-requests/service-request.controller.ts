@@ -8,6 +8,7 @@ import type { IRequestUser } from "../auth/auth.interface.js";
 import {
   serviceRequestService,
 } from "./service-request.service.js";
+import { sendResponse } from "../../utils/sendResponse.js";
 
 const createServiceRequest = async (
   req: Request,
@@ -22,12 +23,12 @@ const createServiceRequest = async (
       user,
     );
 
-  res.status(201).json({
+  sendResponse(res, {
+    statusCode: 201,
     success: true,
-    message:
-      "Service request created successfully",
+    message: "Service request created successfully",
     data: result,
-  });
+  })
 };
 
 const getServiceRequest = async (
@@ -46,12 +47,12 @@ const getServiceRequest = async (
       user,
     );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: 200,
     success: true,
-    message:
-      "Service request retrieved successfully",
+    message: "Service request retrieved successfully",
     data: result,
-  });
+  })
 };
 
 const getMyServiceRequests = async (
@@ -67,13 +68,13 @@ const getMyServiceRequests = async (
       req.query as any,
     );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: 200,
     success: true,
-    message:
-      "Service requests retrieved successfully",
+    message: "Service requests retrieved successfully",
     data: result.data,
-    meta: result.meta,
-  });
+    meta: result.meta
+  })
 };
 
 const getAllServiceRequests = async (
@@ -85,13 +86,13 @@ const getAllServiceRequests = async (
       req.query as any,
     );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: 200,
     success: true,
-    message:
-      "Service requests retrieved successfully",
+    message: "Service requests retrieved successfully",
     data: result.data,
-    meta: result.meta,
-  });
+    meta: result.meta
+  })
 };
 
 const updateServiceRequest = async (
@@ -111,12 +112,12 @@ const updateServiceRequest = async (
       user,
     );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: 200,
     success: true,
-    message:
-      "Service request updated successfully",
+    message: "Service request updated successfully",
     data: result,
-  });
+  })
 };
 
 const updateServiceRequestStatus =
@@ -137,12 +138,12 @@ const updateServiceRequestStatus =
         user,
       );
 
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: 200,
       success: true,
-      message:
-        "Service request status updated successfully",
+      message: "Service request status updated successfully",
       data: result,
-    });
+    })
   };
 
 const cancelServiceRequest = async (
@@ -161,12 +162,12 @@ const cancelServiceRequest = async (
       user,
     );
 
-  res.status(200).json({
-    success: true,
-    message:
-      "Service request cancelled successfully",
-    data: result,
-  });
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Service request cancelled successfully",
+      data: result,
+    })
 };
 
 export const serviceRequestController = {

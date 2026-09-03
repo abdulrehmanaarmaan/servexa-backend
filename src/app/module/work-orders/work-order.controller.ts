@@ -3,6 +3,7 @@ import type { Request, Response } from "express";
 import type { IRequestUser } from "../auth/auth.interface.js";
 
 import { workOrderService } from "./work-order.service.js";
+import { sendResponse } from "../../utils/sendResponse.js";
 
 const createWorkOrder = async (
   req: Request,
@@ -15,17 +16,18 @@ const createWorkOrder = async (
     req.user as IRequestUser;
 
   const result = await workOrderService.createWorkOrder(
-      serviceRequestId as string,
-      req.body,
-      user,
-    );
+    serviceRequestId as string,
+    req.body,
+    user,
+  );
 
-  res.status(201).json({
+    sendResponse(res, {
+    statusCode: 201,
     success: true,
     message:
       "Work order created successfully",
     data: result,
-  });
+  })
 };
 
 const getWorkOrder = async (
@@ -44,12 +46,13 @@ const getWorkOrder = async (
       user,
     );
 
-  res.status(200).json({
+      sendResponse(res, {
+    statusCode: 200,
     success: true,
     message:
       "Work order retrieved successfully",
     data: result,
-  });
+  })
 };
 
 const getMyWorkOrders = async (
@@ -65,13 +68,13 @@ const getMyWorkOrders = async (
       req.query as any,
     );
 
-  res.status(200).json({
+      sendResponse(res, {
+    statusCode: 200,
     success: true,
     message:
       "Work orders retrieved successfully",
-    data: result.data,
-    meta: result.meta,
-  });
+    data: result,
+  })
 };
 
 const getMyTechnicianWorkOrders =
@@ -88,13 +91,13 @@ const getMyTechnicianWorkOrders =
         req.query as any,
       );
 
-    res.status(200).json({
-      success: true,
-      message:
-        "Assigned work orders retrieved successfully",
-      data: result.data,
-      meta: result.meta,
-    });
+        sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Assigned work orders retrieved successfully",
+    data: result.data,
+    meta: result.meta
+  })
   };
 
 const getAllWorkOrders = async (
@@ -106,13 +109,14 @@ const getAllWorkOrders = async (
       req.query as any,
     );
 
-  res.status(200).json({
+      sendResponse(res, {
+    statusCode: 200,
     success: true,
     message:
-      "Work orders retrieved successfully",
+      "Work order retrieved successfully",
     data: result.data,
-    meta: result.meta,
-  });
+    meta: result.meta
+  })
 };
 
 const updateWorkOrder = async (
@@ -132,12 +136,13 @@ const updateWorkOrder = async (
       user,
     );
 
-  res.status(200).json({
+      sendResponse(res, {
+    statusCode: 200,
     success: true,
     message:
       "Work order updated successfully",
     data: result,
-  });
+  })
 };
 
 const updateWorkOrderStatus =
@@ -158,12 +163,13 @@ const updateWorkOrderStatus =
         user,
       );
 
-    res.status(200).json({
-      success: true,
-      message:
-        "Work order status updated successfully",
-      data: result,
-    });
+      sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message:
+      "Work order status updated successfully",
+    data: result,
+  })
   };
 
 const scheduleWorkOrder = async (
@@ -183,12 +189,13 @@ const scheduleWorkOrder = async (
       user,
     );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: 200,
     success: true,
     message:
       "Work order scheduled successfully",
     data: result,
-  });
+  })
 };
 
 export const workOrderController = {

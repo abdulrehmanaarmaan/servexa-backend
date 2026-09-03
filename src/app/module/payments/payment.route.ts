@@ -10,7 +10,7 @@ import { validateRequest } from "../../middleware/validateRequest.js";
 const router = Router();
 
 router.post(
-  "/invoices/:invoiceId/payments",
+  "/invoices/:invoiceId",
 
   auth(UserRole.CUSTOMER),
 
@@ -23,7 +23,7 @@ router.post(
 );
 
 router.get(
-  "/payments/bkash/callback",
+  "/bkash/callback",
   paymentController.bkashCallback,
 );
 

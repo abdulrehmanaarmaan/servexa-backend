@@ -2,6 +2,8 @@ import type { Request, Response } from "express";
 
 import type { IRequestUser } from "../auth/auth.interface.js";
 import { invoiceService } from "./invoice.service.js";
+import { sendResponse } from "../../utils/sendResponse.js";
+import { InvoiceStatus } from "../../../generated/prisma/enums.js";
 
 const createInvoice = async (
     req: Request,
@@ -11,17 +13,18 @@ const createInvoice = async (
 
     const user = req.user as IRequestUser;
 
-    const result =await invoiceService.createInvoice(
-            workOrderId as string,
-            await req.body,
-            user,
-        );
+    const result = await invoiceService.createInvoice(
+        workOrderId as string,
+        await req.body,
+        user,
+    );
 
-    res.status(201).json({
+    sendResponse(res, {
+        statusCode: 201,
         success: true,
         message: "Invoice created successfully",
         data: result,
-    });
+    })
 };
 
 const getInvoice = async (
@@ -38,69 +41,72 @@ const getInvoice = async (
             user,
         );
 
-    res.status(200).json({
+    sendResponse(res, {
+        statusCode: 200,
         success: true,
         message: "Invoice retrieved successfully",
         data: result,
-    });
+    })
 };
 
-// const getMyInvoices = async (
-//     req: Request,
-//     res: Response,
-// ) => {
-//     const user = req.user as IRequestUser;
+const getMyInvoices = async (
+    req: Request,
+    res: Response,
+) => {
+    const user = req.user as IRequestUser;
 
-//     const result =
-//         await invoiceService.getMyInvoices(
-//             user,
-//             req.query as unknown as {
-//                 page: number;
-//                 limit: number;
-//                 status?: string;
-//                 sortBy:
-//                 | "createdAt"
-//                 | "issuedAt"
-//                 | "dueAt"
-//                 | "total";
-//                 sortOrder: "asc" | "desc";
-//             },
-//         );
+    const result =
+        await invoiceService.getMyInvoices(
+            user,
+            req.query as unknown as {
+                page: number;
+                limit: number;
+                status?: InvoiceStatus & undefined;
+                sortBy:
+                | "createdAt"
+                | "issuedAt"
+                | "dueAt"
+                | "total";
+                sortOrder: "asc" | "desc";
+            },
+        );
 
-//     res.status(200).json({
-//         success: true,
-//         message: "Invoices retrieved successfully",
-//         data: result.data,
-//         meta: result.meta,
-//     });
-// };
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Invoices retrieved successfully",
+        data: result.data,
+        meta: result.meta
+    })
+};
 
-// const getAllInvoices = async (
-//     req: Request,
-//     res: Response,
-// ) => {
-//     const result =
-//         await invoiceService.getAllInvoices(
-//             req.query as unknown as {
-//                 page: number;
-//                 limit: number;
-//                 status?: string;
-//                 sortBy:
-//                 | "createdAt"
-//                 | "issuedAt"
-//                 | "dueAt"
-//                 | "total";
-//                 sortOrder: "asc" | "desc";
-//             },
-//         );
+const getAllInvoices = async (
+    req: Request,
+    res: Response,
+) => {
+    const result =
+        await invoiceService.getAllInvoices(
+            req.query as unknown as {
+                page: number;
+                limit: number;
+                status?: InvoiceStatus & undefined;
+                sortBy:
+                | "createdAt"
+                | "issuedAt"
+                | "dueAt"
+                | "total";
+                sortOrder: "asc" | "desc";
+            },
+        );
 
-//     res.status(200).json({
-//         success: true,
-//         message: "Invoices retrieved successfully",
-//         data: result.data,
-//         meta: result.meta,
-//     });
-// };
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Invoices retrieved successfully",
+        data: result.data,
+        meta: result.meta
+    })
+};
 
 const updateInvoice = async (
     req: Request,
@@ -117,11 +123,12 @@ const updateInvoice = async (
             user,
         );
 
-    res.status(200).json({
+    sendResponse(res, {
+        statusCode: 200,
         success: true,
         message: "Invoice updated successfully",
         data: result,
-    });
+    })
 };
 
 export const invoiceController = {

@@ -2,6 +2,8 @@ import type { Request, Response } from "express";
 
 import { paymentService } from "./payment.service.js";
 import { IRequestUser } from "../auth/auth.interface.js";
+import config from "../../config/index.js";
+import { sendResponse } from "../../utils/sendResponse.js";
 
 const createPayment = async (
 	req: Request,
@@ -16,11 +18,12 @@ const createPayment = async (
 		user,
 	);
 
-	res.status(201).json({
+	sendResponse(res, {
+		statusCode: 201,
 		success: true,
 		message: "Payment initiated successfully",
 		data: result,
-	});
+	  })
 };
 
 const bkashCallback = async (
@@ -37,7 +40,7 @@ const bkashCallback = async (
 		);
 
 	res.redirect(
-		`${process.env.CLIENT_URL}/payment/result?status=${
+		`${config.client_url}/payment/result?status=${
 			result.success ? "success" : "failed"
 		}`,
 	);

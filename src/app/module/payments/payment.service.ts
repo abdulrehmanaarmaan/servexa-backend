@@ -1,244 +1,244 @@
 import { prisma } from "../../lib/prisma.js";
 import { IRequestUser } from "../auth/auth.interface.js";
 import { createBkashPayment, executeBkashPayment } from "../../../integrations/payment/bkash/bkash.service.js";
+import config from "../../config/index.js";
 
 const createPayment = async (invoiceId: string, user: IRequestUser) => {
 
-    // ---------------------------------------
-    // 1. Find the customer
-    // ---------------------------------------
+  // ---------------------------------------
+  // 1. Find the customer
+  // ---------------------------------------
 
-    const customer = await prisma.customer.findUnique({
-        where: {
-            userId: user.userId,
-        },
+  const customer = await prisma.customer.findUnique({
+    where: {
+      userId: user.userId,
+    },
+  });
+
+  if (!customer) {
+    throw new Error("Customer profile not found.");
+  }
+
+  // ---------------------------------------
+  // 2. Find the invoice
+  // ---------------------------------------
+
+  const invoice = await prisma.invoice.findUnique({
+    where: {
+      id: invoiceId,
+    },
+    include: {
+      workOrder: true,
+    },
+  });
+
+  if (!invoice) {
+    throw new Error("Invoice not found.");
+  }
+
+  // ---------------------------------------
+  // 3. Ownership check
+  // ---------------------------------------
+
+  if (invoice.workOrder.customerId !== customer.id) {
+    throw new Error("You are not allowed to pay this invoice.");
+  }
+
+  // ---------------------------------------
+  // 4. Invoice status check
+  // ---------------------------------------
+
+  if (
+    invoice.status !== "ISSUED" &&
+    invoice.status !== "PARTIALLY_PAID"
+  ) {
+    throw new Error("This invoice is not payable.");
+  }
+
+  // ---------------------------------------
+  // 5. Check existing pending payment
+  // ---------------------------------------
+
+  const existingPendingPayment =
+    await prisma.payment.findFirst({
+      where: {
+        invoiceId: invoice.id,
+        status: "PENDING",
+      },
     });
 
-    if (!customer) {
-        throw new Error("Customer profile not found");
-    }
+  if (existingPendingPayment) {
+    throw new Error(
+      "A payment for this invoice is already pending.",
+    );
+  }
 
-    // ---------------------------------------
-    // 2. Find the invoice
-    // ---------------------------------------
+  // ---------------------------------------
+  // 6. Create Servexa payment
+  // ---------------------------------------
 
-    const invoice = await prisma.invoice.findUnique({
-        where: {
-            id: invoiceId,
-        },
-        include: {
-            workOrder: true,
-        },
-    });
+  const payment = await prisma.payment.create({
+    data: {
+      invoiceId: invoice.id,
 
-    if (!invoice) {
-        throw new Error("Invoice not found");
-    }
+      // NEVER accept amount from frontend.
+      amount: invoice.total,
 
-    // ---------------------------------------
-    // 3. Ownership check
-    // ---------------------------------------
+      currency: "BDT",
 
-    if (invoice.workOrder.customerId !== customer.id) {
-        throw new Error("You are not allowed to pay this invoice");
-    }
+      provider: "BKASH",
 
-    // ---------------------------------------
-    // 4. Invoice status check
-    // ---------------------------------------
+      status: "PENDING",
+    },
+  });
 
-    if (
-        invoice.status !== "ISSUED" &&
-        invoice.status !== "PARTIALLY_PAID"
-    ) {
-        throw new Error("This invoice is not payable");
-    }
+  // ---------------------------------------
+  // 7. Call bKash
+  // ---------------------------------------
 
-    // ---------------------------------------
-    // 5. Check existing pending payment
-    // ---------------------------------------
+  try {
+    const bkashPayment = await createBkashPayment({
+      amount: invoice.total.toString(),
 
-    const existingPendingPayment =
-        await prisma.payment.findFirst({
-            where: {
-                invoiceId: invoice.id,
-                status: "PENDING",
-            },
-        });
+      payerReference: customer.id,
 
-    if (existingPendingPayment) {
-        throw new Error(
-            "A payment for this invoice is already pending",
-        );
-    }
+      merchantInvoiceNumber: payment.id,
 
-    // ---------------------------------------
-    // 6. Create Servexa payment
-    // ---------------------------------------
-
-    const payment = await prisma.payment.create({
-        data: {
-            invoiceId: invoice.id,
-
-            // NEVER accept amount from frontend.
-            amount: invoice.total,
-
-            currency: "BDT",
-
-            provider: "BKASH",
-
-            status: "PENDING",
-        },
+      callbackURL: config.bkash_callback_url,
     });
 
     // ---------------------------------------
-    // 7. Call bKash
+    // 8. Save bKash information
     // ---------------------------------------
 
-    try {
-        const bkashPayment = await createBkashPayment({
-            amount: invoice.total.toString(),
+    const updatedPayment = await prisma.payment.update({
+      where: {
+        id: payment.id,
+      },
 
-            payerReference: customer.id,
+      data: {
+        gatewayReference: bkashPayment.paymentId,
 
-            merchantInvoiceNumber: payment.id,
+        gatewayResponse: bkashPayment.rawResponse!,
+      },
+    });
 
-            callbackURL:
-                `${process.env.BACKEND_URL}/api/v1/payments/bkash/callback`,
-        });
+    return {
+      paymentId: updatedPayment.id,
 
-        // ---------------------------------------
-        // 8. Save bKash information
-        // ---------------------------------------
+      paymentUrl: bkashPayment.paymentUrl,
+    };
+  } catch (error) {
+    // ---------------------------------------
+    // 9. bKash initialization failed
+    // ---------------------------------------
 
-        const updatedPayment = await prisma.payment.update({
-            where: {
-                id: payment.id,
-            },
+    await prisma.payment.update({
+      where: {
+        id: payment.id,
+      },
 
-            data: {
-                gatewayReference: bkashPayment.paymentId,
+      data: {
+        status: "FAILED",
+      },
+    });
 
-                gatewayResponse: bkashPayment.rawResponse!,
-            },
-        });
-
-        return {
-            paymentId: updatedPayment.id,
-
-            paymentUrl: bkashPayment.paymentUrl,
-        };
-    } catch (error) {
-        // ---------------------------------------
-        // 9. bKash initialization failed
-        // ---------------------------------------
-
-        await prisma.payment.update({
-            where: {
-                id: payment.id,
-            },
-
-            data: {
-                status: "FAILED",
-            },
-        });
-
-        throw error;
-    }
+    throw error;
+  }
 };
 
 export const markPaymentSuccess = async (
-	paymentId: string,
-	transactionId?: string,
-	gatewayResponse?: unknown,
+  paymentId: string,
+  transactionId?: string,
+  gatewayResponse?: unknown,
 ) => {
-	return prisma.$transaction(async (tx) => {
-		const payment = await tx.payment.findUnique({
-			where: {
-				id: paymentId,
-			},
-		});
+  return prisma.$transaction(async (tx) => {
+    const payment = await tx.payment.findUnique({
+      where: {
+        id: paymentId,
+      },
+    });
 
-		if (!payment) {
-			throw new Error("Payment not found");
-		}
+    if (!payment) {
+      throw new Error("Payment not found");
+    }
 
-		// Idempotency
-		if (payment.status === "PAID") {
-			return payment;
-		}
+    // Idempotency
+    if (payment.status === "PAID") {
+      return payment;
+    }
 
-		const updatedPayment = await tx.payment.update({
-			where: {
-				id: paymentId,
-			},
+    const updatedPayment = await tx.payment.update({
+      where: {
+        id: paymentId,
+      },
 
-			data: {
-				status: "PAID",
-				transactionId,
-				gatewayResponse: gatewayResponse!,
-				paidAt: new Date(),
-			},
-		});
+      data: {
+        status: "PAID",
+        transactionId,
+        gatewayResponse: gatewayResponse!,
+        paidAt: new Date(),
+      },
+    });
 
-		await tx.invoice.update({
-			where: {
-				id: payment.invoiceId,
-			},
+    await tx.invoice.update({
+      where: {
+        id: payment.invoiceId,
+      },
 
-			data: {
-				status: "PAID",
-			},
-		});
+      data: {
+        status: "PAID",
+      },
+    });
 
-		await tx.auditLog.create({
-			data: {
-				actorId: null,
-				action: "PAYMENT_COMPLETED",
-				entity: "Payment",
-				entityId: payment.id,
+    await tx.auditLog.create({
+      data: {
+        actorId: null,
+        action: "PAYMENT_COMPLETED",
+        entity: "Payment",
+        entityId: payment.id,
 
-				oldValue: {
-					status: payment.status,
-				},
+        oldValue: {
+          status: payment.status,
+        },
 
-				newValue: {
-					status: "PAID",
-					transactionId,
-				},
-			},
-		});
+        newValue: {
+          status: "PAID",
+          transactionId,
+        },
+      },
+    });
 
-		return updatedPayment;
-	});
+    return updatedPayment;
+  });
 };
 
 export const markPaymentFailed = async (
-	paymentId: string,
+  paymentId: string,
 ) => {
-	return prisma.payment.update({
-		where: {
-			id: paymentId,
-		},
+  return prisma.payment.update({
+    where: {
+      id: paymentId,
+    },
 
-		data: {
-			status: "FAILED",
-		},
-	});
+    data: {
+      status: "FAILED",
+    },
+  });
 };
 
 export const markPaymentCancelled = async (
-	paymentId: string,
+  paymentId: string,
 ) => {
-	return prisma.payment.update({
-		where: {
-			id: paymentId,
-		},
+  return prisma.payment.update({
+    where: {
+      id: paymentId,
+    },
 
-		data: {
-			status: "CANCELLED",
-		},
-	});
+    data: {
+      status: "CANCELLED",
+    },
+  });
 };
 
 export const handleBkashCallback = async (
@@ -326,7 +326,7 @@ export const handleBkashCallback = async (
   if (
     bkashResult.amount &&
     Number(bkashResult.amount) !==
-      Number(payment.amount)
+    Number(payment.amount)
   ) {
     await markPaymentFailed(payment.id);
 
@@ -363,6 +363,6 @@ export const handleBkashCallback = async (
 };
 
 export const paymentService = {
-    createPayment,
-    handleBkashCallback
+  createPayment,
+  handleBkashCallback
 };

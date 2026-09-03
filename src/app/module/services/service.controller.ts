@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 
 import { serviceService } from "./service.service.js";
+import { sendResponse } from "../../utils/sendResponse.js";
 
 const createService = async (
   req: Request,
@@ -10,9 +11,10 @@ const createService = async (
     req.body,
   );
 
-  res.status(201).json({
+  sendResponse(res, {
+    statusCode: 201,
     success: true,
-    message: "Service created successfully",
+    message: "Service created successfully.",
     data: result,
   });
 };
@@ -25,9 +27,10 @@ const getAllServices = async (
     req.query as any,
   );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: 200,
     success: true,
-    message: "Services retrieved successfully",
+    message: "Services retrieved successfully.",
     data: result,
   });
 };
@@ -42,9 +45,10 @@ const getServiceById = async (
     serviceId as string,
   );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: 200,
     success: true,
-    message: "Service retrieved successfully",
+    message: "Service retrieved successfully.",
     data: result,
   });
 };
@@ -60,7 +64,8 @@ const updateService = async (
     req.body,
   );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: 200,
     success: true,
     message: "Service updated successfully",
     data: result,
@@ -77,7 +82,8 @@ const deleteService = async (
     serviceId as string,
   );
 
-  res.status(200).json({
+  sendResponse(res, {
+    statusCode: 200,
     success: true,
     message: "Service deleted successfully",
     data: result,

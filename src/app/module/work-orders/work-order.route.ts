@@ -26,7 +26,7 @@ const router = Router();
  * into a work order.
  */
 router.post(
-    "/service-requests/:serviceRequestId/work-order",
+    "/service-requests/:serviceRequestId",
 
     auth(UserRole.ADMIN),
 
@@ -45,7 +45,7 @@ router.post(
  * inside the service.
  */
 router.get(
-    "/work-orders/:workOrderId",
+    "/:workOrderId",
 
     auth(
         UserRole.ADMIN,
@@ -66,7 +66,7 @@ router.get(
  * Get own work orders.
  */
 router.get(
-    "/customers/me/work-orders",
+    "/customers/me",
 
     auth(UserRole.CUSTOMER),
 
@@ -83,7 +83,7 @@ router.get(
  * Get assigned work orders.
  */
 router.get(
-    "/technicians/me/work-orders",
+    "/technicians/me",
 
     auth(UserRole.TECHNICIAN),
 
@@ -100,7 +100,7 @@ router.get(
  * Get all work orders.
  */
 router.get(
-    "/admin/work-orders",
+    "/admin",
 
     auth(UserRole.ADMIN),
 
@@ -117,7 +117,7 @@ router.get(
  * Update editable work-order information.
  */
 router.patch(
-    "/work-orders/:workOrderId",
+    "/:workOrderId",
 
     auth(UserRole.ADMIN),
 
@@ -138,7 +138,7 @@ router.patch(
  * and transition rules.
  */
 router.patch(
-    "/work-orders/:workOrderId/status",
+    "/:workOrderId/status",
 
     auth(
         UserRole.ADMIN,
@@ -159,7 +159,7 @@ router.patch(
  * Schedule a work order.
  */
 router.patch(
-    "/work-orders/:workOrderId/schedule",
+    "/:workOrderId/schedule",
 
     auth(UserRole.ADMIN),
 

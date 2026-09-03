@@ -25,10 +25,8 @@ const router = Router();
  * Create a new service request.
  */
 router.post(
-    "/service-requests",
-
+    "/",
     auth(UserRole.CUSTOMER),
-
     validateRequest({
         body: createServiceRequestSchema,
     }),
@@ -45,7 +43,7 @@ router.post(
  * inside the service.
  */
 router.get(
-    "/service-requests/:serviceRequestId",
+    "/:serviceRequestId",
 
     auth(
         UserRole.CUSTOMER,
@@ -65,7 +63,7 @@ router.get(
  * Get own service requests.
  */
 router.get(
-    "/customers/me/service-requests",
+    "/me",
 
     auth(UserRole.CUSTOMER),
 
@@ -82,7 +80,7 @@ router.get(
  * Get all service requests.
  */
 router.get(
-    "/admin/service-requests",
+    "/",
 
     auth(UserRole.ADMIN),
 
@@ -99,7 +97,7 @@ router.get(
  * Update own pending request.
  */
 router.patch(
-    "/service-requests/:serviceRequestId",
+    "/:serviceRequestId",
 
     auth(UserRole.CUSTOMER),
 
@@ -117,7 +115,7 @@ router.patch(
  * Review / approve / reject a request.
  */
 router.patch(
-    "/admin/service-requests/:serviceRequestId/status",
+    "/:serviceRequestId/status",
 
     auth(UserRole.ADMIN),
 
@@ -135,7 +133,7 @@ router.patch(
  * Cancel own request.
  */
 router.post(
-    "/service-requests/:serviceRequestId/cancel",
+    "/:serviceRequestId/cancel",
 
     auth(UserRole.CUSTOMER),
 
@@ -146,5 +144,4 @@ router.post(
     serviceRequestController.cancelServiceRequest,
 );
 
-export const serviceRequestRoutes =
-    router;
+export const serviceRequestRoutes = router;

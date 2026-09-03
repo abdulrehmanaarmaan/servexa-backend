@@ -55,8 +55,7 @@ const createServiceRequest = async (
     await prisma.address.findFirst({
       where: {
         id: payload.addressId,
-        customerId: customer.id,
-        deletedAt: null,
+        customerId: customer.id
       },
     });
 

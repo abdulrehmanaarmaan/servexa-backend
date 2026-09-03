@@ -4,7 +4,7 @@ const createServiceRequest = async (req, res) => {
     const result = await serviceRequestService.createServiceRequest(req.body, user);
     res.status(201).json({
         success: true,
-        message: "Service request created successfully",
+        message: "Service request created successfully.",
         data: result,
     });
 };

@@ -10,7 +10,7 @@ const router = Router();
  *
  * Create a new service request.
  */
-router.post("/service-requests", auth(UserRole.CUSTOMER), validateRequest({
+router.post("/", auth(UserRole.CUSTOMER), validateRequest({
     body: createServiceRequestSchema,
 }), serviceRequestController.createServiceRequest);
 /*
@@ -21,7 +21,7 @@ router.post("/service-requests", auth(UserRole.CUSTOMER), validateRequest({
  * Object-level authorization is handled
  * inside the service.
  */
-router.get("/service-requests/:serviceRequestId", auth(UserRole.CUSTOMER, UserRole.ADMIN), validateRequest({
+router.get("/:serviceRequestId", auth(UserRole.CUSTOMER, UserRole.ADMIN), validateRequest({
     params: serviceRequestParamsSchema,
 }), serviceRequestController.getServiceRequest);
 /*
@@ -29,7 +29,7 @@ router.get("/service-requests/:serviceRequestId", auth(UserRole.CUSTOMER, UserRo
  *
  * Get own service requests.
  */
-router.get("/customers/me/service-requests", auth(UserRole.CUSTOMER), validateRequest({
+router.get("/me", auth(UserRole.CUSTOMER), validateRequest({
     query: serviceRequestQuerySchema,
 }), serviceRequestController.getMyServiceRequests);
 /*
@@ -37,7 +37,7 @@ router.get("/customers/me/service-requests", auth(UserRole.CUSTOMER), validateRe
  *
  * Get all service requests.
  */
-router.get("/admin/service-requests", auth(UserRole.ADMIN), validateRequest({
+router.get("/", auth(UserRole.ADMIN), validateRequest({
     query: serviceRequestQuerySchema,
 }), serviceRequestController.getAllServiceRequests);
 /*
@@ -45,7 +45,7 @@ router.get("/admin/service-requests", auth(UserRole.ADMIN), validateRequest({
  *
  * Update own pending request.
  */
-router.patch("/service-requests/:serviceRequestId", auth(UserRole.CUSTOMER), validateRequest({
+router.patch("/:serviceRequestId", auth(UserRole.CUSTOMER), validateRequest({
     params: serviceRequestParamsSchema,
     body: updateServiceRequestSchema,
 }), serviceRequestController.updateServiceRequest);
@@ -54,7 +54,7 @@ router.patch("/service-requests/:serviceRequestId", auth(UserRole.CUSTOMER), val
  *
  * Review / approve / reject a request.
  */
-router.patch("/admin/service-requests/:serviceRequestId/status", auth(UserRole.ADMIN), validateRequest({
+router.patch("/:serviceRequestId/status", auth(UserRole.ADMIN), validateRequest({
     params: serviceRequestParamsSchema,
     body: updateServiceRequestStatusSchema,
 }), serviceRequestController.updateServiceRequestStatus);
@@ -63,7 +63,7 @@ router.patch("/admin/service-requests/:serviceRequestId/status", auth(UserRole.A
  *
  * Cancel own request.
  */
-router.post("/service-requests/:serviceRequestId/cancel", auth(UserRole.CUSTOMER), validateRequest({
+router.post("/:serviceRequestId/cancel", auth(UserRole.CUSTOMER), validateRequest({
     params: serviceRequestParamsSchema,
 }), serviceRequestController.cancelServiceRequest);
 export const serviceRequestRoutes = router;

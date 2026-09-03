@@ -7,15 +7,16 @@ type TMeta = {
 	totalPages: number;
 };
 
-type TResponseData<T> = {
+type TResponseData<X, Y> = {
 	success: boolean;
 	statusCode: number;
 	message: string;
-	data: T;
+	data?: X;
 	meta?: TMeta;
+	error?: Y
 };
 
-export const sendResponse = <T>(res: Response, data: TResponseData<T>) => {
+export const sendResponse = <X, Y>(res: Response, data: TResponseData<X, Y>) => {
 	res.status(data.statusCode).json({
 		success: data.success,
 		statusCode: data.statusCode,

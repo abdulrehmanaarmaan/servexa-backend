@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma.js";
 import { createBkashPayment, executeBkashPayment } from "../../../integrations/payment/bkash/bkash.service.js";
+import config from "../../config/index.js";
 const createPayment = async (invoiceId, user) => {
     // ---------------------------------------
     // 1. Find the customer
@@ -10,7 +11,7 @@ const createPayment = async (invoiceId, user) => {
         },
     });
     if (!customer) {
-        throw new Error("Customer profile not found");
+        throw new Error("Customer profile not found.");
     }
     // ---------------------------------------
     // 2. Find the invoice
@@ -24,20 +25,20 @@ const createPayment = async (invoiceId, user) => {
         },
     });
     if (!invoice) {
-        throw new Error("Invoice not found");
+        throw new Error("Invoice not found.");
     }
     // ---------------------------------------
     // 3. Ownership check
     // ---------------------------------------
     if (invoice.workOrder.customerId !== customer.id) {
-        throw new Error("You are not allowed to pay this invoice");
+        throw new Error("You are not allowed to pay this invoice.");
     }
     // ---------------------------------------
     // 4. Invoice status check
     // ---------------------------------------
     if (invoice.status !== "ISSUED" &&
         invoice.status !== "PARTIALLY_PAID") {
-        throw new Error("This invoice is not payable");
+        throw new Error("This invoice is not payable.");
     }
     // ---------------------------------------
     // 5. Check existing pending payment
@@ -49,7 +50,7 @@ const createPayment = async (invoiceId, user) => {
         },
     });
     if (existingPendingPayment) {
-        throw new Error("A payment for this invoice is already pending");
+        throw new Error("A payment for this invoice is already pending.");
     }
     // ---------------------------------------
     // 6. Create Servexa payment
@@ -72,7 +73,7 @@ const createPayment = async (invoiceId, user) => {
             amount: invoice.total.toString(),
             payerReference: customer.id,
             merchantInvoiceNumber: payment.id,
-            callbackURL: `${process.env.BACKEND_URL}/api/v1/payments/bkash/callback`,
+            callbackURL: config.bkash_callback_url,
         });
         // ---------------------------------------
         // 8. Save bKash information

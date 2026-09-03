@@ -11,7 +11,7 @@ const router = Router();
  * Convert an approved service request
  * into a work order.
  */
-router.post("/service-requests/:serviceRequestId/work-order", auth(UserRole.ADMIN), validateRequest({
+router.post("/service-requests/:serviceRequestId", auth(UserRole.ADMIN), validateRequest({
     params: createWorkOrderParamsSchema,
     body: createWorkOrderSchema,
 }), workOrderController.createWorkOrder);
@@ -21,7 +21,7 @@ router.post("/service-requests/:serviceRequestId/work-order", auth(UserRole.ADMI
  * Object-level authorization is performed
  * inside the service.
  */
-router.get("/work-orders/:workOrderId", auth(UserRole.ADMIN, UserRole.CUSTOMER, UserRole.TECHNICIAN), validateRequest({
+router.get("/:workOrderId", auth(UserRole.ADMIN, UserRole.CUSTOMER, UserRole.TECHNICIAN), validateRequest({
     params: workOrderParamsSchema,
 }), workOrderController.getWorkOrder);
 /*
@@ -29,7 +29,7 @@ router.get("/work-orders/:workOrderId", auth(UserRole.ADMIN, UserRole.CUSTOMER, 
  *
  * Get own work orders.
  */
-router.get("/customers/me/work-orders", auth(UserRole.CUSTOMER), validateRequest({
+router.get("/customers/me", auth(UserRole.CUSTOMER), validateRequest({
     query: workOrderQuerySchema,
 }), workOrderController.getMyWorkOrders);
 /*
@@ -37,7 +37,7 @@ router.get("/customers/me/work-orders", auth(UserRole.CUSTOMER), validateRequest
  *
  * Get assigned work orders.
  */
-router.get("/technicians/me/work-orders", auth(UserRole.TECHNICIAN), validateRequest({
+router.get("/technicians/me", auth(UserRole.TECHNICIAN), validateRequest({
     query: workOrderQuerySchema,
 }), workOrderController.getMyTechnicianWorkOrders);
 /*
@@ -45,7 +45,7 @@ router.get("/technicians/me/work-orders", auth(UserRole.TECHNICIAN), validateReq
  *
  * Get all work orders.
  */
-router.get("/admin/work-orders", auth(UserRole.ADMIN), validateRequest({
+router.get("/admin", auth(UserRole.ADMIN), validateRequest({
     query: workOrderQuerySchema,
 }), workOrderController.getAllWorkOrders);
 /*
@@ -53,7 +53,7 @@ router.get("/admin/work-orders", auth(UserRole.ADMIN), validateRequest({
  *
  * Update editable work-order information.
  */
-router.patch("/work-orders/:workOrderId", auth(UserRole.ADMIN), validateRequest({
+router.patch("/:workOrderId", auth(UserRole.ADMIN), validateRequest({
     params: workOrderParamsSchema,
     body: updateWorkOrderSchema,
 }), workOrderController.updateWorkOrder);
@@ -65,7 +65,7 @@ router.patch("/work-orders/:workOrderId", auth(UserRole.ADMIN), validateRequest(
  * The service applies additional object-level
  * and transition rules.
  */
-router.patch("/work-orders/:workOrderId/status", auth(UserRole.ADMIN, UserRole.TECHNICIAN), validateRequest({
+router.patch("/:workOrderId/status", auth(UserRole.ADMIN, UserRole.TECHNICIAN), validateRequest({
     params: workOrderParamsSchema,
     body: updateWorkOrderStatusSchema,
 }), workOrderController.updateWorkOrderStatus);
@@ -74,7 +74,7 @@ router.patch("/work-orders/:workOrderId/status", auth(UserRole.ADMIN, UserRole.T
  *
  * Schedule a work order.
  */
-router.patch("/work-orders/:workOrderId/schedule", auth(UserRole.ADMIN), validateRequest({
+router.patch("/:workOrderId/schedule", auth(UserRole.ADMIN), validateRequest({
     params: workOrderParamsSchema,
     body: scheduleWorkOrderSchema,
 }), workOrderController.scheduleWorkOrder);
