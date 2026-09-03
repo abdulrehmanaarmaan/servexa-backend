@@ -77,10 +77,8 @@ export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
 
 
 export const PaymentProvider = {
-  STRIPE: 'STRIPE',
   BKASH: 'BKASH',
-  SSLCOMMERZ: 'SSLCOMMERZ',
-  CASH: 'CASH'
+  STRIPE: 'STRIPE'
 } as const
 
 export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvider]
@@ -90,8 +88,8 @@ export const PaymentStatus = {
   PENDING: 'PENDING',
   PAID: 'PAID',
   FAILED: 'FAILED',
-  REFUNDED: 'REFUNDED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED'
 } as const
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]

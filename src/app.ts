@@ -7,11 +7,17 @@ import express, {
 	type Response,
 } from "express";
 import httpStatus from "http-status";
-import config from "./app/config";
+import config from "./app/config/index.js";
 import cookieParser from "cookie-parser";
-import { AuthRoutes } from "./app/module/auth/auth.route";
-import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
-import { notFound } from "./app/middleware/notFound";
+import { globalErrorHandler } from "./app/middleware/globalErrorHandler.js";
+import { notFound } from "./app/middleware/notFound.js";
+import { customerRoutes } from "./app/module/customer/customer.route.js";
+import { authRoutes } from "./app/module/auth/auth.route.js";
+import { paymentRoutes } from "./app/module/payments/payment.route.js";
+import { invoiceRoutes } from "./app/module/invoices/invoice.route.js";
+import { workOrderRoutes } from "./app/module/work-orders/work-order.route.js";
+import { serviceRoutes } from "./app/module/services/service.route.js";
+
 // import { getBkashIdToken } from "./app/lib/bkash";
 // import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 // import { notFound } from "./app/middleware/notFound";
@@ -28,7 +34,7 @@ const app: Application = express();
 
 app.use(
 	cors({
-		origin: config.frontend_url,
+		origin: config.client_url,
 		credentials: true,
 	}),
 );
@@ -40,8 +46,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/v1/auth", AuthRoutes);
-// app.use("/api/v1/user", UserRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/customer", customerRoutes);
+app.use("/api/v1", paymentRoutes);
+app.use("/api/v1", invoiceRoutes);
+app.use("/api/v1", workOrderRoutes);
+app.use("/api/v1/services", serviceRoutes)
 // app.use("/api/v1/appointment", AppointementRoutes);
 // app.use("/api/v1/doctor", DoctorRoutes);
 // app.use("/api/v1/schedule", ScheduleRoutes);

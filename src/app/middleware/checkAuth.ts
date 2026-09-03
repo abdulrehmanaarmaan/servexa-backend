@@ -1,12 +1,13 @@
 import type { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
-import config from "../config";
-import { prisma } from "../lib/prisma";
-import { catchAsync } from "../utils/catchAsync";
-import { AppError } from "../utils/appError";
+import { UserRole } from "../../generated/prisma/enums.js";
+import { catchAsync } from "../utils/catchAsync.js";
+import { AppError } from "../utils/appError.js";
+import { jwtUtils } from "../utils/jwt.js";
 import { JwtPayload } from "jsonwebtoken";
-import { UserRole } from "../../generated/prisma/browser";
-import { jwtUtils } from "../utils/jwt";
+import { prisma } from "../lib/prisma.js";
+import config from "../config/index.js";
+
 
 export interface RequestUser {
 	email: string;

@@ -1,26 +1,27 @@
 model Payment {
-  id              String @id @default(uuid())
+  id               String        @id @default(uuid())
+  invoiceId        String
+  amount           Decimal       @db.Decimal(10, 2)
+  currency         String        @default("BDT")
+  provider         PaymentProvider
+  status           PaymentStatus @default(PENDING)
 
-  invoiceId       String
-
-  amount          Decimal @db.Decimal(10, 2)
-  currency        String @default("BDT")
-
-  provider        PaymentProvider
-  status          PaymentStatus
-
-  transactionId   String?
+  transactionId    String?
   gatewayReference String?
+  gatewayResponse  Json?
 
-  paidAt          DateTime?
+  paidAt           DateTime?
+  refundedAt       DateTime?
 
-  invoice         Invoice @relation(fields: [invoiceId], references: [id])
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
 
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([invoiceId])
   @@index([status])
   @@index([transactionId])
+  @@index([gatewayReference])
   @@map("payments")
 }
+

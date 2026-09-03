@@ -5,27 +5,24 @@ import crypto from "crypto";
 // import type { TokenPayload } from "google-auth-library";
 import type { JwtPayload, SignOptions } from "jsonwebtoken";
 import path from "path";
-import {
-	UserRole,
-} from "../../../generated/prisma/enums";
-import config from "../../config";
+
 // import { googleClient } from "../../lib/googleAuth";
 // import { transporter } from "../../lib/nodemailer";
-import { prisma } from "../../lib/prisma";
 // import { AppError } from "../../utils/AppError";
-import { jwtUtils } from "../../utils/jwt";
-import type {
-    IGoogleLoginPayload,
-    ILoginUserPayload,
-	IRegisterPatientPayload,
-	IRequestUser
-} from "./auth.interface";
-import httpStatus from "http-status";
-import { AppError } from "../../utils/appError";
-import { googleClient } from "../../lib/googleAuth";
-import { TokenPayload } from "google-auth-library/build/src/auth/loginticket";
 
-const registerPatient = async (payload: IRegisterPatientPayload) => {
+import httpStatus from "http-status";
+import { ILoginUserPayload, IRegisterPatientPayload, IRequestUser } from "./auth.interface.js";
+import { prisma } from "../../lib/prisma.js";
+import { AppError } from "../../utils/appError.js";
+import { UserRole } from "../../../generated/prisma/enums.js";
+import { jwtUtils } from "../../utils/jwt.js";
+import { TokenPayload } from "google-auth-library";
+import { googleClient } from "../../lib/googleAuth.js";
+import config from "../../config/index.js";
+import { exchangeGoogleCode, generateGoogleAuthUrl, verifyGoogleIdToken } from "../../../integrations/google/google.service.js";
+
+
+const registerCustomer = async (payload: IRegisterPatientPayload) => {
 	const { name, password, phone} = payload;
 
 	const email = payload.email.trim().toLowerCase();
@@ -202,117 +199,178 @@ const refreshToken = async (token: string) => {
 	};
 };
 
-const googleLogin = async (payload: IGoogleLoginPayload) => {
-	let googleIdTokenPayload: TokenPayload | null | undefined = null;
-	try {
-		const ticket = await googleClient.verifyIdToken({
-			idToken: payload.idToken,
-			audience: config.google_client_id,
-		});
-
-		googleIdTokenPayload = ticket.getPayload();
-	} catch (error) {
-		console.log("Google id token verification failed.", error);
-		throw new AppError(httpStatus.UNAUTHORIZED, "Invalid or expired Google id token.");
-	}
-
-	if (!googleIdTokenPayload) {
-		throw new AppError(httpStatus.UNAUTHORIZED, "Invalid or expired Google id token.");
-	}
-
-	if (!googleIdTokenPayload.email) {
-		throw new AppError(httpStatus.BAD_REQUEST, "Google email not found.");
-	}
-	if (!googleIdTokenPayload.name) {
-		throw new AppError(httpStatus.BAD_REQUEST, "Google email user name not found.");
-	}
-
-	const customerWithGoogleAuth = await prisma.user.findUnique({
-		where: {
-			email: googleIdTokenPayload.email,
-			role: UserRole.CUSTOMER,
-			googleId: googleIdTokenPayload.sub,
-		},
-	});
-
-	let user = customerWithGoogleAuth;
-
-	if (!customerWithGoogleAuth) {
-		const customerWithCredentials = await prisma.user.findUnique({
-			where: {
-				email: googleIdTokenPayload.email,
-				role: UserRole.CUSTOMER,
-			},
-		});
-
-		if (customerWithCredentials) {
-			if (!customerWithCredentials.isActive) {
-				throw new AppError(httpStatus.FORBIDDEN, "Email not verified.");
-			}
-
-			user = await prisma.user.update({
-				where: {
-					id: customerWithCredentials.id,
-				},
-
-				data: {
-					googleId: googleIdTokenPayload.sub,
-				},
-			});
-		} else {
-			// Google Register
-			user = await prisma.user.create({
-				data: {
-					email: googleIdTokenPayload.email,
-					role: UserRole.CUSTOMER,
-					googleId: googleIdTokenPayload.sub,
-					customer: {
-						create: {
-							name: googleIdTokenPayload.name,
-							email: googleIdTokenPayload.email,
-						},
-					},
-				},
-			});
-		}
-	}
-
-	if (!user) {
-		throw new AppError(httpStatus.NOT_FOUND, "User not found.");
-	}
-
-	if (!user.isActive) {
-		throw new AppError(httpStatus.FORBIDDEN, "User is not active.");
-	}
-
-	const jwtPayload = {
-		userId: user.id,
-		email: user.email,
-		role: user.role,
-	};
-
-	const accessToken = jwtUtils.createToken(
-		jwtPayload,
-		config.jwt_access_secret,
-		config.jwt_access_expires_in as SignOptions,
-	);
-
-	const refreshToken = jwtUtils.createToken(
-		jwtPayload,
-		config.jwt_refresh_secret,
-		config.jwt_refresh_expires_in as SignOptions,
-	);
-
-	return {
-		accessToken,
-		refreshToken,
-	};
+const getGoogleAuthorizationUrl = () => {
+  return generateGoogleAuthUrl();
 };
 
-export const AuthService = {
-	registerPatient,
+const googleCallback = async (
+  code: string,
+) => {
+  let tokens;
+
+  try {
+    tokens = await exchangeGoogleCode(code);
+  } catch (error) {
+    console.error(
+      "Google authorization code exchange failed:",
+      error,
+    );
+
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "Google authentication failed.",
+    );
+  }
+
+  let googlePayload;
+
+  try {
+    googlePayload = await verifyGoogleIdToken(
+      tokens.id_token!,
+    );
+  } catch (error) {
+    console.error(
+      "Google ID token verification failed:",
+      error,
+    );
+
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "Invalid Google authentication.",
+    );
+  }
+
+  if (!googlePayload) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "Invalid Google authentication.",
+    );
+  }
+
+  if (!googlePayload.sub) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "Google account ID not found.",
+    );
+  }
+
+  if (!googlePayload.email) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Google email not found.",
+    );
+  }
+
+  if (!googlePayload.email_verified) {
+    throw new AppError(
+      httpStatus.UNAUTHORIZED,
+      "Google email is not verified.",
+    );
+  }
+
+  if (!googlePayload.name) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Google account name not found.",
+    );
+  }
+
+  const googleId = googlePayload.sub;
+  const email = googlePayload.email;
+  const name = googlePayload.name;
+
+  let user = await prisma.user.findFirst({
+    where: {
+      googleId,
+      role: UserRole.CUSTOMER,
+    },
+  });
+
+  if (!user) {
+    const existingUser =
+      await prisma.user.findFirst({
+        where: {
+          email,
+          role: UserRole.CUSTOMER,
+        },
+      });
+
+    if (existingUser) {
+      if (!existingUser.isActive) {
+        throw new AppError(
+          httpStatus.FORBIDDEN,
+          "User is not active.",
+        );
+      }
+
+      user = await prisma.user.update({
+        where: {
+          id: existingUser.id,
+        },
+        data: {
+          googleId,
+        },
+      });
+    } else {
+      user = await prisma.user.create({
+        data: {
+          email,
+          role: UserRole.CUSTOMER,
+          googleId,
+
+          customer: {
+            create: {
+              name,
+            },
+          },
+        },
+      });
+    }
+  }
+
+  if (!user) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "User not found.",
+    );
+  }
+
+  if (!user.isActive) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "User is not active.",
+    );
+  }
+
+  const jwtPayload = {
+    userId: user.id,
+    email: user.email,
+    role: user.role,
+  };
+
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    config.jwt_access_expires_in as SignOptions,
+  );
+
+  const refreshToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_refresh_secret,
+    config.jwt_refresh_expires_in as SignOptions,
+  );
+
+  return {
+    accessToken,
+    refreshToken,
+  };
+};
+
+export const authService = {
+	registerCustomer,
 	loginUser,
 	getMe,
 	refreshToken,
-	googleLogin
+	getGoogleAuthorizationUrl,
+	googleCallback
 };

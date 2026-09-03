@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model WorkOrderNote
@@ -31,6 +31,7 @@ export type WorkOrderNoteMinAggregateOutputType = {
   content: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type WorkOrderNoteMaxAggregateOutputType = {
@@ -40,6 +41,7 @@ export type WorkOrderNoteMaxAggregateOutputType = {
   content: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type WorkOrderNoteCountAggregateOutputType = {
@@ -49,6 +51,7 @@ export type WorkOrderNoteCountAggregateOutputType = {
   content: number
   createdAt: number
   updatedAt: number
+  deletedAt: number
   _all: number
 }
 
@@ -60,6 +63,7 @@ export type WorkOrderNoteMinAggregateInputType = {
   content?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type WorkOrderNoteMaxAggregateInputType = {
@@ -69,6 +73,7 @@ export type WorkOrderNoteMaxAggregateInputType = {
   content?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type WorkOrderNoteCountAggregateInputType = {
@@ -78,6 +83,7 @@ export type WorkOrderNoteCountAggregateInputType = {
   content?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -160,6 +166,7 @@ export type WorkOrderNoteGroupByOutputType = {
   content: string
   createdAt: Date
   updatedAt: Date
+  deletedAt: Date | null
   _count: WorkOrderNoteCountAggregateOutputType | null
   _min: WorkOrderNoteMinAggregateOutputType | null
   _max: WorkOrderNoteMaxAggregateOutputType | null
@@ -190,6 +197,7 @@ export type WorkOrderNoteWhereInput = {
   content?: Prisma.StringFilter<"WorkOrderNote"> | string
   createdAt?: Prisma.DateTimeFilter<"WorkOrderNote"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkOrderNote"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"WorkOrderNote"> | Date | string | null
   workOrder?: Prisma.XOR<Prisma.WorkOrderScalarRelationFilter, Prisma.WorkOrderWhereInput>
 }
 
@@ -200,6 +208,7 @@ export type WorkOrderNoteOrderByWithRelationInput = {
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   workOrder?: Prisma.WorkOrderOrderByWithRelationInput
 }
 
@@ -213,6 +222,7 @@ export type WorkOrderNoteWhereUniqueInput = Prisma.AtLeast<{
   content?: Prisma.StringFilter<"WorkOrderNote"> | string
   createdAt?: Prisma.DateTimeFilter<"WorkOrderNote"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkOrderNote"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"WorkOrderNote"> | Date | string | null
   workOrder?: Prisma.XOR<Prisma.WorkOrderScalarRelationFilter, Prisma.WorkOrderWhereInput>
 }, "id">
 
@@ -223,6 +233,7 @@ export type WorkOrderNoteOrderByWithAggregationInput = {
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.WorkOrderNoteCountOrderByAggregateInput
   _max?: Prisma.WorkOrderNoteMaxOrderByAggregateInput
   _min?: Prisma.WorkOrderNoteMinOrderByAggregateInput
@@ -238,6 +249,7 @@ export type WorkOrderNoteScalarWhereWithAggregatesInput = {
   content?: Prisma.StringWithAggregatesFilter<"WorkOrderNote"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"WorkOrderNote"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"WorkOrderNote"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"WorkOrderNote"> | Date | string | null
 }
 
 export type WorkOrderNoteCreateInput = {
@@ -246,6 +258,7 @@ export type WorkOrderNoteCreateInput = {
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   workOrder: Prisma.WorkOrderCreateNestedOneWithoutNotesInput
 }
 
@@ -256,6 +269,7 @@ export type WorkOrderNoteUncheckedCreateInput = {
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type WorkOrderNoteUpdateInput = {
@@ -264,6 +278,7 @@ export type WorkOrderNoteUpdateInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workOrder?: Prisma.WorkOrderUpdateOneRequiredWithoutNotesNestedInput
 }
 
@@ -274,6 +289,7 @@ export type WorkOrderNoteUncheckedUpdateInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type WorkOrderNoteCreateManyInput = {
@@ -283,6 +299,7 @@ export type WorkOrderNoteCreateManyInput = {
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type WorkOrderNoteUpdateManyMutationInput = {
@@ -291,6 +308,7 @@ export type WorkOrderNoteUpdateManyMutationInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type WorkOrderNoteUncheckedUpdateManyInput = {
@@ -300,6 +318,7 @@ export type WorkOrderNoteUncheckedUpdateManyInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type WorkOrderNoteListRelationFilter = {
@@ -319,6 +338,7 @@ export type WorkOrderNoteCountOrderByAggregateInput = {
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type WorkOrderNoteMaxOrderByAggregateInput = {
@@ -328,6 +348,7 @@ export type WorkOrderNoteMaxOrderByAggregateInput = {
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type WorkOrderNoteMinOrderByAggregateInput = {
@@ -337,6 +358,7 @@ export type WorkOrderNoteMinOrderByAggregateInput = {
   content?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type WorkOrderNoteCreateNestedManyWithoutWorkOrderInput = {
@@ -387,6 +409,7 @@ export type WorkOrderNoteCreateWithoutWorkOrderInput = {
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type WorkOrderNoteUncheckedCreateWithoutWorkOrderInput = {
@@ -395,6 +418,7 @@ export type WorkOrderNoteUncheckedCreateWithoutWorkOrderInput = {
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type WorkOrderNoteCreateOrConnectWithoutWorkOrderInput = {
@@ -433,6 +457,7 @@ export type WorkOrderNoteScalarWhereInput = {
   content?: Prisma.StringFilter<"WorkOrderNote"> | string
   createdAt?: Prisma.DateTimeFilter<"WorkOrderNote"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkOrderNote"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"WorkOrderNote"> | Date | string | null
 }
 
 export type WorkOrderNoteCreateManyWorkOrderInput = {
@@ -441,6 +466,7 @@ export type WorkOrderNoteCreateManyWorkOrderInput = {
   content: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type WorkOrderNoteUpdateWithoutWorkOrderInput = {
@@ -449,6 +475,7 @@ export type WorkOrderNoteUpdateWithoutWorkOrderInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type WorkOrderNoteUncheckedUpdateWithoutWorkOrderInput = {
@@ -457,6 +484,7 @@ export type WorkOrderNoteUncheckedUpdateWithoutWorkOrderInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type WorkOrderNoteUncheckedUpdateManyWithoutWorkOrderInput = {
@@ -465,6 +493,7 @@ export type WorkOrderNoteUncheckedUpdateManyWithoutWorkOrderInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -476,6 +505,7 @@ export type WorkOrderNoteSelect<ExtArgs extends runtime.Types.Extensions.Interna
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   workOrder?: boolean | Prisma.WorkOrderDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workOrderNote"]>
 
@@ -486,6 +516,7 @@ export type WorkOrderNoteSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   workOrder?: boolean | Prisma.WorkOrderDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workOrderNote"]>
 
@@ -496,6 +527,7 @@ export type WorkOrderNoteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   workOrder?: boolean | Prisma.WorkOrderDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workOrderNote"]>
 
@@ -506,9 +538,10 @@ export type WorkOrderNoteSelectScalar = {
   content?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
 }
 
-export type WorkOrderNoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workOrderId" | "authorId" | "content" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrderNote"]>
+export type WorkOrderNoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "workOrderId" | "authorId" | "content" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["workOrderNote"]>
 export type WorkOrderNoteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   workOrder?: boolean | Prisma.WorkOrderDefaultArgs<ExtArgs>
 }
@@ -531,6 +564,7 @@ export type $WorkOrderNotePayload<ExtArgs extends runtime.Types.Extensions.Inter
     content: string
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
   }, ExtArgs["result"]["workOrderNote"]>
   composites: {}
 }
@@ -961,6 +995,7 @@ export interface WorkOrderNoteFieldRefs {
   readonly content: Prisma.FieldRef<"WorkOrderNote", 'String'>
   readonly createdAt: Prisma.FieldRef<"WorkOrderNote", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"WorkOrderNote", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"WorkOrderNote", 'DateTime'>
 }
     
 

@@ -1,22 +1,18 @@
 model Invoice {
-  id          String @id @default(uuid())
-
-  workOrderId String @unique
-
+  id            String @id @default(uuid())
+  workOrderId   String @unique
   invoiceNumber String @unique
 
-  subtotal    Decimal @db.Decimal(10, 2)
-  tax         Decimal @default(0) @db.Decimal(10, 2)
-  total       Decimal @db.Decimal(10, 2)
+  subtotal Decimal @db.Decimal(10, 2)
+  tax      Decimal @default(0) @db.Decimal(10, 2)
+  total    Decimal @db.Decimal(10, 2)
 
-  status      InvoiceStatus @default(ISSUED)
+  status  InvoiceStatus @default(ISSUED)
+  issuedAt DateTime @default(now())
+  dueAt DateTime?
 
-  issuedAt    DateTime @default(now())
-  dueAt       DateTime?
-
-  workOrder   WorkOrder @relation(fields: [workOrderId], references: [id])
-
-  payments    Payment[]
+  workOrder WorkOrder @relation(fields: [workOrderId], references: [id])
+  payments Payment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

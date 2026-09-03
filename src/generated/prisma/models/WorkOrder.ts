@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model WorkOrder
@@ -20,8 +20,18 @@ export type WorkOrderModel = runtime.Types.Result.DefaultSelection<Prisma.$WorkO
 
 export type AggregateWorkOrder = {
   _count: WorkOrderCountAggregateOutputType | null
+  _avg: WorkOrderAvgAggregateOutputType | null
+  _sum: WorkOrderSumAggregateOutputType | null
   _min: WorkOrderMinAggregateOutputType | null
   _max: WorkOrderMaxAggregateOutputType | null
+}
+
+export type WorkOrderAvgAggregateOutputType = {
+  servicePrice: runtime.Decimal | null
+}
+
+export type WorkOrderSumAggregateOutputType = {
+  servicePrice: runtime.Decimal | null
 }
 
 export type WorkOrderMinAggregateOutputType = {
@@ -30,6 +40,7 @@ export type WorkOrderMinAggregateOutputType = {
   customerId: string | null
   serviceId: string | null
   addressId: string | null
+  servicePrice: runtime.Decimal | null
   status: $Enums.WorkOrderStatus | null
   scheduledStart: Date | null
   scheduledEnd: Date | null
@@ -44,6 +55,7 @@ export type WorkOrderMaxAggregateOutputType = {
   customerId: string | null
   serviceId: string | null
   addressId: string | null
+  servicePrice: runtime.Decimal | null
   status: $Enums.WorkOrderStatus | null
   scheduledStart: Date | null
   scheduledEnd: Date | null
@@ -58,6 +70,7 @@ export type WorkOrderCountAggregateOutputType = {
   customerId: number
   serviceId: number
   addressId: number
+  servicePrice: number
   status: number
   scheduledStart: number
   scheduledEnd: number
@@ -68,12 +81,21 @@ export type WorkOrderCountAggregateOutputType = {
 }
 
 
+export type WorkOrderAvgAggregateInputType = {
+  servicePrice?: true
+}
+
+export type WorkOrderSumAggregateInputType = {
+  servicePrice?: true
+}
+
 export type WorkOrderMinAggregateInputType = {
   id?: true
   serviceRequestId?: true
   customerId?: true
   serviceId?: true
   addressId?: true
+  servicePrice?: true
   status?: true
   scheduledStart?: true
   scheduledEnd?: true
@@ -88,6 +110,7 @@ export type WorkOrderMaxAggregateInputType = {
   customerId?: true
   serviceId?: true
   addressId?: true
+  servicePrice?: true
   status?: true
   scheduledStart?: true
   scheduledEnd?: true
@@ -102,6 +125,7 @@ export type WorkOrderCountAggregateInputType = {
   customerId?: true
   serviceId?: true
   addressId?: true
+  servicePrice?: true
   status?: true
   scheduledStart?: true
   scheduledEnd?: true
@@ -149,6 +173,18 @@ export type WorkOrderAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: WorkOrderAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: WorkOrderSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: WorkOrderMinAggregateInputType
@@ -179,6 +215,8 @@ export type WorkOrderGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   _count?: WorkOrderCountAggregateInputType | true
+  _avg?: WorkOrderAvgAggregateInputType
+  _sum?: WorkOrderSumAggregateInputType
   _min?: WorkOrderMinAggregateInputType
   _max?: WorkOrderMaxAggregateInputType
 }
@@ -189,6 +227,7 @@ export type WorkOrderGroupByOutputType = {
   customerId: string
   serviceId: string
   addressId: string
+  servicePrice: runtime.Decimal | null
   status: $Enums.WorkOrderStatus
   scheduledStart: Date | null
   scheduledEnd: Date | null
@@ -196,6 +235,8 @@ export type WorkOrderGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   _count: WorkOrderCountAggregateOutputType | null
+  _avg: WorkOrderAvgAggregateOutputType | null
+  _sum: WorkOrderSumAggregateOutputType | null
   _min: WorkOrderMinAggregateOutputType | null
   _max: WorkOrderMaxAggregateOutputType | null
 }
@@ -224,6 +265,7 @@ export type WorkOrderWhereInput = {
   customerId?: Prisma.StringFilter<"WorkOrder"> | string
   serviceId?: Prisma.StringFilter<"WorkOrder"> | string
   addressId?: Prisma.StringFilter<"WorkOrder"> | string
+  servicePrice?: Prisma.DecimalNullableFilter<"WorkOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFilter<"WorkOrder"> | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   scheduledEnd?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
@@ -236,8 +278,8 @@ export type WorkOrderWhereInput = {
   address?: Prisma.XOR<Prisma.AddressScalarRelationFilter, Prisma.AddressWhereInput>
   assignments?: Prisma.AssignmentListRelationFilter
   statusHistory?: Prisma.JobStatusHistoryListRelationFilter
-  attachments?: Prisma.AttachmentListRelationFilter
   notes?: Prisma.WorkOrderNoteListRelationFilter
+  attachments?: Prisma.AttachmentListRelationFilter
   invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
 }
 
@@ -247,6 +289,7 @@ export type WorkOrderOrderByWithRelationInput = {
   customerId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   addressId?: Prisma.SortOrder
+  servicePrice?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   scheduledStart?: Prisma.SortOrderInput | Prisma.SortOrder
   scheduledEnd?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -259,8 +302,8 @@ export type WorkOrderOrderByWithRelationInput = {
   address?: Prisma.AddressOrderByWithRelationInput
   assignments?: Prisma.AssignmentOrderByRelationAggregateInput
   statusHistory?: Prisma.JobStatusHistoryOrderByRelationAggregateInput
-  attachments?: Prisma.AttachmentOrderByRelationAggregateInput
   notes?: Prisma.WorkOrderNoteOrderByRelationAggregateInput
+  attachments?: Prisma.AttachmentOrderByRelationAggregateInput
   invoice?: Prisma.InvoiceOrderByWithRelationInput
 }
 
@@ -273,6 +316,7 @@ export type WorkOrderWhereUniqueInput = Prisma.AtLeast<{
   customerId?: Prisma.StringFilter<"WorkOrder"> | string
   serviceId?: Prisma.StringFilter<"WorkOrder"> | string
   addressId?: Prisma.StringFilter<"WorkOrder"> | string
+  servicePrice?: Prisma.DecimalNullableFilter<"WorkOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFilter<"WorkOrder"> | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   scheduledEnd?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
@@ -285,8 +329,8 @@ export type WorkOrderWhereUniqueInput = Prisma.AtLeast<{
   address?: Prisma.XOR<Prisma.AddressScalarRelationFilter, Prisma.AddressWhereInput>
   assignments?: Prisma.AssignmentListRelationFilter
   statusHistory?: Prisma.JobStatusHistoryListRelationFilter
-  attachments?: Prisma.AttachmentListRelationFilter
   notes?: Prisma.WorkOrderNoteListRelationFilter
+  attachments?: Prisma.AttachmentListRelationFilter
   invoice?: Prisma.XOR<Prisma.InvoiceNullableScalarRelationFilter, Prisma.InvoiceWhereInput> | null
 }, "id" | "serviceRequestId">
 
@@ -296,6 +340,7 @@ export type WorkOrderOrderByWithAggregationInput = {
   customerId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   addressId?: Prisma.SortOrder
+  servicePrice?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   scheduledStart?: Prisma.SortOrderInput | Prisma.SortOrder
   scheduledEnd?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -303,8 +348,10 @@ export type WorkOrderOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.WorkOrderCountOrderByAggregateInput
+  _avg?: Prisma.WorkOrderAvgOrderByAggregateInput
   _max?: Prisma.WorkOrderMaxOrderByAggregateInput
   _min?: Prisma.WorkOrderMinOrderByAggregateInput
+  _sum?: Prisma.WorkOrderSumOrderByAggregateInput
 }
 
 export type WorkOrderScalarWhereWithAggregatesInput = {
@@ -316,6 +363,7 @@ export type WorkOrderScalarWhereWithAggregatesInput = {
   customerId?: Prisma.StringWithAggregatesFilter<"WorkOrder"> | string
   serviceId?: Prisma.StringWithAggregatesFilter<"WorkOrder"> | string
   addressId?: Prisma.StringWithAggregatesFilter<"WorkOrder"> | string
+  servicePrice?: Prisma.DecimalNullableWithAggregatesFilter<"WorkOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusWithAggregatesFilter<"WorkOrder"> | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
   scheduledEnd?: Prisma.DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
@@ -326,6 +374,7 @@ export type WorkOrderScalarWhereWithAggregatesInput = {
 
 export type WorkOrderCreateInput = {
   id?: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -338,8 +387,8 @@ export type WorkOrderCreateInput = {
   address: Prisma.AddressCreateNestedOneWithoutWorkOrdersInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutWorkOrderInput
   statusHistory?: Prisma.JobStatusHistoryCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -349,6 +398,7 @@ export type WorkOrderUncheckedCreateInput = {
   customerId: string
   serviceId: string
   addressId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -357,13 +407,14 @@ export type WorkOrderUncheckedCreateInput = {
   updatedAt?: Date | string
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutWorkOrderInput
   statusHistory?: Prisma.JobStatusHistoryUncheckedCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteUncheckedCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutWorkOrderInput
 }
 
 export type WorkOrderUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -376,8 +427,8 @@ export type WorkOrderUpdateInput = {
   address?: Prisma.AddressUpdateOneRequiredWithoutWorkOrdersNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutWorkOrderNestedInput
   statusHistory?: Prisma.JobStatusHistoryUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutWorkOrderNestedInput
 }
 
@@ -387,6 +438,7 @@ export type WorkOrderUncheckedUpdateInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -395,8 +447,8 @@ export type WorkOrderUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   statusHistory?: Prisma.JobStatusHistoryUncheckedUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUncheckedUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutWorkOrderNestedInput
 }
 
@@ -406,6 +458,7 @@ export type WorkOrderCreateManyInput = {
   customerId: string
   serviceId: string
   addressId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -416,6 +469,7 @@ export type WorkOrderCreateManyInput = {
 
 export type WorkOrderUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -430,6 +484,7 @@ export type WorkOrderUncheckedUpdateManyInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -464,6 +519,7 @@ export type WorkOrderCountOrderByAggregateInput = {
   customerId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   addressId?: Prisma.SortOrder
+  servicePrice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   scheduledStart?: Prisma.SortOrder
   scheduledEnd?: Prisma.SortOrder
@@ -472,12 +528,17 @@ export type WorkOrderCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type WorkOrderAvgOrderByAggregateInput = {
+  servicePrice?: Prisma.SortOrder
+}
+
 export type WorkOrderMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   serviceRequestId?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   addressId?: Prisma.SortOrder
+  servicePrice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   scheduledStart?: Prisma.SortOrder
   scheduledEnd?: Prisma.SortOrder
@@ -492,12 +553,17 @@ export type WorkOrderMinOrderByAggregateInput = {
   customerId?: Prisma.SortOrder
   serviceId?: Prisma.SortOrder
   addressId?: Prisma.SortOrder
+  servicePrice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   scheduledStart?: Prisma.SortOrder
   scheduledEnd?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type WorkOrderSumOrderByAggregateInput = {
+  servicePrice?: Prisma.SortOrder
 }
 
 export type WorkOrderCreateNestedOneWithoutStatusHistoryInput = {
@@ -730,6 +796,7 @@ export type WorkOrderUpdateOneRequiredWithoutNotesNestedInput = {
 
 export type WorkOrderCreateWithoutStatusHistoryInput = {
   id?: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -741,8 +808,8 @@ export type WorkOrderCreateWithoutStatusHistoryInput = {
   service: Prisma.ServiceCreateNestedOneWithoutWorkOrdersInput
   address: Prisma.AddressCreateNestedOneWithoutWorkOrdersInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -752,6 +819,7 @@ export type WorkOrderUncheckedCreateWithoutStatusHistoryInput = {
   customerId: string
   serviceId: string
   addressId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -759,8 +827,8 @@ export type WorkOrderUncheckedCreateWithoutStatusHistoryInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteUncheckedCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -782,6 +850,7 @@ export type WorkOrderUpdateToOneWithWhereWithoutStatusHistoryInput = {
 
 export type WorkOrderUpdateWithoutStatusHistoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -793,8 +862,8 @@ export type WorkOrderUpdateWithoutStatusHistoryInput = {
   service?: Prisma.ServiceUpdateOneRequiredWithoutWorkOrdersNestedInput
   address?: Prisma.AddressUpdateOneRequiredWithoutWorkOrdersNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutWorkOrderNestedInput
 }
 
@@ -804,6 +873,7 @@ export type WorkOrderUncheckedUpdateWithoutStatusHistoryInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -811,13 +881,14 @@ export type WorkOrderUncheckedUpdateWithoutStatusHistoryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUncheckedUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutWorkOrderNestedInput
 }
 
 export type WorkOrderCreateWithoutAddressInput = {
   id?: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -829,8 +900,8 @@ export type WorkOrderCreateWithoutAddressInput = {
   service: Prisma.ServiceCreateNestedOneWithoutWorkOrdersInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutWorkOrderInput
   statusHistory?: Prisma.JobStatusHistoryCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -839,6 +910,7 @@ export type WorkOrderUncheckedCreateWithoutAddressInput = {
   serviceRequestId: string
   customerId: string
   serviceId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -847,8 +919,8 @@ export type WorkOrderUncheckedCreateWithoutAddressInput = {
   updatedAt?: Date | string
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutWorkOrderInput
   statusHistory?: Prisma.JobStatusHistoryUncheckedCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteUncheckedCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -887,6 +959,7 @@ export type WorkOrderScalarWhereInput = {
   customerId?: Prisma.StringFilter<"WorkOrder"> | string
   serviceId?: Prisma.StringFilter<"WorkOrder"> | string
   addressId?: Prisma.StringFilter<"WorkOrder"> | string
+  servicePrice?: Prisma.DecimalNullableFilter<"WorkOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFilter<"WorkOrder"> | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   scheduledEnd?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
@@ -897,6 +970,7 @@ export type WorkOrderScalarWhereInput = {
 
 export type WorkOrderCreateWithoutAssignmentsInput = {
   id?: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -908,8 +982,8 @@ export type WorkOrderCreateWithoutAssignmentsInput = {
   service: Prisma.ServiceCreateNestedOneWithoutWorkOrdersInput
   address: Prisma.AddressCreateNestedOneWithoutWorkOrdersInput
   statusHistory?: Prisma.JobStatusHistoryCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -919,6 +993,7 @@ export type WorkOrderUncheckedCreateWithoutAssignmentsInput = {
   customerId: string
   serviceId: string
   addressId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -926,8 +1001,8 @@ export type WorkOrderUncheckedCreateWithoutAssignmentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   statusHistory?: Prisma.JobStatusHistoryUncheckedCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteUncheckedCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -949,6 +1024,7 @@ export type WorkOrderUpdateToOneWithWhereWithoutAssignmentsInput = {
 
 export type WorkOrderUpdateWithoutAssignmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -960,8 +1036,8 @@ export type WorkOrderUpdateWithoutAssignmentsInput = {
   service?: Prisma.ServiceUpdateOneRequiredWithoutWorkOrdersNestedInput
   address?: Prisma.AddressUpdateOneRequiredWithoutWorkOrdersNestedInput
   statusHistory?: Prisma.JobStatusHistoryUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutWorkOrderNestedInput
 }
 
@@ -971,6 +1047,7 @@ export type WorkOrderUncheckedUpdateWithoutAssignmentsInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -978,13 +1055,14 @@ export type WorkOrderUncheckedUpdateWithoutAssignmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   statusHistory?: Prisma.JobStatusHistoryUncheckedUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUncheckedUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutWorkOrderNestedInput
 }
 
 export type WorkOrderCreateWithoutAttachmentsInput = {
   id?: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1007,6 +1085,7 @@ export type WorkOrderUncheckedCreateWithoutAttachmentsInput = {
   customerId: string
   serviceId: string
   addressId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1037,6 +1116,7 @@ export type WorkOrderUpdateToOneWithWhereWithoutAttachmentsInput = {
 
 export type WorkOrderUpdateWithoutAttachmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1059,6 +1139,7 @@ export type WorkOrderUncheckedUpdateWithoutAttachmentsInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1073,6 +1154,7 @@ export type WorkOrderUncheckedUpdateWithoutAttachmentsInput = {
 
 export type WorkOrderCreateWithoutCustomerInput = {
   id?: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1084,8 +1166,8 @@ export type WorkOrderCreateWithoutCustomerInput = {
   address: Prisma.AddressCreateNestedOneWithoutWorkOrdersInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutWorkOrderInput
   statusHistory?: Prisma.JobStatusHistoryCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -1094,6 +1176,7 @@ export type WorkOrderUncheckedCreateWithoutCustomerInput = {
   serviceRequestId: string
   serviceId: string
   addressId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1102,8 +1185,8 @@ export type WorkOrderUncheckedCreateWithoutCustomerInput = {
   updatedAt?: Date | string
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutWorkOrderInput
   statusHistory?: Prisma.JobStatusHistoryUncheckedCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteUncheckedCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -1135,6 +1218,7 @@ export type WorkOrderUpdateManyWithWhereWithoutCustomerInput = {
 
 export type WorkOrderCreateWithoutInvoiceInput = {
   id?: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1147,8 +1231,8 @@ export type WorkOrderCreateWithoutInvoiceInput = {
   address: Prisma.AddressCreateNestedOneWithoutWorkOrdersInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutWorkOrderInput
   statusHistory?: Prisma.JobStatusHistoryCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
 }
 
 export type WorkOrderUncheckedCreateWithoutInvoiceInput = {
@@ -1157,6 +1241,7 @@ export type WorkOrderUncheckedCreateWithoutInvoiceInput = {
   customerId: string
   serviceId: string
   addressId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1165,8 +1250,8 @@ export type WorkOrderUncheckedCreateWithoutInvoiceInput = {
   updatedAt?: Date | string
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutWorkOrderInput
   statusHistory?: Prisma.JobStatusHistoryUncheckedCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteUncheckedCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
 }
 
 export type WorkOrderCreateOrConnectWithoutInvoiceInput = {
@@ -1187,6 +1272,7 @@ export type WorkOrderUpdateToOneWithWhereWithoutInvoiceInput = {
 
 export type WorkOrderUpdateWithoutInvoiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1199,8 +1285,8 @@ export type WorkOrderUpdateWithoutInvoiceInput = {
   address?: Prisma.AddressUpdateOneRequiredWithoutWorkOrdersNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutWorkOrderNestedInput
   statusHistory?: Prisma.JobStatusHistoryUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
 }
 
 export type WorkOrderUncheckedUpdateWithoutInvoiceInput = {
@@ -1209,6 +1295,7 @@ export type WorkOrderUncheckedUpdateWithoutInvoiceInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1217,12 +1304,13 @@ export type WorkOrderUncheckedUpdateWithoutInvoiceInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   statusHistory?: Prisma.JobStatusHistoryUncheckedUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUncheckedUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
 }
 
 export type WorkOrderCreateWithoutServiceInput = {
   id?: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1234,8 +1322,8 @@ export type WorkOrderCreateWithoutServiceInput = {
   address: Prisma.AddressCreateNestedOneWithoutWorkOrdersInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutWorkOrderInput
   statusHistory?: Prisma.JobStatusHistoryCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -1244,6 +1332,7 @@ export type WorkOrderUncheckedCreateWithoutServiceInput = {
   serviceRequestId: string
   customerId: string
   addressId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1252,8 +1341,8 @@ export type WorkOrderUncheckedCreateWithoutServiceInput = {
   updatedAt?: Date | string
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutWorkOrderInput
   statusHistory?: Prisma.JobStatusHistoryUncheckedCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteUncheckedCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -1285,6 +1374,7 @@ export type WorkOrderUpdateManyWithWhereWithoutServiceInput = {
 
 export type WorkOrderCreateWithoutServiceRequestInput = {
   id?: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1296,8 +1386,8 @@ export type WorkOrderCreateWithoutServiceRequestInput = {
   address: Prisma.AddressCreateNestedOneWithoutWorkOrdersInput
   assignments?: Prisma.AssignmentCreateNestedManyWithoutWorkOrderInput
   statusHistory?: Prisma.JobStatusHistoryCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -1306,6 +1396,7 @@ export type WorkOrderUncheckedCreateWithoutServiceRequestInput = {
   customerId: string
   serviceId: string
   addressId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1314,8 +1405,8 @@ export type WorkOrderUncheckedCreateWithoutServiceRequestInput = {
   updatedAt?: Date | string
   assignments?: Prisma.AssignmentUncheckedCreateNestedManyWithoutWorkOrderInput
   statusHistory?: Prisma.JobStatusHistoryUncheckedCreateNestedManyWithoutWorkOrderInput
-  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   notes?: Prisma.WorkOrderNoteUncheckedCreateNestedManyWithoutWorkOrderInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutWorkOrderInput
   invoice?: Prisma.InvoiceUncheckedCreateNestedOneWithoutWorkOrderInput
 }
 
@@ -1337,6 +1428,7 @@ export type WorkOrderUpdateToOneWithWhereWithoutServiceRequestInput = {
 
 export type WorkOrderUpdateWithoutServiceRequestInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1348,8 +1440,8 @@ export type WorkOrderUpdateWithoutServiceRequestInput = {
   address?: Prisma.AddressUpdateOneRequiredWithoutWorkOrdersNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutWorkOrderNestedInput
   statusHistory?: Prisma.JobStatusHistoryUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutWorkOrderNestedInput
 }
 
@@ -1358,6 +1450,7 @@ export type WorkOrderUncheckedUpdateWithoutServiceRequestInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1366,13 +1459,14 @@ export type WorkOrderUncheckedUpdateWithoutServiceRequestInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   statusHistory?: Prisma.JobStatusHistoryUncheckedUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUncheckedUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutWorkOrderNestedInput
 }
 
 export type WorkOrderCreateWithoutNotesInput = {
   id?: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1395,6 +1489,7 @@ export type WorkOrderUncheckedCreateWithoutNotesInput = {
   customerId: string
   serviceId: string
   addressId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1425,6 +1520,7 @@ export type WorkOrderUpdateToOneWithWhereWithoutNotesInput = {
 
 export type WorkOrderUpdateWithoutNotesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1447,6 +1543,7 @@ export type WorkOrderUncheckedUpdateWithoutNotesInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1464,6 +1561,7 @@ export type WorkOrderCreateManyAddressInput = {
   serviceRequestId: string
   customerId: string
   serviceId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1474,6 +1572,7 @@ export type WorkOrderCreateManyAddressInput = {
 
 export type WorkOrderUpdateWithoutAddressInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1485,8 +1584,8 @@ export type WorkOrderUpdateWithoutAddressInput = {
   service?: Prisma.ServiceUpdateOneRequiredWithoutWorkOrdersNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutWorkOrderNestedInput
   statusHistory?: Prisma.JobStatusHistoryUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutWorkOrderNestedInput
 }
 
@@ -1495,6 +1594,7 @@ export type WorkOrderUncheckedUpdateWithoutAddressInput = {
   serviceRequestId?: Prisma.StringFieldUpdateOperationsInput | string
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1503,8 +1603,8 @@ export type WorkOrderUncheckedUpdateWithoutAddressInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   statusHistory?: Prisma.JobStatusHistoryUncheckedUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUncheckedUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutWorkOrderNestedInput
 }
 
@@ -1513,6 +1613,7 @@ export type WorkOrderUncheckedUpdateManyWithoutAddressInput = {
   serviceRequestId?: Prisma.StringFieldUpdateOperationsInput | string
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1526,6 +1627,7 @@ export type WorkOrderCreateManyCustomerInput = {
   serviceRequestId: string
   serviceId: string
   addressId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1536,6 +1638,7 @@ export type WorkOrderCreateManyCustomerInput = {
 
 export type WorkOrderUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1547,8 +1650,8 @@ export type WorkOrderUpdateWithoutCustomerInput = {
   address?: Prisma.AddressUpdateOneRequiredWithoutWorkOrdersNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutWorkOrderNestedInput
   statusHistory?: Prisma.JobStatusHistoryUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutWorkOrderNestedInput
 }
 
@@ -1557,6 +1660,7 @@ export type WorkOrderUncheckedUpdateWithoutCustomerInput = {
   serviceRequestId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1565,8 +1669,8 @@ export type WorkOrderUncheckedUpdateWithoutCustomerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   statusHistory?: Prisma.JobStatusHistoryUncheckedUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUncheckedUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutWorkOrderNestedInput
 }
 
@@ -1575,6 +1679,7 @@ export type WorkOrderUncheckedUpdateManyWithoutCustomerInput = {
   serviceRequestId?: Prisma.StringFieldUpdateOperationsInput | string
   serviceId?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1588,6 +1693,7 @@ export type WorkOrderCreateManyServiceInput = {
   serviceRequestId: string
   customerId: string
   addressId: string
+  servicePrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.WorkOrderStatus
   scheduledStart?: Date | string | null
   scheduledEnd?: Date | string | null
@@ -1598,6 +1704,7 @@ export type WorkOrderCreateManyServiceInput = {
 
 export type WorkOrderUpdateWithoutServiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1609,8 +1716,8 @@ export type WorkOrderUpdateWithoutServiceInput = {
   address?: Prisma.AddressUpdateOneRequiredWithoutWorkOrdersNestedInput
   assignments?: Prisma.AssignmentUpdateManyWithoutWorkOrderNestedInput
   statusHistory?: Prisma.JobStatusHistoryUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUpdateOneWithoutWorkOrderNestedInput
 }
 
@@ -1619,6 +1726,7 @@ export type WorkOrderUncheckedUpdateWithoutServiceInput = {
   serviceRequestId?: Prisma.StringFieldUpdateOperationsInput | string
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1627,8 +1735,8 @@ export type WorkOrderUncheckedUpdateWithoutServiceInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assignments?: Prisma.AssignmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   statusHistory?: Prisma.JobStatusHistoryUncheckedUpdateManyWithoutWorkOrderNestedInput
-  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   notes?: Prisma.WorkOrderNoteUncheckedUpdateManyWithoutWorkOrderNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutWorkOrderNestedInput
   invoice?: Prisma.InvoiceUncheckedUpdateOneWithoutWorkOrderNestedInput
 }
 
@@ -1637,6 +1745,7 @@ export type WorkOrderUncheckedUpdateManyWithoutServiceInput = {
   serviceRequestId?: Prisma.StringFieldUpdateOperationsInput | string
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   addressId?: Prisma.StringFieldUpdateOperationsInput | string
+  servicePrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   scheduledStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   scheduledEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1653,15 +1762,15 @@ export type WorkOrderUncheckedUpdateManyWithoutServiceInput = {
 export type WorkOrderCountOutputType = {
   assignments: number
   statusHistory: number
-  attachments: number
   notes: number
+  attachments: number
 }
 
 export type WorkOrderCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignments?: boolean | WorkOrderCountOutputTypeCountAssignmentsArgs
   statusHistory?: boolean | WorkOrderCountOutputTypeCountStatusHistoryArgs
-  attachments?: boolean | WorkOrderCountOutputTypeCountAttachmentsArgs
   notes?: boolean | WorkOrderCountOutputTypeCountNotesArgs
+  attachments?: boolean | WorkOrderCountOutputTypeCountAttachmentsArgs
 }
 
 /**
@@ -1691,15 +1800,15 @@ export type WorkOrderCountOutputTypeCountStatusHistoryArgs<ExtArgs extends runti
 /**
  * WorkOrderCountOutputType without action
  */
-export type WorkOrderCountOutputTypeCountAttachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AttachmentWhereInput
+export type WorkOrderCountOutputTypeCountNotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WorkOrderNoteWhereInput
 }
 
 /**
  * WorkOrderCountOutputType without action
  */
-export type WorkOrderCountOutputTypeCountNotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.WorkOrderNoteWhereInput
+export type WorkOrderCountOutputTypeCountAttachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AttachmentWhereInput
 }
 
 
@@ -1709,6 +1818,7 @@ export type WorkOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   customerId?: boolean
   serviceId?: boolean
   addressId?: boolean
+  servicePrice?: boolean
   status?: boolean
   scheduledStart?: boolean
   scheduledEnd?: boolean
@@ -1721,8 +1831,8 @@ export type WorkOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   address?: boolean | Prisma.AddressDefaultArgs<ExtArgs>
   assignments?: boolean | Prisma.WorkOrder$assignmentsArgs<ExtArgs>
   statusHistory?: boolean | Prisma.WorkOrder$statusHistoryArgs<ExtArgs>
-  attachments?: boolean | Prisma.WorkOrder$attachmentsArgs<ExtArgs>
   notes?: boolean | Prisma.WorkOrder$notesArgs<ExtArgs>
+  attachments?: boolean | Prisma.WorkOrder$attachmentsArgs<ExtArgs>
   invoice?: boolean | Prisma.WorkOrder$invoiceArgs<ExtArgs>
   _count?: boolean | Prisma.WorkOrderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["workOrder"]>
@@ -1733,6 +1843,7 @@ export type WorkOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   customerId?: boolean
   serviceId?: boolean
   addressId?: boolean
+  servicePrice?: boolean
   status?: boolean
   scheduledStart?: boolean
   scheduledEnd?: boolean
@@ -1751,6 +1862,7 @@ export type WorkOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   customerId?: boolean
   serviceId?: boolean
   addressId?: boolean
+  servicePrice?: boolean
   status?: boolean
   scheduledStart?: boolean
   scheduledEnd?: boolean
@@ -1769,6 +1881,7 @@ export type WorkOrderSelectScalar = {
   customerId?: boolean
   serviceId?: boolean
   addressId?: boolean
+  servicePrice?: boolean
   status?: boolean
   scheduledStart?: boolean
   scheduledEnd?: boolean
@@ -1777,7 +1890,7 @@ export type WorkOrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type WorkOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "serviceRequestId" | "customerId" | "serviceId" | "addressId" | "status" | "scheduledStart" | "scheduledEnd" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
+export type WorkOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "serviceRequestId" | "customerId" | "serviceId" | "addressId" | "servicePrice" | "status" | "scheduledStart" | "scheduledEnd" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
 export type WorkOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   serviceRequest?: boolean | Prisma.ServiceRequestDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -1785,8 +1898,8 @@ export type WorkOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   address?: boolean | Prisma.AddressDefaultArgs<ExtArgs>
   assignments?: boolean | Prisma.WorkOrder$assignmentsArgs<ExtArgs>
   statusHistory?: boolean | Prisma.WorkOrder$statusHistoryArgs<ExtArgs>
-  attachments?: boolean | Prisma.WorkOrder$attachmentsArgs<ExtArgs>
   notes?: boolean | Prisma.WorkOrder$notesArgs<ExtArgs>
+  attachments?: boolean | Prisma.WorkOrder$attachmentsArgs<ExtArgs>
   invoice?: boolean | Prisma.WorkOrder$invoiceArgs<ExtArgs>
   _count?: boolean | Prisma.WorkOrderCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -1812,8 +1925,8 @@ export type $WorkOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     address: Prisma.$AddressPayload<ExtArgs>
     assignments: Prisma.$AssignmentPayload<ExtArgs>[]
     statusHistory: Prisma.$JobStatusHistoryPayload<ExtArgs>[]
-    attachments: Prisma.$AttachmentPayload<ExtArgs>[]
     notes: Prisma.$WorkOrderNotePayload<ExtArgs>[]
+    attachments: Prisma.$AttachmentPayload<ExtArgs>[]
     invoice: Prisma.$InvoicePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1822,6 +1935,7 @@ export type $WorkOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     customerId: string
     serviceId: string
     addressId: string
+    servicePrice: runtime.Decimal | null
     status: $Enums.WorkOrderStatus
     scheduledStart: Date | null
     scheduledEnd: Date | null
@@ -2228,8 +2342,8 @@ export interface Prisma__WorkOrderClient<T, Null = never, ExtArgs extends runtim
   address<T extends Prisma.AddressDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AddressDefaultArgs<ExtArgs>>): Prisma.Prisma__AddressClient<runtime.Types.Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   assignments<T extends Prisma.WorkOrder$assignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkOrder$assignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   statusHistory<T extends Prisma.WorkOrder$statusHistoryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkOrder$statusHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobStatusHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  attachments<T extends Prisma.WorkOrder$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkOrder$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notes<T extends Prisma.WorkOrder$notesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkOrder$notesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkOrderNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  attachments<T extends Prisma.WorkOrder$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkOrder$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invoice<T extends Prisma.WorkOrder$invoiceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WorkOrder$invoiceArgs<ExtArgs>>): Prisma.Prisma__InvoiceClient<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2265,6 +2379,7 @@ export interface WorkOrderFieldRefs {
   readonly customerId: Prisma.FieldRef<"WorkOrder", 'String'>
   readonly serviceId: Prisma.FieldRef<"WorkOrder", 'String'>
   readonly addressId: Prisma.FieldRef<"WorkOrder", 'String'>
+  readonly servicePrice: Prisma.FieldRef<"WorkOrder", 'Decimal'>
   readonly status: Prisma.FieldRef<"WorkOrder", 'WorkOrderStatus'>
   readonly scheduledStart: Prisma.FieldRef<"WorkOrder", 'DateTime'>
   readonly scheduledEnd: Prisma.FieldRef<"WorkOrder", 'DateTime'>
@@ -2720,30 +2835,6 @@ export type WorkOrder$statusHistoryArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * WorkOrder.attachments
- */
-export type WorkOrder$attachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Attachment
-   */
-  select?: Prisma.AttachmentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Attachment
-   */
-  omit?: Prisma.AttachmentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AttachmentInclude<ExtArgs> | null
-  where?: Prisma.AttachmentWhereInput
-  orderBy?: Prisma.AttachmentOrderByWithRelationInput | Prisma.AttachmentOrderByWithRelationInput[]
-  cursor?: Prisma.AttachmentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.AttachmentScalarFieldEnum | Prisma.AttachmentScalarFieldEnum[]
-}
-
-/**
  * WorkOrder.notes
  */
 export type WorkOrder$notesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2765,6 +2856,30 @@ export type WorkOrder$notesArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.WorkOrderNoteScalarFieldEnum | Prisma.WorkOrderNoteScalarFieldEnum[]
+}
+
+/**
+ * WorkOrder.attachments
+ */
+export type WorkOrder$attachmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Attachment
+   */
+  select?: Prisma.AttachmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Attachment
+   */
+  omit?: Prisma.AttachmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttachmentInclude<ExtArgs> | null
+  where?: Prisma.AttachmentWhereInput
+  orderBy?: Prisma.AttachmentOrderByWithRelationInput | Prisma.AttachmentOrderByWithRelationInput[]
+  cursor?: Prisma.AttachmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AttachmentScalarFieldEnum | Prisma.AttachmentScalarFieldEnum[]
 }
 
 /**

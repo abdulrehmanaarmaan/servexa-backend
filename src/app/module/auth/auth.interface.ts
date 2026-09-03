@@ -1,4 +1,4 @@
-import { UserRole } from "../../../generated/prisma/enums";
+import { UserRole } from "../../../generated/prisma/enums.js";
 
 export interface IRegisterPatientPayload {
 	name: string;
@@ -17,8 +17,4 @@ export interface IRequestUser {
 	email: string;
 	name: string;
 	role: UserRole;
-}
-
-export interface IGoogleLoginPayload {
-	idToken: string;
 }

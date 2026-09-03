@@ -1,32 +1,36 @@
 import { Router } from "express";
-import { auth } from "../../middleware/checkAuth";
-import { validateRequest } from "../../middleware/validateRequest";
-import { AuthController } from "./auth.controller";
-import { authValidation } from "./auth.validation";
-import { UserRole } from "../../../generated/prisma/enums";
+import { authValidation } from "./auth.validation.js";
+import { validateRequest } from "../../middleware/validateRequest.js";
+import { UserRole } from "../../../generated/prisma/enums.js";
+import { auth } from "../../middleware/checkAuth.js";
+import { authController } from "./auth.controller.js";
 
 const router = Router();
 
-router.post(
-	"/register",
-	validateRequest(authValidation.registerSchema),
-	AuthController.registerPatient,
-);
+router.post("/register",validateRequest({
+	body:authValidation.registerSchema}),authController.registerCustomer);
 
 router.post(
 	"/login",
-	validateRequest(authValidation.loginSchema),
-	AuthController.loginUser,
+	validateRequest({
+		body:authValidation.loginSchema
+	}),
+	authController.loginUser
 );
 
 router.get(
 	"/me",
 	auth(UserRole.ADMIN, UserRole.STAFF, UserRole.TECHNICIAN, UserRole.CUSTOMER),
-	AuthController.getMe,
+	authController.getMe
 );
 
-router.post("/refresh-token", AuthController.refreshToken);
+router.post("/refresh-token", authController.refreshToken);
 
-router.post("/google", AuthController.googleLogin);
+router.get("/google", authController.googleLogin);
 
-export const AuthRoutes = router;
+router.get(
+  "/google/callback",
+  authController.googleCallback,
+);
+
+export const authRoutes = router;

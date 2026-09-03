@@ -1,16 +1,18 @@
 import type { Request, Response } from "express";
 import httpStatus from "http-status";
-import type { IRequestUser } from "./auth.interface";
-import { AuthService } from "./auth.service";
-import { catchAsync } from "../../utils/catchAsync";
-import { AppError } from "../../utils/appError";
-import { sendResponse } from "../../utils/sendResponse";
+import { catchAsync } from "../../utils/catchAsync.js";
+import { IRequestUser } from "./auth.interface.js";
+import { AppError } from "../../utils/appError.js";
+import { sendResponse } from "../../utils/sendResponse.js";
+import { authService } from "./auth.service.js";
+import config from "../../config/index.js";
 
-const registerPatient = catchAsync(async (req: Request, res: Response) => {
+
+const registerCustomer = catchAsync(async (req: Request, res: Response) => {
 	
 	const payload = await req.body;
 
-	const result = await AuthService.registerPatient(payload);
+	const result = await authService.registerCustomer(payload);
 
     const { accessToken, refreshToken, createdUser } = result;
 
@@ -41,7 +43,7 @@ const registerPatient = catchAsync(async (req: Request, res: Response) => {
 
 const loginUser = catchAsync(async (req: Request, res: Response) => {
 	const payload = await req.body;
-	const result = await AuthService.loginUser(payload);
+	const result = await authService.loginUser(payload);
 	const { accessToken, refreshToken } = result;
 
 	res.cookie("accessToken", accessToken, {
@@ -75,7 +77,7 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
 		throw new AppError(httpStatus.UNAUTHORIZED, "User information is missing in the request.");
 	}
 
-	const result = await AuthService.getMe(user);
+	const result = await authService.getMe(user);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
@@ -88,7 +90,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 	if (!req.cookies.refreshToken) {
 		throw new AppError(httpStatus.UNAUTHORIZED, "Refresh token is missing");
 	}
-	const result = await AuthService.refreshToken(req.cookies.refreshToken);
+	const result = await authService.refreshToken(req.cookies.refreshToken);
 	const { accessToken, refreshToken: newRefreshToken } = result;
 
 	res.cookie("accessToken", accessToken, {
@@ -115,41 +117,120 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 
-const googleLogin = catchAsync(async (req: Request, res: Response) => {
-	const payload = await req.body;
+const googleLogin = catchAsync(
+  async (
+    req: Request,
+    res: Response,
+  ) => {
+    const {
+      authorizationUrl,
+      state,
+    } = authService.getGoogleAuthorizationUrl();
 
-	const result = await AuthService.googleLogin(payload);
+    res.cookie(
+      "googleOAuthState",
+      state,
+      {
+        httpOnly: true,
+        secure:
+          config.node_env === "production",
+        sameSite:
+          config.node_env === "production"
+            ? "none"
+            : "lax",
+        maxAge: 1000 * 60 * 10,
+      },
+    );
 
-	const { accessToken, refreshToken } = result;
+    res.redirect(authorizationUrl);
+  },
+);
 
-	res.cookie("accessToken", accessToken, {
-		httpOnly: true,
-		secure: false,
-		sameSite: "none",
-		maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
-	});
-	res.cookie("refreshToken", refreshToken, {
-		httpOnly: true,
-		secure: false,
-		sameSite: "none",
-		maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-	});
+const googleCallback = catchAsync(
+  async (
+    req: Request,
+    res: Response,
+  ) => {
+    const { code, state } = req.query;
 
-	sendResponse(res, {
-		statusCode: httpStatus.OK,
-		success: true,
-		message: "New tokens generated successfully.",
-		data: {
-			accessToken,
-			refreshToken,
-		},
-	});
-});
+    const storedState =
+      req.cookies.googleOAuthState;
 
-export const AuthController = {
-	registerPatient,
+    if (
+      typeof code !== "string" ||
+      typeof state !== "string"
+    ) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "Invalid Google authentication callback.",
+      );
+    }
+
+    if (
+      !storedState ||
+      storedState !== state
+    ) {
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        "Invalid Google authentication state.",
+      );
+    }
+
+    res.clearCookie(
+      "googleOAuthState",
+    );
+
+    const result =
+      await authService.googleCallback(
+        code,
+      );
+
+    res.cookie(
+      "accessToken",
+      result.accessToken,
+      {
+        httpOnly: true,
+        secure:
+          config.node_env === "production",
+        sameSite:
+          config.node_env === "production"
+            ? "none"
+            : "lax",
+        maxAge: 1000 * 60 * 60,
+      },
+    );
+
+    res.cookie(
+      "refreshToken",
+      result.refreshToken,
+      {
+        httpOnly: true,
+        secure:
+          config.node_env === "production",
+        sameSite:
+          config.node_env === "production"
+            ? "none"
+            : "lax",
+        maxAge:
+          1000 *
+          60 *
+          60 *
+          24 *
+          7,
+      },
+    );
+
+    res.redirect(
+      `${config.client_url}/auth/success`,
+    );
+  },
+);
+
+export const authController = {
+	registerCustomer,
 	loginUser,
 	getMe,
 	refreshToken,
-	googleLogin
+	googleLogin,
+	googleCallback
 };

@@ -1,34 +1,30 @@
 model WorkOrder {
   id               String @id @default(uuid())
-
   serviceRequestId String @unique
   customerId       String
   serviceId        String
   addressId        String
 
-  status           WorkOrderStatus @default(OPEN)
+  servicePrice Decimal? @db.Decimal(10, 2)
 
-  scheduledStart   DateTime?
-  scheduledEnd     DateTime?
+  status         WorkOrderStatus @default(OPEN)
+  scheduledStart DateTime?
+  scheduledEnd   DateTime?
+  description    String?
 
-  description      String?
+  serviceRequest ServiceRequest @relation(fields: [serviceRequestId], references: [id])
+  customer       Customer       @relation(fields: [customerId], references: [id])
+  service        Service        @relation(fields: [serviceId], references: [id])
+  address        Address        @relation(fields: [addressId], references: [id])
 
-  serviceRequest   ServiceRequest @relation( fields: [serviceRequestId],references: [id])
+  assignments   Assignment[]
+  statusHistory JobStatusHistory[]
+  notes         WorkOrderNote[]
+  attachments   Attachment[]
+  invoice       Invoice?
 
-  customer         Customer @relation(fields: [customerId],references: [id])
-
-  service          Service @relation(fields: [serviceId],references: [id])
-
-  address          Address @relation(fields: [addressId],references: [id])
-
-  assignments      Assignment[]
-  statusHistory    JobStatusHistory[]
-  attachments Attachment[]
-  notes            WorkOrderNote[]
-  invoice          Invoice?
-
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([customerId, createdAt])
   @@index([status])

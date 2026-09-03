@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums"
-import type * as Prisma from "../internal/prismaNamespace"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model Service
@@ -42,6 +42,7 @@ export type ServiceMinAggregateOutputType = {
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type ServiceMaxAggregateOutputType = {
@@ -52,6 +53,7 @@ export type ServiceMaxAggregateOutputType = {
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type ServiceCountAggregateOutputType = {
@@ -62,6 +64,7 @@ export type ServiceCountAggregateOutputType = {
   isActive: number
   createdAt: number
   updatedAt: number
+  deletedAt: number
   _all: number
 }
 
@@ -82,6 +85,7 @@ export type ServiceMinAggregateInputType = {
   isActive?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type ServiceMaxAggregateInputType = {
@@ -92,6 +96,7 @@ export type ServiceMaxAggregateInputType = {
   isActive?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type ServiceCountAggregateInputType = {
@@ -102,6 +107,7 @@ export type ServiceCountAggregateInputType = {
   isActive?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -199,6 +205,7 @@ export type ServiceGroupByOutputType = {
   isActive: boolean
   createdAt: Date
   updatedAt: Date
+  deletedAt: Date | null
   _count: ServiceCountAggregateOutputType | null
   _avg: ServiceAvgAggregateOutputType | null
   _sum: ServiceSumAggregateOutputType | null
@@ -232,6 +239,7 @@ export type ServiceWhereInput = {
   isActive?: Prisma.BoolFilter<"Service"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Service"> | Date | string | null
   serviceRequests?: Prisma.ServiceRequestListRelationFilter
   workOrders?: Prisma.WorkOrderListRelationFilter
 }
@@ -244,6 +252,7 @@ export type ServiceOrderByWithRelationInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   serviceRequests?: Prisma.ServiceRequestOrderByRelationAggregateInput
   workOrders?: Prisma.WorkOrderOrderByRelationAggregateInput
 }
@@ -259,6 +268,7 @@ export type ServiceWhereUniqueInput = Prisma.AtLeast<{
   isActive?: Prisma.BoolFilter<"Service"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Service"> | Date | string | null
   serviceRequests?: Prisma.ServiceRequestListRelationFilter
   workOrders?: Prisma.WorkOrderListRelationFilter
 }, "id">
@@ -271,6 +281,7 @@ export type ServiceOrderByWithAggregationInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ServiceCountOrderByAggregateInput
   _avg?: Prisma.ServiceAvgOrderByAggregateInput
   _max?: Prisma.ServiceMaxOrderByAggregateInput
@@ -289,6 +300,7 @@ export type ServiceScalarWhereWithAggregatesInput = {
   isActive?: Prisma.BoolWithAggregatesFilter<"Service"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Service"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Service"> | Date | string | null
 }
 
 export type ServiceCreateInput = {
@@ -299,6 +311,7 @@ export type ServiceCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutServiceInput
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutServiceInput
 }
@@ -311,6 +324,7 @@ export type ServiceUncheckedCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutServiceInput
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutServiceInput
 }
@@ -323,6 +337,7 @@ export type ServiceUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutServiceNestedInput
   workOrders?: Prisma.WorkOrderUpdateManyWithoutServiceNestedInput
 }
@@ -335,6 +350,7 @@ export type ServiceUncheckedUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutServiceNestedInput
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutServiceNestedInput
 }
@@ -347,6 +363,7 @@ export type ServiceCreateManyInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type ServiceUpdateManyMutationInput = {
@@ -357,6 +374,7 @@ export type ServiceUpdateManyMutationInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ServiceUncheckedUpdateManyInput = {
@@ -367,6 +385,7 @@ export type ServiceUncheckedUpdateManyInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ServiceCountOrderByAggregateInput = {
@@ -377,6 +396,7 @@ export type ServiceCountOrderByAggregateInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type ServiceAvgOrderByAggregateInput = {
@@ -391,6 +411,7 @@ export type ServiceMaxOrderByAggregateInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type ServiceMinOrderByAggregateInput = {
@@ -401,6 +422,7 @@ export type ServiceMinOrderByAggregateInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type ServiceSumOrderByAggregateInput = {
@@ -448,6 +470,7 @@ export type ServiceCreateWithoutServiceRequestsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutServiceInput
 }
 
@@ -459,6 +482,7 @@ export type ServiceUncheckedCreateWithoutServiceRequestsInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutServiceInput
 }
 
@@ -486,6 +510,7 @@ export type ServiceUpdateWithoutServiceRequestsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workOrders?: Prisma.WorkOrderUpdateManyWithoutServiceNestedInput
 }
 
@@ -497,6 +522,7 @@ export type ServiceUncheckedUpdateWithoutServiceRequestsInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutServiceNestedInput
 }
 
@@ -508,6 +534,7 @@ export type ServiceCreateWithoutWorkOrdersInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutServiceInput
 }
 
@@ -519,6 +546,7 @@ export type ServiceUncheckedCreateWithoutWorkOrdersInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutServiceInput
 }
 
@@ -546,6 +574,7 @@ export type ServiceUpdateWithoutWorkOrdersInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutServiceNestedInput
 }
 
@@ -557,6 +586,7 @@ export type ServiceUncheckedUpdateWithoutWorkOrdersInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutServiceNestedInput
 }
 
@@ -608,6 +638,7 @@ export type ServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   serviceRequests?: boolean | Prisma.Service$serviceRequestsArgs<ExtArgs>
   workOrders?: boolean | Prisma.Service$workOrdersArgs<ExtArgs>
   _count?: boolean | Prisma.ServiceCountOutputTypeDefaultArgs<ExtArgs>
@@ -621,6 +652,7 @@ export type ServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
 }, ExtArgs["result"]["service"]>
 
 export type ServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -631,6 +663,7 @@ export type ServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
 }, ExtArgs["result"]["service"]>
 
 export type ServiceSelectScalar = {
@@ -641,9 +674,10 @@ export type ServiceSelectScalar = {
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
 }
 
-export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "basePrice" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
+export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "basePrice" | "isActive" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["service"]>
 export type ServiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   serviceRequests?: boolean | Prisma.Service$serviceRequestsArgs<ExtArgs>
   workOrders?: boolean | Prisma.Service$workOrdersArgs<ExtArgs>
@@ -666,6 +700,7 @@ export type $ServicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     isActive: boolean
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
   }, ExtArgs["result"]["service"]>
   composites: {}
 }
@@ -1098,6 +1133,7 @@ export interface ServiceFieldRefs {
   readonly isActive: Prisma.FieldRef<"Service", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Service", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Service", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"Service", 'DateTime'>
 }
     
 

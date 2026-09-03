@@ -48,18 +48,16 @@ enum InvoiceStatus {
 }
 
 enum PaymentProvider {
-  STRIPE
   BKASH
-  SSLCOMMERZ
-  CASH
+  STRIPE
 }
 
 enum PaymentStatus {
   PENDING
   PAID
   FAILED
-  REFUNDED
   CANCELLED
+  REFUNDED
 }
 
 enum NotificationType {

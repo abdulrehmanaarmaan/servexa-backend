@@ -17,8 +17,8 @@
 
 import * as runtime from "@prisma/client/runtime/index-browser"
 
-export type * from '../models'
-export type * from './prismaNamespace'
+export type * from '../models.js'
+export type * from './prismaNamespace.js'
 
 export const Decimal = runtime.Decimal
 
@@ -55,6 +55,7 @@ export const ModelName = {
   Address: 'Address',
   Assignment: 'Assignment',
   Attachment: 'Attachment',
+  AuditLog: 'AuditLog',
   Availability: 'Availability',
   Customer: 'Customer',
   Invoice: 'Invoice',
@@ -140,6 +141,22 @@ export const AttachmentScalarFieldEnum = {
 export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum]
 
 
+export const AuditLogScalarFieldEnum = {
+  id: 'id',
+  actorId: 'actorId',
+  action: 'action',
+  entity: 'entity',
+  entityId: 'entityId',
+  oldValue: 'oldValue',
+  newValue: 'newValue',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
 export const AvailabilityScalarFieldEnum = {
   id: 'id',
   technicianId: 'technicianId',
@@ -205,7 +222,9 @@ export const PaymentScalarFieldEnum = {
   status: 'status',
   transactionId: 'transactionId',
   gatewayReference: 'gatewayReference',
+  gatewayResponse: 'gatewayResponse',
   paidAt: 'paidAt',
+  refundedAt: 'refundedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -220,7 +239,8 @@ export const ServiceScalarFieldEnum = {
   basePrice: 'basePrice',
   isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
@@ -275,6 +295,7 @@ export const WorkOrderScalarFieldEnum = {
   customerId: 'customerId',
   serviceId: 'serviceId',
   addressId: 'addressId',
+  servicePrice: 'servicePrice',
   status: 'status',
   scheduledStart: 'scheduledStart',
   scheduledEnd: 'scheduledEnd',
@@ -292,7 +313,8 @@ export const WorkOrderNoteScalarFieldEnum = {
   authorId: 'authorId',
   content: 'content',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type WorkOrderNoteScalarFieldEnum = (typeof WorkOrderNoteScalarFieldEnum)[keyof typeof WorkOrderNoteScalarFieldEnum]
@@ -304,6 +326,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -320,4 +350,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
