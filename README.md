@@ -53,3 +53,6 @@ src/
 
 need to fix validate function,
 need to check Google AUTH.
+preferred in dist or out?
+what is the issue in terminal while deployment?
+Need to change type for req.query.

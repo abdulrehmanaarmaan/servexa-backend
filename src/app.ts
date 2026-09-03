@@ -67,7 +67,7 @@ app.use("/api/v1/addresses", addressRoutes)
 app.get("/", async (req: Request, res: Response) => {
 	res.status(httpStatus.OK).json({
 		success: true,
-		message: "Welcome to Servexa backend.",
+		message: "Welcome to Servexa backend",
 	});
 });
 
