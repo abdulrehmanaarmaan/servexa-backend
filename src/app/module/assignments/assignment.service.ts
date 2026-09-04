@@ -134,7 +134,6 @@ const createAssignment = async (
                 action: "TECHNICIAN_ASSIGNED",
                 entity: "Assignment",
                 entityId: assignment.id,
-                oldValue: null,
                 newValue: {
                     workOrderId,
                     technicianId,

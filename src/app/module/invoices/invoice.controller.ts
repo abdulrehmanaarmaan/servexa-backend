@@ -4,6 +4,7 @@ import type { IRequestUser } from "../auth/auth.interface.js";
 import { invoiceService } from "./invoice.service.js";
 import { sendResponse } from "../../utils/sendResponse.js";
 import { InvoiceStatus } from "../../../generated/prisma/enums.js";
+import { IInvoiceQuery } from "./invoice.interface.js";
 
 const createInvoice = async (
     req: Request,
@@ -58,17 +59,7 @@ const getMyInvoices = async (
     const result =
         await invoiceService.getMyInvoices(
             user,
-            req.query as unknown as {
-                page: number;
-                limit: number;
-                status?: InvoiceStatus & undefined;
-                sortBy:
-                | "createdAt"
-                | "issuedAt"
-                | "dueAt"
-                | "total";
-                sortOrder: "asc" | "desc";
-            },
+            req.query as unknown as IInvoiceQuery
         );
 
     sendResponse(res, {
@@ -86,17 +77,7 @@ const getAllInvoices = async (
 ) => {
     const result =
         await invoiceService.getAllInvoices(
-            req.query as unknown as {
-                page: number;
-                limit: number;
-                status?: InvoiceStatus & undefined;
-                sortBy:
-                | "createdAt"
-                | "issuedAt"
-                | "dueAt"
-                | "total";
-                sortOrder: "asc" | "desc";
-            },
+            req.query as unknown as IInvoiceQuery
         );
 
     sendResponse(res, {
@@ -134,7 +115,7 @@ const updateInvoice = async (
 export const invoiceController = {
     createInvoice,
     getInvoice,
-    // getMyInvoices,
-    // getAllInvoices,
+    getMyInvoices,
+    getAllInvoices,
     updateInvoice,
 };

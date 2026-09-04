@@ -11,7 +11,7 @@ import config from "./app/config/index.js";
 import cookieParser from "cookie-parser";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler.js";
 import { notFound } from "./app/middleware/notFound.js";
-import { customerRoutes } from "./app/module/customer/customer.route.js";
+import { customerRoutes } from "./app/module/customers/customer.route.js";
 import { authRoutes } from "./app/module/auth/auth.route.js";
 import { paymentRoutes } from "./app/module/payments/payment.route.js";
 import { invoiceRoutes } from "./app/module/invoices/invoice.route.js";
@@ -49,7 +49,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/customer", customerRoutes);
+app.use("/api/v1/customers", customerRoutes);
 app.use("/api/v1/payments", paymentRoutes);
 app.use("/api/v1/invoices", invoiceRoutes);
 app.use("/api/v1/work-orders", workOrderRoutes);

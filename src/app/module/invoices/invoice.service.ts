@@ -4,7 +4,7 @@ import { prisma } from "../../lib/prisma.js";
 import { AppError } from "../../utils/appError.js";
 
 import type { IRequestUser } from "../auth/auth.interface.js";
-import { CreateInvoiceInput, InvoiceQuery, UpdateInvoiceInput } from "./invoice.interface.js";
+import { CreateInvoiceInput, IInvoiceQuery, UpdateInvoiceInput } from "./invoice.interface.js";
 
 const generateInvoiceNumber = (): string => {
   const timestamp = Date.now();
@@ -170,7 +170,7 @@ const getInvoiceById = async (
 
 const getMyInvoices = async (
   user: IRequestUser,
-  query: InvoiceQuery,
+  query: IInvoiceQuery,
 ) => {
   const customer = await prisma.customer.findUnique({
     where: {
@@ -243,7 +243,7 @@ const getMyInvoices = async (
 };
 
 const getAllInvoices = async (
-  query: InvoiceQuery,
+  query: IInvoiceQuery,
 ) => {
   const {
     page,

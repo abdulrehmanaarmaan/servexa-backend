@@ -49,31 +49,20 @@ export const updateInvoiceSchema = z
 
 export const invoiceQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
-
-  limit: z.coerce
-    .number()
-    .int()
-    .min(1)
-    .max(100)
-    .default(10),
+  limit: z.coerce.number().int().min(1).max(100).default(10),
 
   status: z
     .enum([
       "ISSUED",
-      "PARTIALLY_PAID",
       "PAID",
       "OVERDUE",
+      "PARTIALLY_PAID",
       "VOID",
     ])
     .optional(),
 
   sortBy: z
-    .enum([
-      "createdAt",
-      "issuedAt",
-      "dueAt",
-      "total",
-    ])
+    .enum(["createdAt", "issuedAt", "dueAt", "total"])
     .default("createdAt"),
 
   sortOrder: z

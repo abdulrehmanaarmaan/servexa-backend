@@ -17,4 +17,4 @@ export type UpdateInvoiceParams = z.infer<
   typeof updateInvoiceParamsSchema
 >;
 
-export type InvoiceQuery = z.infer<typeof invoiceQuerySchema>;
+export type IInvoiceQuery = z.infer<typeof invoiceQuerySchema>;

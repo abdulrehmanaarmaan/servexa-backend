@@ -32,7 +32,7 @@ const registerCustomer = catchAsync(async (req: Request, res: Response) => {
 	sendResponse(res, {
 		statusCode: httpStatus.CREATED,
 		success: true,
-		message: "User registered successfully.",
+		message: "User registered successfully",
 		data: {
 			accessToken,
 			refreshToken,
@@ -62,7 +62,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
-		message: "User logged in successfully.",
+		message: "User logged in successfully",
 		data: {
 			accessToken,
 			refreshToken,
@@ -81,7 +81,7 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
-		message: "User profile fetched successfully.",
+		message: "User profile fetched successfully",
 		data: result,
 	});
 });
@@ -109,7 +109,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
-		message: "New tokens generated successfully.",
+		message: "New tokens generated successfully",
 		data: {
 			accessToken,
 			refreshToken: newRefreshToken,
@@ -162,7 +162,7 @@ const googleCallback = catchAsync(
     ) {
       throw new AppError(
         httpStatus.BAD_REQUEST,
-        "Invalid Google authentication callback.",
+        "Invalid Google authentication callback",
       );
     }
 
