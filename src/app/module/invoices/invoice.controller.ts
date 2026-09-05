@@ -3,8 +3,8 @@ import type { Request, Response } from "express";
 import type { IRequestUser } from "../auth/auth.interface.js";
 import { invoiceService } from "./invoice.service.js";
 import { sendResponse } from "../../utils/sendResponse.js";
-import { InvoiceStatus } from "../../../generated/prisma/enums.js";
 import { IInvoiceQuery } from "./invoice.interface.js";
+import httpStatus from "http-status"
 
 const createInvoice = async (
     req: Request,
@@ -21,7 +21,7 @@ const createInvoice = async (
     );
 
     sendResponse(res, {
-        statusCode: 201,
+        statusCode: httpStatus.CREATED,
         success: true,
         message: "Invoice created successfully",
         data: result,
@@ -43,7 +43,7 @@ const getInvoice = async (
         );
 
     sendResponse(res, {
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         success: true,
         message: "Invoice retrieved successfully",
         data: result,
@@ -56,14 +56,17 @@ const getMyInvoices = async (
 ) => {
     const user = req.user as IRequestUser;
 
+      const query =
+  res.locals.validated.query as IInvoiceQuery;
+
     const result =
         await invoiceService.getMyInvoices(
             user,
-            req.query as unknown as IInvoiceQuery
+            query
         );
 
     sendResponse(res, {
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         success: true,
         message: "Invoices retrieved successfully",
         data: result.data,
@@ -75,13 +78,17 @@ const getAllInvoices = async (
     req: Request,
     res: Response,
 ) => {
+
+    const query =
+  res.locals.validated.query as IInvoiceQuery;
+
     const result =
         await invoiceService.getAllInvoices(
-            req.query as unknown as IInvoiceQuery
+            query
         );
 
     sendResponse(res, {
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         success: true,
         message: "Invoices retrieved successfully",
         data: result.data,
@@ -105,7 +112,7 @@ const updateInvoice = async (
         );
 
     sendResponse(res, {
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         success: true,
         message: "Invoice updated successfully",
         data: result,

@@ -1,9 +1,12 @@
+import { UserRole } from "../../../generated/prisma/enums.js";
 import { prisma } from "../../lib/prisma.js";
 import { AppError } from "../../utils/appError.js";
+import { IRequestUser } from "../auth/auth.interface.js";
 import type {
     IAdminAuditLogQuery,
     IAdminUserQuery,
 } from "./admin.interface.js";
+import httpStatus from "http-status"
 
 const getDashboard = async () => {
     const [
@@ -324,6 +327,113 @@ const getAuditLogs = async (
     };
 };
 
+const updateUserRole = async (
+    userId: string,
+    newRole: UserRole,
+    admin: IRequestUser,
+) => {
+    // Prevent an admin from changing their own role
+    if (userId === admin.userId) {
+        throw new AppError(
+            httpStatus.FORBIDDEN,
+            "You cannot change your own role.",
+        );
+    }
+
+    const user = await prisma.user.findUnique({
+        where: {
+            id: userId,
+        },
+    });
+
+    if (!user) {
+        throw new AppError(
+            httpStatus.NOT_FOUND,
+            "User not found.",
+        );
+    }
+
+    // Prevent unnecessary role update
+    if (user.role === newRole) {
+        throw new AppError(
+            httpStatus.BAD_REQUEST,
+            `User already has the ${newRole} role.`,
+        );
+    }
+
+    // Prevent assigning ADMIN through this endpoint
+    if (newRole === UserRole.ADMIN) {
+        throw new AppError(
+            httpStatus.FORBIDDEN,
+            "ADMIN role cannot be assigned through this endpoint.",
+        );
+    }
+
+    const updatedUser = await prisma.$transaction(async (tx) => {
+        const updated = await tx.user.update({
+            where: {
+                id: userId,
+            },
+            data: {
+                role: newRole,
+            },
+            select: {
+                id: true,
+                email: true,
+                role: true,
+                isActive: true,
+                createdAt: true,
+                updatedAt: true,
+            },
+        });
+
+        // Create technician profile when user becomes TECHNICIAN
+        if (newRole === UserRole.TECHNICIAN) {
+            const existingCustomer = await tx.customer.findUnique({
+                where: {
+                    userId: user.id,
+                },
+                select: {
+                    name: true,
+                },
+            });
+
+            await tx.technician.upsert({
+                where: {
+                    userId: user.id,
+                },
+                update: {
+                    isActive: true,
+                },
+                create: {
+                    userId: user.id,
+                    name: existingCustomer?.name ?? user.email,
+                    isActive: true,
+                },
+            });
+        }
+
+        await tx.auditLog.create({
+            data: {
+                actorId: admin.userId,
+                action: "USER_ROLE_CHANGED",
+                entity: "User",
+                entityId: user.id,
+                oldValue: {
+                    role: user.role,
+                },
+                newValue: {
+                    role: newRole,
+                },
+            },
+        });
+
+        return updated;
+    });
+
+    return updatedUser;
+};
+
 export const adminService = {
     getDashboard,
     getUsers,
@@ -332,4 +442,5 @@ export const adminService = {
     updateTechnicianStatus,
     getPayments,
     getAuditLogs,
+    updateUserRole,
 };

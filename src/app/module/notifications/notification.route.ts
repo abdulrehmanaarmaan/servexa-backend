@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import { notificationController } from "./notification.controller.js";
 import {
+    createNotificationSchema,
     notificationParamsSchema,
     notificationQuerySchema,
 } from "./notification.validation.js";
@@ -12,8 +13,17 @@ import { UserRole } from "../../../generated/prisma/enums.js";
 
 const router = Router();
 
+router.post(
+  "/",
+  auth(UserRole.ADMIN),
+  validateRequest({
+    body: createNotificationSchema,
+  }),
+  notificationController.createNotification,
+);
+
 router.get(
-    "/notifications",
+    "/",
     auth(
         UserRole.ADMIN,
         UserRole.CUSTOMER,
@@ -26,7 +36,7 @@ router.get(
 );
 
 router.patch(
-    "/notifications/:notificationId/read",
+    "/:notificationId/read",
     auth(
         UserRole.ADMIN,
         UserRole.CUSTOMER,
@@ -39,7 +49,7 @@ router.patch(
 );
 
 router.patch(
-    "/notifications/read-all",
+    "/read-all",
     auth(
         UserRole.ADMIN,
         UserRole.CUSTOMER,

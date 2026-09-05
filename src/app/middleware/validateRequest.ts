@@ -1,4 +1,3 @@
-import httpStatus from "http-status";
 import type { NextFunction, Request, Response } from "express";
 import type { z } from "zod";
 
@@ -6,49 +5,54 @@ import { AppError } from "../utils/appError.js";
 import { catchAsync } from "../utils/catchAsync.js";
 
 type RequestSchemas = {
-	body?: z.ZodType;
-	params?: z.ZodType;
-	query?: z.ZodType;
+  body?: z.ZodType;
+  params?: z.ZodType;
+  query?: z.ZodType;
 };
 
 export const validateRequest = (schemas: RequestSchemas) => {
-	return catchAsync(
-		(req: Request, res: Response, next: NextFunction) => {
-			const requestParts = [
-				["body", req.body, schemas.body],
-				["params", req.params, schemas.params],
-				["query", req.query, schemas.query],
-			] as const;
+  return catchAsync(
+    (req: Request, res: Response, next: NextFunction) => {
+      const validated: {
+        body?: unknown;
+        params?: unknown;
+        query?: unknown;
+      } = {};
 
-			for (const [part, payload, schema] of requestParts) {
-				if (!schema) continue;
+      const requestParts = [
+        ["body", req.body, schemas.body],
+        ["params", req.params, schemas.params],
+        ["query", req.query, schemas.query],
+      ] as const;
 
-				const result = schema.safeParse(payload);
+      for (const [part, payload, schema] of requestParts) {
+        if (!schema) continue;
 
-				if (!result.success) {
-					const message = result.error.issues
-						.map(
-							(issue) =>
-								`${part}.${issue.path.join(".")}: ${issue.message}`,
-						)
-						.join(", ");
+        const result = schema.safeParse(payload);
 
-					throw new AppError(
-						httpStatus.BAD_REQUEST,
-						message,
-					);
-				}
+        if (!result.success) {
+          const message = result.error.issues
+            .map(
+              (issue) =>
+                `${part}.${issue.path.join(".")}: ${issue.message}`,
+            )
+            .join(", ");
 
-				if (part === "body") {
-					req.body = result.data;
-				} else if (part === "params") {
-					Object.assign(req.params, result.data);
-				} else if (part === "query") {
-					Object.assign(req.query, result.data);
-				}
-			}
+          throw new AppError(400, message);
+        }
 
-			next();
-		},
-	);
+        validated[part] = result.data;
+
+        if (part === "body") {
+          req.body = result.data;
+        } else if (part === "params") {
+          Object.assign(req.params, result.data);
+        }
+      }
+
+      res.locals.validated = validated;
+
+      next();
+    },
+  );
 };

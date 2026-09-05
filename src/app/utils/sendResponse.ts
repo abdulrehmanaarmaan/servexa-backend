@@ -8,8 +8,10 @@ type TMeta = {
 };
 
 type TResponseData<X, Y> = {
-	success: boolean;
+	success?: boolean;
 	statusCode: number;
+	path?: string;
+	date?: Date;
 	message: string;
 	data?: X;
 	meta?: TMeta;

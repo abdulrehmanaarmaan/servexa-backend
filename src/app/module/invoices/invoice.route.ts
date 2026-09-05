@@ -27,23 +27,23 @@ router.get(
   invoiceController.getInvoice,
 );
 
-// router.get(
-//   "/customers/me/invoices",
-//   auth(UserRole.CUSTOMER),
-//   validateRequest({
-//     query: invoiceQuerySchema,
-//   }),
-//   invoiceController.getMyInvoices,
-// );
+router.get(
+  "/customers/me",
+  auth(UserRole.CUSTOMER),
+  validateRequest({
+    query: invoiceQuerySchema,
+  }),
+  invoiceController.getMyInvoices,
+);
 
-// router.get(
-//   "/admin/invoices",
-//   auth(UserRole.ADMIN),
-//   validateRequest({
-//     query: invoiceQuerySchema,
-//   }),
-//   invoiceController.getAllInvoices,
-// );
+router.get(
+  "/",
+  auth(UserRole.ADMIN),
+  validateRequest({
+    query: invoiceQuerySchema,
+  }),
+  invoiceController.getAllInvoices,
+);
 
 router.patch(
   "/admin/:invoiceId",

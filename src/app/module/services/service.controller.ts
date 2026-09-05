@@ -2,6 +2,8 @@ import type { Request, Response } from "express";
 
 import { serviceService } from "./service.service.js";
 import { sendResponse } from "../../utils/sendResponse.js";
+import { IServiceQuery } from "./service.interface.js";
+import httpStatus from "http-status"
 
 const createService = async (
   req: Request,
@@ -12,7 +14,7 @@ const createService = async (
   );
 
   sendResponse(res, {
-    statusCode: 201,
+    statusCode: httpStatus.CREATED,
     success: true,
     message: "Service created successfully.",
     data: result,
@@ -23,15 +25,20 @@ const getAllServices = async (
   req: Request,
   res: Response,
 ) => {
+
+  const query =
+  res.locals.validated.query as IServiceQuery;
+
   const result = await serviceService.getAllServices(
-    req.query as any,
+    query,
   );
 
   sendResponse(res, {
-    statusCode: 200,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Services retrieved successfully.",
-    data: result,
+    data: result.data,
+    meta: result.meta
   });
 };
 
@@ -46,7 +53,7 @@ const getServiceById = async (
   );
 
   sendResponse(res, {
-    statusCode: 200,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Service retrieved successfully.",
     data: result,
@@ -65,7 +72,7 @@ const updateService = async (
   );
 
   sendResponse(res, {
-    statusCode: 200,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Service updated successfully",
     data: result,
@@ -83,7 +90,7 @@ const deleteService = async (
   );
 
   sendResponse(res, {
-    statusCode: 200,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Service deleted successfully",
     data: result,

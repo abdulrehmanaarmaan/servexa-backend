@@ -319,10 +319,6 @@ export type AssignmentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type AssignmentCreateNestedManyWithoutTechnicianInput = {
   create?: Prisma.XOR<Prisma.AssignmentCreateWithoutTechnicianInput, Prisma.AssignmentUncheckedCreateWithoutTechnicianInput> | Prisma.AssignmentCreateWithoutTechnicianInput[] | Prisma.AssignmentUncheckedCreateWithoutTechnicianInput[]
   connectOrCreate?: Prisma.AssignmentCreateOrConnectWithoutTechnicianInput | Prisma.AssignmentCreateOrConnectWithoutTechnicianInput[]

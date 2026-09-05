@@ -1,12 +1,15 @@
 import { paymentService } from "./payment.service.js";
 import config from "../../config/index.js";
+import { sendResponse } from "../../utils/sendResponse.js";
+import httpStatus from "http-status";
 const createPayment = async (req, res) => {
     const { invoiceId } = req.params;
     const user = req.user;
     const result = await paymentService.createPayment(invoiceId, user);
-    res.status(201).json({
+    sendResponse(res, {
+        statusCode: httpStatus.CREATED,
         success: true,
-        message: "Payment initiated successfully.",
+        message: "Payment initiated successfully",
         data: result,
     });
 };

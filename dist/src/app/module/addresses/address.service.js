@@ -51,7 +51,6 @@ const getMyAddresses = async (userId) => {
     const addresses = await prisma.address.findMany({
         where: {
             customerId: customer.id,
-            deletedAt: null,
         },
         orderBy: {
             createdAt: "desc",
@@ -74,8 +73,7 @@ const getAddressById = async (userId, addressId) => {
     const address = await prisma.address.findFirst({
         where: {
             id: addressId,
-            customerId: customer.id,
-            deletedAt: null,
+            customerId: customer.id
         },
     });
     if (!address) {
@@ -98,8 +96,7 @@ const updateAddress = async (userId, addressId, payload) => {
     const existingAddress = await prisma.address.findFirst({
         where: {
             id: addressId,
-            customerId: customer.id,
-            deletedAt: null,
+            customerId: customer.id
         },
     });
     if (!existingAddress) {

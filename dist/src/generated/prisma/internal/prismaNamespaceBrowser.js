@@ -86,7 +86,8 @@ export const AddressScalarFieldEnum = {
     latitude: 'latitude',
     longitude: 'longitude',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
 };
 export const AssignmentScalarFieldEnum = {
     id: 'id',

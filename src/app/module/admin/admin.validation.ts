@@ -32,3 +32,11 @@ export const adminAuditLogQuerySchema = z.object({
     entityId: z.string().uuid().optional(),
     actorId: z.string().uuid().optional(),
 });
+
+export const updateUserRoleSchema = z.object({
+  role: z.enum(["CUSTOMER", "TECHNICIAN"]),
+});
+
+export const userIdParamsSchema = z.object({
+  userId: z.string().uuid(),
+});

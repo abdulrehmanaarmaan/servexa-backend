@@ -2,6 +2,8 @@ import type { Request, Response } from "express";
 
 import { availabilityService } from "./availability.service.js";
 import type { IRequestUser } from "../auth/auth.interface.js";
+import { sendResponse } from "../../utils/sendResponse.js";
+import httpStatus from "http-status"
 
 const getMyAvailabilities = async (
     req: Request,
@@ -12,11 +14,12 @@ const getMyAvailabilities = async (
     const result =
         await availabilityService.getMyAvailabilities(user);
 
-    res.status(200).json({
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
         success: true,
         message: "Availabilities retrieved successfully",
         data: result,
-    });
+    })
 };
 
 const createAvailability = async (
@@ -31,11 +34,12 @@ const createAvailability = async (
             req.body,
         );
 
-    res.status(201).json({
+    sendResponse(res, {
+        statusCode: httpStatus.CREATED,
         success: true,
         message: "Availability created successfully",
         data: result,
-    });
+    })
 };
 
 const updateAvailability = async (
@@ -51,11 +55,12 @@ const updateAvailability = async (
             req.body,
         );
 
-    res.status(200).json({
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
         success: true,
         message: "Availability updated successfully",
-        data: result,
-    });
+        data: result
+    })
 };
 
 const deleteAvailability = async (
@@ -70,11 +75,12 @@ const deleteAvailability = async (
             req.params.availabilityId as string,
         );
 
-    res.status(200).json({
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
         success: true,
         message: "Availability deleted successfully",
-        data: result,
-    });
+        data: result
+    })
 };
 
 export const availabilityController = {

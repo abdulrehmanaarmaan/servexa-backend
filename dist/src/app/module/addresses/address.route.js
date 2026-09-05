@@ -5,18 +5,18 @@ import { addressParamsSchema, createAddressSchema, updateAddressSchema } from ".
 import { auth } from "../../middleware/checkAuth.js";
 import { validateRequest } from "../../middleware/validateRequest.js";
 const router = Router();
-router.post("/customers/me", auth(UserRole.CUSTOMER), validateRequest({
+router.post("/", auth(UserRole.CUSTOMER), validateRequest({
     body: createAddressSchema,
 }), addressController.createAddress);
-router.get("/customers/me", auth(UserRole.CUSTOMER), addressController.getMyAddresses);
-router.get("/customers/me/:addressId", auth(UserRole.CUSTOMER), validateRequest({
+router.get("/", auth(UserRole.CUSTOMER), addressController.getMyAddresses);
+router.get("/:addressId", auth(UserRole.CUSTOMER), validateRequest({
     params: addressParamsSchema,
 }), addressController.getAddressById);
-router.patch("/customers/me/:addressId", auth(UserRole.CUSTOMER), validateRequest({
+router.patch("/:addressId", auth(UserRole.CUSTOMER), validateRequest({
     params: addressParamsSchema,
     body: updateAddressSchema,
 }), addressController.updateAddress);
-router.delete("/customers/me/:addressId", auth(UserRole.CUSTOMER), validateRequest({
+router.delete("/:addressId", auth(UserRole.CUSTOMER), validateRequest({
     params: addressParamsSchema,
 }), addressController.deleteAddress);
 export const addressRoutes = router;

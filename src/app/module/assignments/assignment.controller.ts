@@ -2,6 +2,8 @@ import type { Request, Response } from "express";
 
 import { assignmentService } from "./assignment.service.js";
 import type { IRequestUser } from "../auth/auth.interface.js";
+import { sendResponse } from "../../utils/sendResponse.js";
+import httpStatus from "http-status"
 
 const getAssignments = async (
     req: Request,
@@ -12,11 +14,12 @@ const getAssignments = async (
             req.params.workOrderId as string,
         );
 
-    res.status(200).json({
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
         success: true,
         message: "Assignments retrieved successfully",
-        data: result,
-    });
+        data: result
+    })
 };
 
 const createAssignment = async (
@@ -32,11 +35,12 @@ const createAssignment = async (
             user,
         );
 
-    res.status(201).json({
+    sendResponse(res, {
+        statusCode: httpStatus.CREATED,
         success: true,
         message: "Technician assigned successfully",
-        data: result,
-    });
+        data: result
+    })
 };
 
 const unassignTechnician = async (
@@ -52,11 +56,12 @@ const unassignTechnician = async (
             user,
         );
 
-    res.status(200).json({
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
         success: true,
         message: "Technician unassigned successfully",
-        data: result,
-    });
+        data: result
+    })
 };
 
 export const assignmentController = {

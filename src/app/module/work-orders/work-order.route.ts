@@ -100,7 +100,7 @@ router.get(
  * Get all work orders.
  */
 router.get(
-    "/admin",
+    "/",
 
     auth(UserRole.ADMIN),
 

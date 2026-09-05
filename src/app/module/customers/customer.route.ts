@@ -7,10 +7,7 @@ import { customerValidation } from "./customer.validation.js";
 
 const router = Router();
 
-router.get(
-    "/me",
-    auth(UserRole.CUSTOMER),
-    customerController.getMyCustomerProfile,
+router.get("/me", auth(UserRole.CUSTOMER), customerController.getMyCustomerProfile,
 );
 
 router.patch(

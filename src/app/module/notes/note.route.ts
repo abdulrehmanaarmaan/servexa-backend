@@ -1,6 +1,5 @@
 import { Router } from "express";
 
-import { noteController } from "./note.controller.js";
 import {
     workOrderNoteParamsSchema,
     noteParamsSchema,
@@ -11,11 +10,12 @@ import {
 import { auth } from "../../middleware/checkAuth.js";
 import { validateRequest } from "../../middleware/validateRequest.js";
 import { UserRole } from "../../../generated/prisma/enums.js";
+import { noteController } from "./note.controller.js";
 
 const router = Router();
 
 router.get(
-    "/work-orders/:workOrderId/notes",
+    "/:workOrderId",
     auth(
         UserRole.ADMIN,
         UserRole.CUSTOMER,
@@ -28,7 +28,7 @@ router.get(
 );
 
 router.post(
-    "/work-orders/:workOrderId/notes",
+    "/work-orders/:workOrderId",
     auth(
         UserRole.ADMIN,
         UserRole.CUSTOMER,
@@ -42,7 +42,7 @@ router.post(
 );
 
 router.patch(
-    "/work-orders/:workOrderId/notes/:noteId",
+    "/:noteId/work-orders/:workOrderId",
     auth(
         UserRole.ADMIN,
         UserRole.CUSTOMER,
@@ -56,7 +56,7 @@ router.patch(
 );
 
 router.delete(
-    "/work-orders/:workOrderId/notes/:noteId",
+    "/:noteId/work-orders/:workOrderId",
     auth(
         UserRole.ADMIN,
         UserRole.CUSTOMER,

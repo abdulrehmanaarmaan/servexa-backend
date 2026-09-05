@@ -15,7 +15,7 @@ import { UserRole } from "../../../generated/prisma/enums.js";
 const router = Router();
 
 router.get(
-    "/technicians",
+    "/",
     auth(UserRole.ADMIN),
     validateRequest({
         query: technicianQuerySchema,
@@ -24,7 +24,7 @@ router.get(
 );
 
 router.get(
-    "/technicians/:technicianId",
+    "/:technicianId",
     auth(UserRole.ADMIN, UserRole.CUSTOMER, UserRole.TECHNICIAN),
     validateRequest({
         params: technicianParamsSchema,
@@ -33,13 +33,13 @@ router.get(
 );
 
 router.get(
-    "/technicians/me",
+    "/technician-profile/me",
     auth(UserRole.TECHNICIAN),
     technicianController.getMyTechnicianProfile,
 );
 
 router.patch(
-    "/technicians/me",
+    "/me",
     auth(UserRole.TECHNICIAN),
     validateRequest({
         body: updateTechnicianSchema,
@@ -48,7 +48,7 @@ router.patch(
 );
 
 router.patch(
-    "/admin/technicians/:technicianId/status",
+    "/:technicianId/status",
     auth(UserRole.ADMIN),
     validateRequest({
         params: technicianParamsSchema,

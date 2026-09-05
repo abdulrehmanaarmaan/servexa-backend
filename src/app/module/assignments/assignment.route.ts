@@ -14,7 +14,7 @@ import { UserRole } from "../../../generated/prisma/enums.js";
 const router = Router();
 
 router.get(
-    "/work-orders/:workOrderId/assignments",
+    "/work-orders/:workOrderId",
     auth(UserRole.ADMIN, UserRole.TECHNICIAN),
     validateRequest({
         params: workOrderAssignmentParamsSchema,
@@ -23,7 +23,7 @@ router.get(
 );
 
 router.post(
-    "/work-orders/:workOrderId/assignments",
+    "/work-orders/:workOrderId",
     auth(UserRole.ADMIN),
     validateRequest({
         params: workOrderAssignmentParamsSchema,
@@ -33,7 +33,7 @@ router.post(
 );
 
 router.delete(
-    "/work-orders/:workOrderId/assignments/:assignmentId",
+    "/:assignmentId/work-orders/:workOrderId",
     auth(UserRole.ADMIN),
     validateRequest({
         params: assignmentParamsSchema,

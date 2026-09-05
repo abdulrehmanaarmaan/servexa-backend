@@ -7,6 +7,8 @@ import {
     adminUserQuerySchema,
     adminStatusSchema,
     adminAuditLogQuerySchema,
+    userIdParamsSchema,
+    updateUserRoleSchema,
 } from "./admin.validation.js";
 
 import { auth } from "../../middleware/checkAuth.js";
@@ -16,13 +18,13 @@ import { UserRole } from "../../../generated/prisma/enums.js";
 const router = Router();
 
 router.get(
-    "/admin/dashboard",
+    "/dashboard",
     auth(UserRole.ADMIN),
     adminController.getDashboard,
 );
 
 router.get(
-    "/admin/users",
+    "/users",
     auth(UserRole.ADMIN),
     validateRequest({
         query: adminUserQuerySchema,
@@ -31,7 +33,7 @@ router.get(
 );
 
 router.patch(
-    "/admin/users/:userId/status",
+    "/users/:userId/status",
     auth(UserRole.ADMIN),
     validateRequest({
         params: adminUserParamsSchema,
@@ -41,13 +43,13 @@ router.patch(
 );
 
 router.get(
-    "/admin/technicians",
+    "/technicians",
     auth(UserRole.ADMIN),
     adminController.getTechnicians,
 );
 
 router.patch(
-    "/admin/technicians/:technicianId/status",
+    "/technicians/:technicianId/status",
     auth(UserRole.ADMIN),
     validateRequest({
         params: adminTechnicianParamsSchema,
@@ -57,18 +59,29 @@ router.patch(
 );
 
 router.get(
-    "/admin/payments",
+    "/payments",
     auth(UserRole.ADMIN),
     adminController.getPayments,
 );
 
 router.get(
-    "/admin/audit-logs",
+    "/audit-logs",
     auth(UserRole.ADMIN),
     validateRequest({
         query: adminAuditLogQuerySchema,
     }),
     adminController.getAuditLogs,
 );
+
+router.patch(
+  "/users/:userId/role",
+  auth(UserRole.ADMIN),
+  validateRequest({
+    params: userIdParamsSchema,
+    body: updateUserRoleSchema,
+  }),
+  adminController.updateUserRole,
+);
+
 
 export const adminRoutes = router;

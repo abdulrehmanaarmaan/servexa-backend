@@ -14,13 +14,13 @@ import { UserRole } from "../../../generated/prisma/enums.js";
 const router = Router();
 
 router.get(
-    "/technicians/me/availabilities",
+    "/technicians/me",
     auth(UserRole.TECHNICIAN),
     availabilityController.getMyAvailabilities,
 );
 
 router.post(
-    "/technicians/me/availabilities",
+    "/",
     auth(UserRole.TECHNICIAN),
     validateRequest({
         body: createAvailabilitySchema,
@@ -29,7 +29,7 @@ router.post(
 );
 
 router.patch(
-    "/technicians/me/availabilities/:availabilityId",
+    "/:availabilityId/technicians/me",
     auth(UserRole.TECHNICIAN),
     validateRequest({
         params: availabilityParamsSchema,
@@ -39,7 +39,7 @@ router.patch(
 );
 
 router.delete(
-    "/technicians/me/availabilities/:availabilityId",
+    "/:availabilityId/technicians/me",
     auth(UserRole.TECHNICIAN),
     validateRequest({
         params: availabilityParamsSchema,

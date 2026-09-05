@@ -1,5 +1,32 @@
 import { z } from "zod";
 
+export const createNotificationSchema = z.object({
+  userId: z.string().uuid(),
+
+  title: z
+    .string()
+    .trim()
+    .min(1)
+    .max(200),
+
+  message: z
+    .string()
+    .trim()
+    .min(1)
+    .max(2000),
+
+  type: z.enum([
+    "SERVICE_REQUEST",
+    "WORK_ORDER",
+    "ASSIGNMENT",
+    "SCHEDULE",
+    "STATUS_UPDATE",
+    "INVOICE",
+    "PAYMENT",
+    "SYSTEM",
+  ]),
+});
+
 export const notificationParamsSchema = z.object({
     notificationId: z.string().uuid(),
 });

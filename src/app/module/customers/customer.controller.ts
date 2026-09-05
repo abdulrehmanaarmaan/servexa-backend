@@ -18,7 +18,7 @@ const getMyCustomerProfile = catchAsync(async (req: Request, res: Response) => {
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
-		message: "Customer profile fetched successfully.",
+		message: "Customer profile fetched successfully",
 		data: result,
 	});
 });
@@ -34,9 +34,9 @@ const updateMyCustomerProfile = catchAsync(async (req: Request, res: Response) =
 		statusCode: httpStatus.OK,
 		success: true,
 		message: result.changed
-      ? "Customer profile updated successfully."
-      : "No changes detected. Profile is already up to date.",
-		data: result,
+      ? "Customer profile updated successfully"
+      : "No changes detected. Profile is already up to date",
+		data: result?.data,
 	});
 });
 

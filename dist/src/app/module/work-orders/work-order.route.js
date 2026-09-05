@@ -45,7 +45,7 @@ router.get("/technicians/me", auth(UserRole.TECHNICIAN), validateRequest({
  *
  * Get all work orders.
  */
-router.get("/admin", auth(UserRole.ADMIN), validateRequest({
+router.get("/", auth(UserRole.ADMIN), validateRequest({
     query: workOrderQuerySchema,
 }), workOrderController.getAllWorkOrders);
 /*

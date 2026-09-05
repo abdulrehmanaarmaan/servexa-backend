@@ -10,7 +10,7 @@ import { validateRequest } from "../../middleware/validateRequest.js";
 const router = Router();
 
 router.post(
-  "/customers/me",
+  "/",
   auth(UserRole.CUSTOMER),
   validateRequest({
     body: createAddressSchema,
@@ -19,13 +19,13 @@ router.post(
 );
 
 router.get(
-  "/customers/me",
+  "/",
   auth(UserRole.CUSTOMER),
   addressController.getMyAddresses,
 );
 
 router.get(
-  "/customers/me/:addressId",
+  "/:addressId",
   auth(UserRole.CUSTOMER),
   validateRequest({
     params: addressParamsSchema,
@@ -34,7 +34,7 @@ router.get(
 );
 
 router.patch(
-  "/customers/me/:addressId",
+  "/:addressId",
   auth(UserRole.CUSTOMER),
   validateRequest({
     params: addressParamsSchema,
@@ -44,7 +44,7 @@ router.patch(
 );
 
 router.delete(
-  "/customers/me/:addressId",
+  "/:addressId",
   auth(UserRole.CUSTOMER),
   validateRequest({
     params: addressParamsSchema,

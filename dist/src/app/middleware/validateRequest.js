@@ -1,8 +1,8 @@
-import httpStatus from "http-status";
 import { AppError } from "../utils/appError.js";
 import { catchAsync } from "../utils/catchAsync.js";
 export const validateRequest = (schemas) => {
     return catchAsync((req, res, next) => {
+        const validated = {};
         const requestParts = [
             ["body", req.body, schemas.body],
             ["params", req.params, schemas.params],
@@ -16,18 +16,17 @@ export const validateRequest = (schemas) => {
                 const message = result.error.issues
                     .map((issue) => `${part}.${issue.path.join(".")}: ${issue.message}`)
                     .join(", ");
-                throw new AppError(httpStatus.BAD_REQUEST, message);
+                throw new AppError(400, message);
             }
+            validated[part] = result.data;
             if (part === "body") {
                 req.body = result.data;
             }
             else if (part === "params") {
                 Object.assign(req.params, result.data);
             }
-            else if (part === "query") {
-                Object.assign(req.query, result.data);
-            }
         }
+        res.locals.validated = validated;
         next();
     });
 };

@@ -56,4 +56,10 @@ need to check Google AUTH.
 preferred in dist or out?
 what is the issue in terminal while deployment?
 Need to change type for req.query.
-was google login necessary for requrimemts?
+Need to change the interface files for auth.
+What about seed.ts?
+
+Customers APIs are not working.
+Need to work on customer's API.
+
+left-work-orders and service requests. then the unwanted code based on requirements.

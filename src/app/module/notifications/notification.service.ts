@@ -1,7 +1,47 @@
 import { prisma } from "../../lib/prisma.js";
 import { AppError } from "../../utils/appError.js";
 import type { IRequestUser } from "../auth/auth.interface.js";
-import type { INotificationQuery } from "./notification.interface.js";
+import type { ICreateNotification, INotificationQuery } from "./notification.interface.js";
+import httpStatus from "http-status"
+
+const createNotification = async (
+  payload: ICreateNotification,
+) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: payload.userId,
+    },
+    select: {
+      id: true,
+      isActive: true,
+    },
+  });
+
+  if (!user) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      "User not found.",
+    );
+  }
+
+  if (!user.isActive) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Cannot create a notification for an inactive user.",
+    );
+  }
+
+  const notification = await prisma.notification.create({
+    data: {
+      userId: payload.userId,
+      title: payload.title,
+      message: payload.message,
+      type: payload.type,
+    },
+  });
+
+  return notification;
+};
 
 const getMyNotifications = async (
     user: IRequestUser,
@@ -94,7 +134,8 @@ const markAllAsRead = async (
 };
 
 export const notificationService = {
+    createNotification,
     getMyNotifications,
     markAsRead,
-    markAllAsRead,
+    markAllAsRead
 };

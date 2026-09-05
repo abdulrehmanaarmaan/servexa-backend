@@ -9,6 +9,7 @@ import {
   serviceRequestService,
 } from "./service-request.service.js";
 import { sendResponse } from "../../utils/sendResponse.js";
+import { IServiceRequestQuery } from "./service-request.interface.js";
 
 const createServiceRequest = async (
   req: Request,
@@ -65,7 +66,7 @@ const getMyServiceRequests = async (
   const result =
     await serviceRequestService.getMyServiceRequests(
       user,
-      req.query as any,
+      res.locals.validated.query as IServiceRequestQuery,
     );
 
   sendResponse(res, {
@@ -83,7 +84,7 @@ const getAllServiceRequests = async (
 ) => {
   const result =
     await serviceRequestService.getAllServiceRequests(
-      req.query as any,
+          res.locals.validated.query as IServiceRequestQuery
     );
 
   sendResponse(res, {

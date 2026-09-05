@@ -2,6 +2,9 @@ import type { Request, Response } from "express";
 
 import { technicianService } from "./technician.service.js";
 import type { IRequestUser } from "../auth/auth.interface.js";
+import { ITechnicianQuery } from "./technician.interface.js";
+import { sendResponse } from "../../utils/sendResponse.js";
+import httpStatus from "http-status"
 
 const getMyTechnicianProfile = async (
     req: Request,
@@ -12,11 +15,12 @@ const getMyTechnicianProfile = async (
     const result =
         await technicianService.getMyTechnicianProfile(user);
 
-    res.status(200).json({
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
         success: true,
         message: "Technician profile retrieved successfully",
-        data: result,
-    });
+        data: result
+    })
 };
 
 const updateMyTechnicianProfile = async (
@@ -31,11 +35,12 @@ const updateMyTechnicianProfile = async (
             req.body,
         );
 
-    res.status(200).json({
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
         success: true,
         message: "Technician profile updated successfully",
-        data: result,
-    });
+        data: result
+    })
 };
 
 const getTechnicianById = async (
@@ -47,25 +52,32 @@ const getTechnicianById = async (
             req.params.technicianId as string,
         );
 
-    res.status(200).json({
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
         success: true,
         message: "Technician retrieved successfully",
-        data: result,
-    });
+        data: result
+    })
 };
 
 const getAllTechnicians = async (
     req: Request,
     res: Response,
 ) => {
-    const result =
-        await technicianService.getAllTechnicians(req.query as any);
 
-    res.status(200).json({
+    const query =
+        res.locals.validated.query as ITechnicianQuery;
+
+    const result =
+        await technicianService.getAllTechnicians(query);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
         success: true,
         message: "Technicians retrieved successfully",
-        data: result,
-    });
+        data: result.data,
+        meta: result.meta
+    })
 };
 
 const updateTechnicianStatus = async (
@@ -78,11 +90,12 @@ const updateTechnicianStatus = async (
             req.body.isActive,
         );
 
-    res.status(200).json({
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
         success: true,
         message: "Technician status updated successfully",
-        data: result,
-    });
+        data: result
+    })
 };
 
 export const technicianController = {

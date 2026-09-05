@@ -4,6 +4,7 @@ import { paymentService } from "./payment.service.js";
 import { IRequestUser } from "../auth/auth.interface.js";
 import config from "../../config/index.js";
 import { sendResponse } from "../../utils/sendResponse.js";
+import httpStatus from "http-status"
 
 const createPayment = async (
 	req: Request,
@@ -19,7 +20,7 @@ const createPayment = async (
 	);
 
 	sendResponse(res, {
-		statusCode: 201,
+		statusCode: httpStatus.CREATED,
 		success: true,
 		message: "Payment initiated successfully",
 		data: result,

@@ -17,7 +17,7 @@ export const createServiceRequestSchema = z.object({
         .default("NORMAL"),
 });
 export const serviceRequestParamsSchema = z.object({
-    serviceRequestId: z.string().uuid(),
+    serviceRequestId: z.string().uuid()
 });
 export const updateServiceRequestSchema = z
     .object({

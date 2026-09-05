@@ -1,6 +1,8 @@
 import httpStatus from "http-status";
+import { sendResponse } from "../utils/sendResponse.js";
 export const notFound = (req, res) => {
-    res.status(httpStatus.NOT_FOUND).json({
+    sendResponse(res, {
+        statusCode: httpStatus.NOT_FOUND,
         message: "Route not found",
         path: req.originalUrl,
         date: new Date(),
