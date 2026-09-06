@@ -1,11 +1,12 @@
 import { workOrderService } from "./work-order.service.js";
 import { sendResponse } from "../../utils/sendResponse.js";
+import httpStatus from "http-status";
 const createWorkOrder = async (req, res) => {
     const { serviceRequestId } = req.params;
     const user = req.user;
     const result = await workOrderService.createWorkOrder(serviceRequestId, req.body, user);
     sendResponse(res, {
-        statusCode: 201,
+        statusCode: httpStatus.CREATED,
         success: true,
         message: "Work order created successfully",
         data: result,
@@ -16,7 +17,7 @@ const getWorkOrder = async (req, res) => {
     const user = req.user;
     const result = await workOrderService.getWorkOrderById(workOrderId, user);
     sendResponse(res, {
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         success: true,
         message: "Work order retrieved successfully",
         data: result,
@@ -24,19 +25,22 @@ const getWorkOrder = async (req, res) => {
 };
 const getMyWorkOrders = async (req, res) => {
     const user = req.user;
-    const result = await workOrderService.getMyWorkOrders(user, req.query);
+    const query = res.locals.validated.query;
+    const result = await workOrderService.getMyWorkOrders(user, query);
     sendResponse(res, {
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         success: true,
         message: "Work orders retrieved successfully",
-        data: result,
+        data: result.data,
+        meta: result.meta
     });
 };
 const getMyTechnicianWorkOrders = async (req, res) => {
     const user = req.user;
-    const result = await workOrderService.getMyTechnicianWorkOrders(user, req.query);
+    const query = res.locals.validated.query;
+    const result = await workOrderService.getMyTechnicianWorkOrders(user, query);
     sendResponse(res, {
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         success: true,
         message: "Assigned work orders retrieved successfully",
         data: result.data,
@@ -44,9 +48,10 @@ const getMyTechnicianWorkOrders = async (req, res) => {
     });
 };
 const getAllWorkOrders = async (req, res) => {
-    const result = await workOrderService.getAllWorkOrders(req.query);
+    const query = res.locals.validated.query;
+    const result = await workOrderService.getAllWorkOrders(query);
     sendResponse(res, {
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         success: true,
         message: "Work order retrieved successfully",
         data: result.data,
@@ -58,7 +63,7 @@ const updateWorkOrder = async (req, res) => {
     const user = req.user;
     const result = await workOrderService.updateWorkOrder(workOrderId, req.body, user);
     sendResponse(res, {
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         success: true,
         message: "Work order updated successfully",
         data: result,
@@ -69,7 +74,7 @@ const updateWorkOrderStatus = async (req, res) => {
     const user = req.user;
     const result = await workOrderService.updateWorkOrderStatus(workOrderId, req.body, user);
     sendResponse(res, {
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         success: true,
         message: "Work order status updated successfully",
         data: result,
@@ -80,7 +85,7 @@ const scheduleWorkOrder = async (req, res) => {
     const user = req.user;
     const result = await workOrderService.scheduleWorkOrder(workOrderId, req.body, user);
     sendResponse(res, {
-        statusCode: 200,
+        statusCode: httpStatus.OK,
         success: true,
         message: "Work order scheduled successfully",
         data: result,

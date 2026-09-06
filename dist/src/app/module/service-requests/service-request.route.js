@@ -29,7 +29,7 @@ router.get("/:serviceRequestId", auth(UserRole.CUSTOMER, UserRole.ADMIN), valida
  *
  * Get own service requests.
  */
-router.get("/me", auth(UserRole.CUSTOMER), validateRequest({
+router.get("/customers/me", auth(UserRole.CUSTOMER), validateRequest({
     query: serviceRequestQuerySchema,
 }), serviceRequestController.getMyServiceRequests);
 /*

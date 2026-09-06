@@ -63,7 +63,7 @@ router.get(
  * Get own service requests.
  */
 router.get(
-    "/me",
+    "/customers/me",
 
     auth(UserRole.CUSTOMER),
 

@@ -10,6 +10,7 @@ import {
 } from "./service-request.service.js";
 import { sendResponse } from "../../utils/sendResponse.js";
 import { IServiceRequestQuery } from "./service-request.interface.js";
+import httpStatus from "http-status"
 
 const createServiceRequest = async (
   req: Request,
@@ -25,7 +26,7 @@ const createServiceRequest = async (
     );
 
   sendResponse(res, {
-    statusCode: 201,
+    statusCode: httpStatus.CREATED,
     success: true,
     message: "Service request created successfully",
     data: result,
@@ -49,7 +50,7 @@ const getServiceRequest = async (
     );
 
   sendResponse(res, {
-    statusCode: 200,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Service request retrieved successfully",
     data: result,
@@ -70,7 +71,7 @@ const getMyServiceRequests = async (
     );
 
   sendResponse(res, {
-    statusCode: 200,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Service requests retrieved successfully",
     data: result.data,
@@ -84,11 +85,11 @@ const getAllServiceRequests = async (
 ) => {
   const result =
     await serviceRequestService.getAllServiceRequests(
-          res.locals.validated.query as IServiceRequestQuery
+      res.locals.validated.query as IServiceRequestQuery
     );
 
   sendResponse(res, {
-    statusCode: 200,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Service requests retrieved successfully",
     data: result.data,
@@ -114,7 +115,7 @@ const updateServiceRequest = async (
     );
 
   sendResponse(res, {
-    statusCode: 200,
+    statusCode: httpStatus.OK,
     success: true,
     message: "Service request updated successfully",
     data: result,
@@ -140,7 +141,7 @@ const updateServiceRequestStatus =
       );
 
     sendResponse(res, {
-      statusCode: 200,
+      statusCode: httpStatus.OK,
       success: true,
       message: "Service request status updated successfully",
       data: result,
@@ -163,12 +164,12 @@ const cancelServiceRequest = async (
       user,
     );
 
-    sendResponse(res, {
-      statusCode: 200,
-      success: true,
-      message: "Service request cancelled successfully",
-      data: result,
-    })
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Service request cancelled successfully",
+    data: result,
+  })
 };
 
 export const serviceRequestController = {
