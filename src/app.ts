@@ -24,6 +24,8 @@ import { noteRoutes } from "./app/module/notes/note.route.js";
 import { assignmentRoutes } from "./app/module/assignments/assignment.route.js";
 import { availabilityRoutes } from "./app/module/availability/availability.route.js";
 import { technicianRoutes } from "./app/module/technicians/technician.route.js";
+import { apiRateLimiter } from "./app/middleware/rateLimiter.js";
+import helmet from "helmet";
 
 const app: Application = express();
 
@@ -38,7 +40,9 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 
 // Middleware to parse JSON bodies
+app.use(helmet());
 app.use(express.json());
+app.use("/api/v1", apiRateLimiter);
 app.use(cookieParser());
 
 app.use("/api/v1/auth", authRoutes);
