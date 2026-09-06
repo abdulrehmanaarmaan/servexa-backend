@@ -1,0 +1,4719 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Default module",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [],
+  "paths": {
+    "/api/v1/auth/register": {
+      "post": {
+        "summary": "Register",
+        "deprecated": false,
+        "description": "Creates a new account using email and password. The account is created with the CUSTOMER role by default.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": true,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "name": "Hero",
+                "email": "hero@gmail.com",
+                "password": "hero1991",
+                "phone": "+880 1725 348534"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success (201)",
+                    "value": {
+                      "success": true,
+                      "statusCode": 201,
+                      "message": "User registered successfully.",
+                      "data": {
+                        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3YjBhYzI4Mi05MzIwLTRjMjUtYWNkNy1hMGFkNzg4Y2EwNzQiLCJlbWFpbCI6InNhbG1hYW5AZ21haWwuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzg4NTAxODczLCJleHAiOjE3ODg1ODgyNzN9.S0cGjRvzIgUadIPT4P264vucQ7V04E_Dtzw5KGJ6n10",
+                        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3YjBhYzI4Mi05MzIwLTRjMjUtYWNkNy1hMGFkNzg4Y2EwNzQiLCJlbWFpbCI6InNhbG1hYW5AZ21haWwuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzg4NTAxODczLCJleHAiOjE3ODkxMDY2NzN9.ufVzm-C5qwlTwOq_QNQeoyhsND2y-Yfi-wVwZZozTNQ",
+                        "createdUser": {
+                          "id": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                          "email": "salmaan@gmail.com",
+                          "googleId": null,
+                          "role": "CUSTOMER",
+                          "isActive": true,
+                          "createdAt": "2026-09-04T06:04:32.466Z",
+                          "updatedAt": "2026-09-04T06:04:32.466Z",
+                          "customer": {
+                            "id": "d391ab73-0275-4553-a665-34bdc6549cab",
+                            "userId": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                            "name": "Salmaan",
+                            "phone": null,
+                            "company": null,
+                            "createdAt": "2026-09-04T06:04:32.466Z",
+                            "updatedAt": "2026-09-04T06:04:32.466Z"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "Error (409)",
+                    "value": {
+                      "success": false,
+                      "statusCode": 409,
+                      "name": "Error",
+                      "message": "User with this email already exists.",
+                      "error": {
+                        "statusCode": 409
+                      },
+                      "stack": "Error: User with this email already exists.\n    at Object.registerCustomer (file:///var/task/dist/src/app/module/auth/auth.service.js:20:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///var/task/dist/src/app/module/auth/auth.controller.js:9:20\n    at async file:///var/task/dist/src/app/utils/catchAsync.js:4:13"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "summary": "Login",
+        "deprecated": false,
+        "description": "Authenticates a user using email and password and returns access and refresh tokens for authenticated API access.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "email": "admin@servexa.com",
+                "password": "Admin@123456"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "User logged in successfully.",
+                  "data": {
+                    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3YjBhYzI4Mi05MzIwLTRjMjUtYWNkNy1hMGFkNzg4Y2EwNzQiLCJlbWFpbCI6InNhbG1hYW5AZ21haWwuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzg4NTA5MDM1LCJleHAiOjE3ODg1OTU0MzV9.iruB1FM0jrwVduEQtzv5h7XbNWBqejpdjUCDb7IKiCI",
+                    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3YjBhYzI4Mi05MzIwLTRjMjUtYWNkNy1hMGFkNzg4Y2EwNzQiLCJlbWFpbCI6InNhbG1hYW5AZ21haWwuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzg4NTA5MDM1LCJleHAiOjE3ODkxMTM4MzV9.rXnMtxKDF3yuOVA89Uxju74wAKlwHvMHJLxg1cLWwl8"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/auth/refresh-token": {
+      "post": {
+        "summary": "Refresh Access Token",
+        "deprecated": false,
+        "description": "Generates a new access token using a valid refresh token.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "New tokens generated successfully.",
+                  "data": {
+                    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3YjBhYzI4Mi05MzIwLTRjMjUtYWNkNy1hMGFkNzg4Y2EwNzQiLCJlbWFpbCI6InNhbG1hYW5AZ21haWwuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzg4NTA5MDk5LCJleHAiOjE3ODg1OTU0OTl9.bFZpGbo_rjDU9R2t48QfHwqBDZX172u5JYdI6kF5b4I",
+                    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3YjBhYzI4Mi05MzIwLTRjMjUtYWNkNy1hMGFkNzg4Y2EwNzQiLCJlbWFpbCI6InNhbG1hYW5AZ21haWwuY29tIiwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzg4NTA5MDk5LCJleHAiOjE3ODkxMTM4OTl9.pzLwLUi564s4gQGaFaAzfQBcVFFz_uiygMllgTQoxEE"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "summary": "Get Current User",
+        "deprecated": false,
+        "description": "Returns the profile and role information of the currently authenticated user.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "User profile fetched successfully.",
+                  "data": {
+                    "id": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                    "email": "salmaan@gmail.com",
+                    "googleId": null,
+                    "role": "CUSTOMER",
+                    "isActive": true,
+                    "createdAt": "2026-09-04T06:04:32.466Z",
+                    "updatedAt": "2026-09-04T06:04:32.466Z",
+                    "customer": {
+                      "id": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "userId": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                      "name": "Salmaan",
+                      "phone": null,
+                      "company": null,
+                      "createdAt": "2026-09-04T06:04:32.466Z",
+                      "updatedAt": "2026-09-04T06:04:32.466Z"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/auth/google": {
+      "get": {
+        "summary": "Google Login",
+        "deprecated": false,
+        "description": "Initiates Google OAuth authentication and redirects the user to Google's authentication page.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/auth/google/callback": {
+      "get": {
+        "summary": "Google OAuth Callback",
+        "deprecated": false,
+        "description": "Handles the callback from Google after successful OAuth authentication and creates or authenticates the corresponding user account.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/customers/me": {
+      "get": {
+        "summary": "Get My Profile",
+        "deprecated": false,
+        "description": "Returns the profile information of the currently authenticated customer.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Customer profile fetched successfully",
+                  "data": {
+                    "id": "d391ab73-0275-4553-a665-34bdc6549cab",
+                    "userId": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                    "name": "Salmaan",
+                    "phone": null,
+                    "company": null,
+                    "createdAt": "2026-09-04T06:04:32.466Z",
+                    "updatedAt": "2026-09-04T06:04:32.466Z",
+                    "addresses": [
+                      {
+                        "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                        "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "label": null,
+                        "addressLine": "Nazirhat, Fatikchari",
+                        "city": "Chittagong",
+                        "state": null,
+                        "postalCode": null,
+                        "country": "Bangladesh",
+                        "latitude": null,
+                        "longitude": null,
+                        "createdAt": "2026-09-04T14:20:05.239Z",
+                        "updatedAt": "2026-09-04T14:24:22.120Z",
+                        "deletedAt": "2026-09-04T14:24:22.118Z"
+                      }
+                    ],
+                    "serviceRequests": [],
+                    "workOrders": []
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "patch": {
+        "summary": "Update My Profile",
+        "deprecated": false,
+        "description": "Updates the profile information of the currently authenticated customer.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "name": "Usmaan",
+                "phone": "+880 1234 567890",
+                "company": "N/A"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/addresses": {
+      "get": {
+        "summary": "Get My Addresses",
+        "deprecated": false,
+        "description": "Returns all active addresses belonging to the currently authenticated customer.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Addresses retrieved successfully",
+                  "data": [
+                    {
+                      "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "label": null,
+                      "addressLine": "Nazirhat, Fatikchari",
+                      "city": "Chittagong",
+                      "state": null,
+                      "postalCode": null,
+                      "country": "Bangladesh",
+                      "latitude": null,
+                      "longitude": null,
+                      "createdAt": "2026-09-04T14:20:05.239Z",
+                      "updatedAt": "2026-09-04T14:21:59.687Z",
+                      "deletedAt": null
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Create Address",
+        "deprecated": false,
+        "description": "Creates a new service address for the currently authenticated customer.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "label": "N/A",
+                "addressLine": "Katirhat, Hathazari",
+                "city": "Chittagong",
+                "state": "Chittagong",
+                "postalCode": "N/A",
+                "country": "Bangladesh",
+                "latitude": 90,
+                "longitude": 180
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 201,
+                  "message": "Address created successfully",
+                  "data": {
+                    "id": "c277628f-7077-4028-99e7-2a61690c2347",
+                    "customerId": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                    "label": null,
+                    "addressLine": "Katirhat, Hathazari",
+                    "city": "Chittagong",
+                    "state": null,
+                    "postalCode": null,
+                    "country": "Bangladesh",
+                    "latitude": null,
+                    "longitude": null,
+                    "createdAt": "2026-09-04T12:43:40.598Z",
+                    "updatedAt": "2026-09-04T12:43:40.598Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/addresses/1f63c96c-e5a5-4896-8152-23bb4121b473": {
+      "get": {
+        "summary": "Get Address",
+        "deprecated": false,
+        "description": "Returns a specific address belonging to the currently authenticated customer.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Address retrieved successfully",
+                  "data": {
+                    "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                    "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                    "label": null,
+                    "addressLine": "Katirhat, Hathazari",
+                    "city": "Chittagong",
+                    "state": null,
+                    "postalCode": null,
+                    "country": "Bangladesh",
+                    "latitude": null,
+                    "longitude": null,
+                    "createdAt": "2026-09-04T14:20:05.239Z",
+                    "updatedAt": "2026-09-04T14:20:05.239Z",
+                    "deletedAt": null
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "patch": {
+        "summary": "Update Address",
+        "deprecated": false,
+        "description": "Updates an existing address belonging to the currently authenticated customer.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "addressLine": "Nazirhat, Fatikchari"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Address updated successfully",
+                  "data": {
+                    "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                    "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                    "label": null,
+                    "addressLine": "Nazirhat, Fatikchari",
+                    "city": "Chittagong",
+                    "state": null,
+                    "postalCode": null,
+                    "country": "Bangladesh",
+                    "latitude": null,
+                    "longitude": null,
+                    "createdAt": "2026-09-04T14:20:05.239Z",
+                    "updatedAt": "2026-09-04T14:21:59.687Z",
+                    "deletedAt": null
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Delete Address",
+        "deprecated": false,
+        "description": "Soft-deletes an address belonging to the currently authenticated customer so that it is no longer available for new service requests.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Address deleted successfully",
+                  "data": {
+                    "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                    "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                    "label": null,
+                    "addressLine": "Nazirhat, Fatikchari",
+                    "city": "Chittagong",
+                    "state": null,
+                    "postalCode": null,
+                    "country": "Bangladesh",
+                    "latitude": null,
+                    "longitude": null,
+                    "createdAt": "2026-09-04T14:20:05.239Z",
+                    "updatedAt": "2026-09-04T14:24:22.120Z",
+                    "deletedAt": "2026-09-04T14:24:22.118Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/services": {
+      "get": {
+        "summary": "Get Services",
+        "deprecated": false,
+        "description": "Returns a paginated list of active services available for customers, with optional search, filtering, sorting, and pagination.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "N/A",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isActive",
+            "in": "query",
+            "description": "true, false",
+            "required": false,
+            "example": "true",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "name, basePrice, createdAt, updatedAt",
+            "required": false,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "desc, asc",
+            "required": false,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Services retrieved successfully.",
+                  "data": [
+                    {
+                      "id": "902a88ed-0546-4439-b3ac-2c30efe634d4",
+                      "name": "Undefined",
+                      "description": "N/A",
+                      "basePrice": "50",
+                      "isActive": true,
+                      "createdAt": "2026-09-05T21:57:17.834Z",
+                      "updatedAt": "2026-09-05T21:57:17.834Z",
+                      "deletedAt": null
+                    },
+                    {
+                      "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "name": "N/A",
+                      "description": "N/A",
+                      "basePrice": "50",
+                      "isActive": true,
+                      "createdAt": "2026-09-04T15:35:10.899Z",
+                      "updatedAt": "2026-09-04T15:35:10.899Z",
+                      "deletedAt": null
+                    },
+                    {
+                      "id": "35afb4e6-d403-456d-95c8-8b4555aeb510",
+                      "name": "food",
+                      "description": "tasty",
+                      "basePrice": "1",
+                      "isActive": true,
+                      "createdAt": "2026-09-03T08:40:19.042Z",
+                      "updatedAt": "2026-09-03T08:40:19.042Z",
+                      "deletedAt": null
+                    }
+                  ],
+                  "meta": {
+                    "page": 1,
+                    "limit": 10,
+                    "total": 3,
+                    "totalPages": 1
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Create Service",
+        "deprecated": false,
+        "description": "Creates a new service that can be offered to customers. This endpoint is restricted to administrators.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "name": "Undefined",
+                "description": "N/A",
+                "basePrice": 50
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 201,
+                  "message": "Service created successfully.",
+                  "data": {
+                    "id": "90f7363a-aed2-4d3e-abc4-8d80d92634ed",
+                    "name": "N/A",
+                    "description": "N/A",
+                    "basePrice": "50",
+                    "isActive": true,
+                    "createdAt": "2026-09-04T13:43:59.037Z",
+                    "updatedAt": "2026-09-04T13:43:59.037Z",
+                    "deletedAt": null
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/services/90f7363a-aed2-4d3e-abc4-8d80d92634ed": {
+      "get": {
+        "summary": "Get Service",
+        "deprecated": false,
+        "description": "Returns the details of a specific service.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/services/902a88ed-0546-4439-b3ac-2c30efe634d4": {
+      "patch": {
+        "summary": "Update Service",
+        "deprecated": false,
+        "description": "Updates the details of an existing service. This endpoint is restricted to administrators.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "name": "Undefined",
+                "description": "N/A",
+                "basePrice": 100,
+                "isActive": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "statusCode": 200,
+                  "success": true,
+                  "message": "Service updated successfully",
+                  "data": {
+                    "id": "90f7363a-aed2-4d3e-abc4-8d80d92634ed",
+                    "name": "N/A",
+                    "description": "N/A",
+                    "basePrice": "50",
+                    "isActive": false,
+                    "createdAt": "2026-09-04T13:43:59.037Z",
+                    "updatedAt": "2026-09-04T13:52:36.388Z",
+                    "deletedAt": null
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Delete Service",
+        "deprecated": false,
+        "description": "Soft-deletes a service so that it is no longer available for new service requests. This endpoint is restricted to administrators.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "statusCode": 200,
+                  "success": true,
+                  "message": "Service deleted successfully",
+                  "data": {
+                    "id": "90f7363a-aed2-4d3e-abc4-8d80d92634ed",
+                    "name": "N/A",
+                    "description": "N/A",
+                    "basePrice": "50",
+                    "isActive": false,
+                    "createdAt": "2026-09-04T13:43:59.037Z",
+                    "updatedAt": "2026-09-04T13:54:42.834Z",
+                    "deletedAt": "2026-09-04T13:54:42.832Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/service-requests": {
+      "post": {
+        "summary": "Create Service Request",
+        "deprecated": false,
+        "description": "Creates a new service request for the authenticated customer using a selected service and service address.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                "description": "I need the service for a while.",
+                "priority": "LOW"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 201,
+                  "message": "Service request created successfully",
+                  "data": {
+                    "id": "44760e69-1c35-419a-acc6-aa3100144210",
+                    "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                    "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                    "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                    "description": "I need the service for a while.",
+                    "priority": "LOW",
+                    "status": "PENDING",
+                    "createdAt": "2026-09-06T06:14:00.017Z",
+                    "updatedAt": "2026-09-06T06:14:00.017Z",
+                    "service": {
+                      "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "name": "N/A",
+                      "description": "N/A",
+                      "basePrice": "50",
+                      "isActive": true,
+                      "createdAt": "2026-09-04T15:35:10.899Z",
+                      "updatedAt": "2026-09-04T15:35:10.899Z",
+                      "deletedAt": null
+                    },
+                    "address": {
+                      "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "label": null,
+                      "addressLine": "Nazirhat, Fatikchari",
+                      "city": "Chittagong",
+                      "state": null,
+                      "postalCode": null,
+                      "country": "Bangladesh",
+                      "latitude": null,
+                      "longitude": null,
+                      "createdAt": "2026-09-04T14:20:05.239Z",
+                      "updatedAt": "2026-09-04T14:24:22.120Z",
+                      "deletedAt": "2026-09-04T14:24:22.118Z"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "Get All Service Requests",
+        "deprecated": false,
+        "description": "Returns a paginated list of all service requests for administrators, with optional status, priority, sorting, and pagination filters.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "PENDING, REVIEWED, APPROVED, REJECTED, CONVERTED, CANCELLED",
+            "required": false,
+            "example": "PENDING",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "priority",
+            "in": "query",
+            "description": "LOW, NORMAL, HIGH, URGENT",
+            "required": false,
+            "example": "LOW",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "createdAt, updatedAt, priority",
+            "required": false,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "desc, asc",
+            "required": false,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Service requests retrieved successfully",
+                  "data": [
+                    {
+                      "id": "e6413003-c218-4a9e-94f9-0e0d9d890759",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "description": "I need the service for a while.",
+                      "priority": "LOW",
+                      "status": "PENDING",
+                      "createdAt": "2026-09-04T15:37:18.759Z",
+                      "updatedAt": "2026-09-04T17:00:14.429Z",
+                      "customer": {
+                        "id": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "userId": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                        "name": "Usmaan",
+                        "phone": null,
+                        "company": null,
+                        "createdAt": "2026-09-04T06:04:32.466Z",
+                        "updatedAt": "2026-09-04T14:30:52.180Z"
+                      },
+                      "service": {
+                        "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                        "name": "N/A",
+                        "description": "N/A",
+                        "basePrice": "50",
+                        "isActive": true,
+                        "createdAt": "2026-09-04T15:35:10.899Z",
+                        "updatedAt": "2026-09-04T15:35:10.899Z",
+                        "deletedAt": null
+                      },
+                      "address": {
+                        "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                        "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "label": null,
+                        "addressLine": "Nazirhat, Fatikchari",
+                        "city": "Chittagong",
+                        "state": null,
+                        "postalCode": null,
+                        "country": "Bangladesh",
+                        "latitude": null,
+                        "longitude": null,
+                        "createdAt": "2026-09-04T14:20:05.239Z",
+                        "updatedAt": "2026-09-04T14:24:22.120Z",
+                        "deletedAt": "2026-09-04T14:24:22.118Z"
+                      },
+                      "workOrder": null
+                    },
+                    {
+                      "id": "235e6f06-1f69-47fe-8fc0-355da639165a",
+                      "customerId": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                      "serviceId": "35afb4e6-d403-456d-95c8-8b4555aeb510",
+                      "addressId": "03e6ea08-7b4c-4fc2-97a8-a1e16acb9752",
+                      "description": "I don't have any problem with you.",
+                      "priority": "NORMAL",
+                      "status": "CONVERTED",
+                      "createdAt": "2026-09-03T10:47:04.249Z",
+                      "updatedAt": "2026-09-03T10:58:35.985Z",
+                      "customer": {
+                        "id": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                        "userId": "bd110cd9-ebf0-4b47-8ad2-84a006704f74",
+                        "name": "Ayman",
+                        "phone": "+880 1725 348534",
+                        "company": null,
+                        "createdAt": "2026-09-03T09:16:43.846Z",
+                        "updatedAt": "2026-09-03T09:16:43.846Z"
+                      },
+                      "service": {
+                        "id": "35afb4e6-d403-456d-95c8-8b4555aeb510",
+                        "name": "food",
+                        "description": "tasty",
+                        "basePrice": "1",
+                        "isActive": true,
+                        "createdAt": "2026-09-03T08:40:19.042Z",
+                        "updatedAt": "2026-09-03T08:40:19.042Z",
+                        "deletedAt": null
+                      },
+                      "address": {
+                        "id": "03e6ea08-7b4c-4fc2-97a8-a1e16acb9752",
+                        "customerId": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                        "label": null,
+                        "addressLine": "Address must be at least 5 character",
+                        "city": "City cannot exceed 100 characters",
+                        "state": null,
+                        "postalCode": null,
+                        "country": "Country cannot exceed 100 characters",
+                        "latitude": null,
+                        "longitude": null,
+                        "createdAt": "2026-09-03T10:41:26.045Z",
+                        "updatedAt": "2026-09-03T10:41:26.045Z",
+                        "deletedAt": null
+                      },
+                      "workOrder": {
+                        "id": "6cd54c72-df58-4eaa-bb3d-337ab526dffc",
+                        "serviceRequestId": "235e6f06-1f69-47fe-8fc0-355da639165a",
+                        "customerId": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                        "serviceId": "35afb4e6-d403-456d-95c8-8b4555aeb510",
+                        "addressId": "03e6ea08-7b4c-4fc2-97a8-a1e16acb9752",
+                        "servicePrice": "1",
+                        "status": "COMPLETED",
+                        "scheduledStart": null,
+                        "scheduledEnd": null,
+                        "description": "I don't have anything to say.",
+                        "createdAt": "2026-09-03T10:58:35.671Z",
+                        "updatedAt": "2026-09-03T10:58:35.671Z"
+                      }
+                    }
+                  ],
+                  "meta": {
+                    "page": 1,
+                    "limit": 10,
+                    "total": 2,
+                    "totalPages": 1
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/service-requests/e6413003-c218-4a9e-94f9-0e0d9d890759": {
+      "get": {
+        "summary": "Get Service Request",
+        "deprecated": false,
+        "description": "Returns the details of a specific service request. Customers can access their own requests, while administrators can access any request.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Service request retrieved successfully",
+                  "data": {
+                    "id": "e6413003-c218-4a9e-94f9-0e0d9d890759",
+                    "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                    "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                    "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                    "description": "I need the service for a while.",
+                    "priority": "NORMAL",
+                    "status": "PENDING",
+                    "createdAt": "2026-09-04T15:37:18.759Z",
+                    "updatedAt": "2026-09-04T15:37:18.759Z",
+                    "customer": {
+                      "id": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "userId": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                      "name": "Usmaan",
+                      "phone": null,
+                      "company": null,
+                      "createdAt": "2026-09-04T06:04:32.466Z",
+                      "updatedAt": "2026-09-04T14:30:52.180Z"
+                    },
+                    "service": {
+                      "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "name": "N/A",
+                      "description": "N/A",
+                      "basePrice": "50",
+                      "isActive": true,
+                      "createdAt": "2026-09-04T15:35:10.899Z",
+                      "updatedAt": "2026-09-04T15:35:10.899Z",
+                      "deletedAt": null
+                    },
+                    "address": {
+                      "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "label": null,
+                      "addressLine": "Nazirhat, Fatikchari",
+                      "city": "Chittagong",
+                      "state": null,
+                      "postalCode": null,
+                      "country": "Bangladesh",
+                      "latitude": null,
+                      "longitude": null,
+                      "createdAt": "2026-09-04T14:20:05.239Z",
+                      "updatedAt": "2026-09-04T14:24:22.120Z",
+                      "deletedAt": "2026-09-04T14:24:22.118Z"
+                    },
+                    "workOrder": null
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "patch": {
+        "summary": "Update Service Request",
+        "deprecated": false,
+        "description": "Updates an editable service request belonging to the authenticated customer. Only requests that are still eligible for modification can be updated.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                "addressId": "51c240cf-f7c1-45a0-b674-727fbe09f92d",
+                "description": "I need the service for a while.",
+                "priority": "LOW"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Service request updated successfully",
+                  "data": {
+                    "id": "e6413003-c218-4a9e-94f9-0e0d9d890759",
+                    "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                    "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                    "addressId": "51c240cf-f7c1-45a0-b674-727fbe09f92d",
+                    "description": "I need the service for a while.",
+                    "priority": "LOW",
+                    "status": "PENDING",
+                    "createdAt": "2026-09-04T15:37:18.759Z",
+                    "updatedAt": "2026-09-06T06:40:09.145Z",
+                    "service": {
+                      "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "name": "N/A",
+                      "description": "N/A",
+                      "basePrice": "50",
+                      "isActive": true,
+                      "createdAt": "2026-09-04T15:35:10.899Z",
+                      "updatedAt": "2026-09-04T15:35:10.899Z",
+                      "deletedAt": null
+                    },
+                    "address": {
+                      "id": "51c240cf-f7c1-45a0-b674-727fbe09f92d",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "label": "N/A",
+                      "addressLine": "Katirhat, Hathazari",
+                      "city": "Chittagong",
+                      "state": "Chittagong",
+                      "postalCode": "N/A",
+                      "country": "Bangladesh",
+                      "latitude": "90",
+                      "longitude": "180",
+                      "createdAt": "2026-09-06T06:39:33.513Z",
+                      "updatedAt": "2026-09-06T06:39:33.513Z",
+                      "deletedAt": null
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/service-requests/customers/me": {
+      "get": {
+        "summary": "Get My Service Requests",
+        "deprecated": false,
+        "description": "Returns a paginated list of service requests created by the authenticated customer, with optional status, priority, sorting, and pagination filters.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "PENDING, REVIEWED, APPROVED, REJECTED, CONVERTED, CANCELLED",
+            "required": false,
+            "example": "PENDING",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "priority",
+            "in": "query",
+            "description": "LOW, NORMAL, HIGH, URGENT",
+            "required": false,
+            "example": "LOW",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "createdAt, updatedAt, priority",
+            "required": false,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "desc, asc",
+            "required": false,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Service requests retrieved successfully",
+                  "data": [
+                    {
+                      "id": "44760e69-1c35-419a-acc6-aa3100144210",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "description": "I need the service for a while.",
+                      "priority": "LOW",
+                      "status": "PENDING",
+                      "createdAt": "2026-09-06T06:14:00.017Z",
+                      "updatedAt": "2026-09-06T06:14:00.017Z",
+                      "service": {
+                        "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                        "name": "N/A",
+                        "description": "N/A",
+                        "basePrice": "50",
+                        "isActive": true,
+                        "createdAt": "2026-09-04T15:35:10.899Z",
+                        "updatedAt": "2026-09-04T15:35:10.899Z",
+                        "deletedAt": null
+                      },
+                      "address": {
+                        "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                        "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "label": null,
+                        "addressLine": "Nazirhat, Fatikchari",
+                        "city": "Chittagong",
+                        "state": null,
+                        "postalCode": null,
+                        "country": "Bangladesh",
+                        "latitude": null,
+                        "longitude": null,
+                        "createdAt": "2026-09-04T14:20:05.239Z",
+                        "updatedAt": "2026-09-04T14:24:22.120Z",
+                        "deletedAt": "2026-09-04T14:24:22.118Z"
+                      },
+                      "workOrder": null
+                    },
+                    {
+                      "id": "e6413003-c218-4a9e-94f9-0e0d9d890759",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "description": "I need the service for a while.",
+                      "priority": "LOW",
+                      "status": "CONVERTED",
+                      "createdAt": "2026-09-04T15:37:18.759Z",
+                      "updatedAt": "2026-09-05T03:59:51.981Z",
+                      "service": {
+                        "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                        "name": "N/A",
+                        "description": "N/A",
+                        "basePrice": "50",
+                        "isActive": true,
+                        "createdAt": "2026-09-04T15:35:10.899Z",
+                        "updatedAt": "2026-09-04T15:35:10.899Z",
+                        "deletedAt": null
+                      },
+                      "address": {
+                        "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                        "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "label": null,
+                        "addressLine": "Nazirhat, Fatikchari",
+                        "city": "Chittagong",
+                        "state": null,
+                        "postalCode": null,
+                        "country": "Bangladesh",
+                        "latitude": null,
+                        "longitude": null,
+                        "createdAt": "2026-09-04T14:20:05.239Z",
+                        "updatedAt": "2026-09-04T14:24:22.120Z",
+                        "deletedAt": "2026-09-04T14:24:22.118Z"
+                      },
+                      "workOrder": {
+                        "id": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                        "serviceRequestId": "e6413003-c218-4a9e-94f9-0e0d9d890759",
+                        "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                        "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                        "servicePrice": "50",
+                        "status": "ASSIGNED",
+                        "scheduledStart": "2026-09-07T00:59:50.787Z",
+                        "scheduledEnd": "2026-09-14T00:59:50.787Z",
+                        "description": "I wanna update the work order.",
+                        "createdAt": "2026-09-05T03:59:50.787Z",
+                        "updatedAt": "2026-09-05T16:56:52.100Z"
+                      }
+                    }
+                  ],
+                  "meta": {
+                    "page": 1,
+                    "limit": 10,
+                    "total": 2,
+                    "totalPages": 1
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/service-requests/e6413003-c218-4a9e-94f9-0e0d9d890759/status": {
+      "patch": {
+        "summary": "Update Service Request Status",
+        "deprecated": false,
+        "description": "Updates the status of a service request according to the allowed service-request status transitions. This endpoint is restricted to administrators.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "status": "PENDING",
+                "reason": "N/A"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Service request status updated successfully",
+                  "data": {
+                    "id": "e6413003-c218-4a9e-94f9-0e0d9d890759",
+                    "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                    "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                    "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                    "description": "I need the service for a while.",
+                    "priority": "LOW",
+                    "status": "APPROVED",
+                    "createdAt": "2026-09-04T15:37:18.759Z",
+                    "updatedAt": "2026-09-06T06:31:41.168Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/service-requests/e6413003-c218-4a9e-94f9-0e0d9d890759/cancel": {
+      "post": {
+        "summary": "Cancel Service Request",
+        "deprecated": false,
+        "description": "Cancels a service request belonging to the authenticated customer when its current status allows cancellation.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success (200)",
+                    "value": {
+                      "success": true,
+                      "statusCode": 200,
+                      "message": "Service request cancelled successfully",
+                      "data": {
+                        "id": "e6413003-c218-4a9e-94f9-0e0d9d890759",
+                        "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                        "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                        "description": "I need the service for a while.",
+                        "priority": "LOW",
+                        "status": "CANCELLED",
+                        "createdAt": "2026-09-04T15:37:18.759Z",
+                        "updatedAt": "2026-09-04T17:31:50.257Z"
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "Error (400)",
+                    "value": {
+                      "success": false,
+                      "statusCode": 400,
+                      "name": "Error",
+                      "message": "This service request cannot be cancelled",
+                      "error": {
+                        "statusCode": 400
+                      },
+                      "stack": "Error: This service request cannot be cancelled\n    at file:///var/task/dist/src/app/module/service-requests/service-request.service.js:385:19\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async Proxy._transactionWithCallback (/var/task/node_modules/.pnpm/@prisma+client@7.10.0_prisma@7.10.0_@types+react@19.2.18_react-dom@19.2.8_react@19.2.8__react_zl6cjpyb4ppg2lfxb4xf3qwjl4/node_modules/@prisma/client/runtime/client.js:99:4868)\n    at async cancelServiceRequest (file:///var/task/dist/src/app/module/service-requests/service-request.controller.js:70:20)"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/work-orders/service-requests/44760e69-1c35-419a-acc6-aa3100144210": {
+      "post": {
+        "summary": "Create Work Order",
+        "deprecated": false,
+        "description": "Converts an approved service request into a work order and creates the initial work-order status history. The service price is captured as a price snapshot for the work order.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "description": "I wanna create the work order for this request."
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/work-orders/e94ae2cc-99de-4b4b-833c-a87737826c76": {
+      "get": {
+        "summary": "Get Work Order",
+        "deprecated": false,
+        "description": "Returns detailed information about a work order, including its service, customer, address, assignments, status history, notes, and invoice when available.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Work order retrieved successfully",
+                  "data": {
+                    "id": "e94ae2cc-99de-4b4b-833c-a87737826c76",
+                    "serviceRequestId": "44760e69-1c35-419a-acc6-aa3100144210",
+                    "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                    "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                    "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                    "servicePrice": "50",
+                    "status": "OPEN",
+                    "scheduledStart": null,
+                    "scheduledEnd": null,
+                    "description": "I wanna create the work order for this request.",
+                    "createdAt": "2026-09-06T06:47:06.434Z",
+                    "updatedAt": "2026-09-06T06:47:06.434Z",
+                    "customer": {
+                      "id": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "userId": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                      "name": "Usmaan",
+                      "phone": "+880 1234 567890",
+                      "company": "N/A",
+                      "createdAt": "2026-09-04T06:04:32.466Z",
+                      "updatedAt": "2026-09-05T21:45:55.592Z"
+                    },
+                    "service": {
+                      "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "name": "N/A",
+                      "description": "N/A",
+                      "basePrice": "50",
+                      "isActive": true,
+                      "createdAt": "2026-09-04T15:35:10.899Z",
+                      "updatedAt": "2026-09-04T15:35:10.899Z",
+                      "deletedAt": null
+                    },
+                    "address": {
+                      "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "label": null,
+                      "addressLine": "Nazirhat, Fatikchari",
+                      "city": "Chittagong",
+                      "state": null,
+                      "postalCode": null,
+                      "country": "Bangladesh",
+                      "latitude": null,
+                      "longitude": null,
+                      "createdAt": "2026-09-04T14:20:05.239Z",
+                      "updatedAt": "2026-09-04T14:24:22.120Z",
+                      "deletedAt": "2026-09-04T14:24:22.118Z"
+                    },
+                    "serviceRequest": {
+                      "id": "44760e69-1c35-419a-acc6-aa3100144210",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "description": "I need the service for a while.",
+                      "priority": "LOW",
+                      "status": "CONVERTED",
+                      "createdAt": "2026-09-06T06:14:00.017Z",
+                      "updatedAt": "2026-09-06T06:47:07.638Z"
+                    },
+                    "assignments": [],
+                    "statusHistory": [
+                      {
+                        "id": "95ce35e2-e7a7-4d6a-8f75-1c6d8759f4a0",
+                        "workOrderId": "e94ae2cc-99de-4b4b-833c-a87737826c76",
+                        "fromStatus": null,
+                        "toStatus": "OPEN",
+                        "changedById": "4082d15e-a67f-4e37-9fa1-fc9781f6cf97",
+                        "reason": "Work order created from approved service request",
+                        "changedAt": "2026-09-06T06:47:07.876Z"
+                      }
+                    ],
+                    "notes": [],
+                    "invoice": null
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "patch": {
+        "summary": "Update Work Order",
+        "deprecated": false,
+        "description": "Updates editable information of a work order. This endpoint is restricted to administrators and does not allow modification of completed or cancelled work orders.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "description": "I wanna update the work order."
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Work order updated successfully",
+                  "data": {
+                    "id": "e94ae2cc-99de-4b4b-833c-a87737826c76",
+                    "serviceRequestId": "44760e69-1c35-419a-acc6-aa3100144210",
+                    "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                    "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                    "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                    "servicePrice": "50",
+                    "status": "IN_PROGRESS",
+                    "scheduledStart": "2026-09-07T00:59:50.787Z",
+                    "scheduledEnd": "2026-09-14T00:59:50.787Z",
+                    "description": "I wanna update the work order.",
+                    "createdAt": "2026-09-06T06:47:06.434Z",
+                    "updatedAt": "2026-09-06T07:03:04.192Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/work-orders": {
+      "get": {
+        "summary": "Get All Work Orders",
+        "deprecated": false,
+        "description": "Returns a paginated list of all work orders for administrators, with optional status filtering, sorting, and pagination.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "OPEN, SCHEDULED, ASSIGNED, EN_ROUTE, IN_PROGRESS, ON_HOLD, COMPLETED, CANCELLED",
+            "required": false,
+            "example": "OPEN",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "createdAt, scheduledStart, updatedAt",
+            "required": false,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "desc, asc",
+            "required": false,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Work order retrieved successfully",
+                  "data": [
+                    {
+                      "id": "e94ae2cc-99de-4b4b-833c-a87737826c76",
+                      "serviceRequestId": "44760e69-1c35-419a-acc6-aa3100144210",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "servicePrice": "50",
+                      "status": "OPEN",
+                      "scheduledStart": null,
+                      "scheduledEnd": null,
+                      "description": "I wanna create the work order for this request.",
+                      "createdAt": "2026-09-06T06:47:06.434Z",
+                      "updatedAt": "2026-09-06T06:47:06.434Z",
+                      "customer": {
+                        "id": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "userId": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                        "name": "Usmaan",
+                        "phone": "+880 1234 567890",
+                        "company": "N/A",
+                        "createdAt": "2026-09-04T06:04:32.466Z",
+                        "updatedAt": "2026-09-05T21:45:55.592Z"
+                      },
+                      "service": {
+                        "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                        "name": "N/A",
+                        "description": "N/A",
+                        "basePrice": "50",
+                        "isActive": true,
+                        "createdAt": "2026-09-04T15:35:10.899Z",
+                        "updatedAt": "2026-09-04T15:35:10.899Z",
+                        "deletedAt": null
+                      },
+                      "address": {
+                        "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                        "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "label": null,
+                        "addressLine": "Nazirhat, Fatikchari",
+                        "city": "Chittagong",
+                        "state": null,
+                        "postalCode": null,
+                        "country": "Bangladesh",
+                        "latitude": null,
+                        "longitude": null,
+                        "createdAt": "2026-09-04T14:20:05.239Z",
+                        "updatedAt": "2026-09-04T14:24:22.120Z",
+                        "deletedAt": "2026-09-04T14:24:22.118Z"
+                      },
+                      "assignments": [],
+                      "invoice": null
+                    },
+                    {
+                      "id": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                      "serviceRequestId": "e6413003-c218-4a9e-94f9-0e0d9d890759",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "servicePrice": "50",
+                      "status": "ASSIGNED",
+                      "scheduledStart": "2026-09-07T00:59:50.787Z",
+                      "scheduledEnd": "2026-09-14T00:59:50.787Z",
+                      "description": "I wanna update the work order.",
+                      "createdAt": "2026-09-05T03:59:50.787Z",
+                      "updatedAt": "2026-09-05T16:56:52.100Z",
+                      "customer": {
+                        "id": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "userId": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                        "name": "Usmaan",
+                        "phone": "+880 1234 567890",
+                        "company": "N/A",
+                        "createdAt": "2026-09-04T06:04:32.466Z",
+                        "updatedAt": "2026-09-05T21:45:55.592Z"
+                      },
+                      "service": {
+                        "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                        "name": "N/A",
+                        "description": "N/A",
+                        "basePrice": "50",
+                        "isActive": true,
+                        "createdAt": "2026-09-04T15:35:10.899Z",
+                        "updatedAt": "2026-09-04T15:35:10.899Z",
+                        "deletedAt": null
+                      },
+                      "address": {
+                        "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                        "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "label": null,
+                        "addressLine": "Nazirhat, Fatikchari",
+                        "city": "Chittagong",
+                        "state": null,
+                        "postalCode": null,
+                        "country": "Bangladesh",
+                        "latitude": null,
+                        "longitude": null,
+                        "createdAt": "2026-09-04T14:20:05.239Z",
+                        "updatedAt": "2026-09-04T14:24:22.120Z",
+                        "deletedAt": "2026-09-04T14:24:22.118Z"
+                      },
+                      "assignments": [],
+                      "invoice": {
+                        "id": "e8c220ab-1ebe-49cf-9e23-f039cfd46016",
+                        "workOrderId": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                        "invoiceNumber": "INV-1788592459972-5864",
+                        "subtotal": "50",
+                        "tax": "50",
+                        "total": "100",
+                        "status": "ISSUED",
+                        "issuedAt": "2026-09-05T07:14:19.980Z",
+                        "dueAt": null,
+                        "createdAt": "2026-09-05T07:14:19.980Z",
+                        "updatedAt": "2026-09-05T21:15:45.601Z"
+                      }
+                    },
+                    {
+                      "id": "6cd54c72-df58-4eaa-bb3d-337ab526dffc",
+                      "serviceRequestId": "235e6f06-1f69-47fe-8fc0-355da639165a",
+                      "customerId": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                      "serviceId": "35afb4e6-d403-456d-95c8-8b4555aeb510",
+                      "addressId": "03e6ea08-7b4c-4fc2-97a8-a1e16acb9752",
+                      "servicePrice": "1",
+                      "status": "COMPLETED",
+                      "scheduledStart": null,
+                      "scheduledEnd": null,
+                      "description": "I don't have anything to say.",
+                      "createdAt": "2026-09-03T10:58:35.671Z",
+                      "updatedAt": "2026-09-03T10:58:35.671Z",
+                      "customer": {
+                        "id": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                        "userId": "bd110cd9-ebf0-4b47-8ad2-84a006704f74",
+                        "name": "Ayman",
+                        "phone": "+880 1725 348534",
+                        "company": null,
+                        "createdAt": "2026-09-03T09:16:43.846Z",
+                        "updatedAt": "2026-09-03T09:16:43.846Z"
+                      },
+                      "service": {
+                        "id": "35afb4e6-d403-456d-95c8-8b4555aeb510",
+                        "name": "food",
+                        "description": "tasty",
+                        "basePrice": "1",
+                        "isActive": true,
+                        "createdAt": "2026-09-03T08:40:19.042Z",
+                        "updatedAt": "2026-09-03T08:40:19.042Z",
+                        "deletedAt": null
+                      },
+                      "address": {
+                        "id": "03e6ea08-7b4c-4fc2-97a8-a1e16acb9752",
+                        "customerId": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                        "label": null,
+                        "addressLine": "Address must be at least 5 character",
+                        "city": "City cannot exceed 100 characters",
+                        "state": null,
+                        "postalCode": null,
+                        "country": "Country cannot exceed 100 characters",
+                        "latitude": null,
+                        "longitude": null,
+                        "createdAt": "2026-09-03T10:41:26.045Z",
+                        "updatedAt": "2026-09-03T10:41:26.045Z",
+                        "deletedAt": null
+                      },
+                      "assignments": [],
+                      "invoice": {
+                        "id": "dac8a128-1670-46ba-8cfe-c201696e49e8",
+                        "workOrderId": "6cd54c72-df58-4eaa-bb3d-337ab526dffc",
+                        "invoiceNumber": "INV-1788433518675-4322",
+                        "subtotal": "10",
+                        "tax": "0",
+                        "total": "10",
+                        "status": "PAID",
+                        "issuedAt": "2026-09-03T11:05:18.688Z",
+                        "dueAt": null,
+                        "createdAt": "2026-09-03T11:05:18.688Z",
+                        "updatedAt": "2026-09-05T06:43:55.692Z"
+                      }
+                    }
+                  ],
+                  "meta": {
+                    "page": 1,
+                    "limit": 10,
+                    "total": 3,
+                    "totalPages": 1
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/work-orders/e94ae2cc-99de-4b4b-833c-a87737826c76/status": {
+      "patch": {
+        "summary": "Update Work Order Status",
+        "deprecated": false,
+        "description": "Updates the status of a work order according to the allowed workflow transitions. Technicians can update operational statuses for their assigned work orders, while administrators can manage administrative status changes.\n\nstatus:\n• OPEN\n• ASSIGNED\n• EN_ROUTE\n• IN_PROGRESS\n• ON_HOLD\n• COMPLETED\n• CANCELLED\n• SCHEDULED",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "status": "CANCELLED",
+                "reason": "N/A"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": false,
+                  "statusCode": 400,
+                  "name": "Error",
+                  "message": "Cannot change work order status from COMPLETED to OPEN",
+                  "error": {
+                    "statusCode": 400
+                  },
+                  "stack": "Error: Cannot change work order status from COMPLETED to OPEN\n    at file:///var/task/dist/src/app/module/work-orders/work-order.service.js:440:19\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async Proxy._transactionWithCallback (/var/task/node_modules/.pnpm/@prisma+client@7.10.0_prisma@7.10.0_@types+react@19.2.18_react-dom@19.2.8_react@19.2.8__3150b000ccf5c19bd00ff21a076913e9/node_modules/@prisma/client/runtime/client.js:99:4868)\n    at async updateWorkOrderStatus (file:///var/task/dist/src/app/module/work-orders/work-order.controller.js:70:20)"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/work-orders/customers/me": {
+      "get": {
+        "summary": "Get My Work Orders",
+        "deprecated": false,
+        "description": "Returns a paginated list of work orders belonging to the authenticated customer.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit ",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "LOW",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Work orders retrieved successfully",
+                  "data": [
+                    {
+                      "id": "e94ae2cc-99de-4b4b-833c-a87737826c76",
+                      "serviceRequestId": "44760e69-1c35-419a-acc6-aa3100144210",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "servicePrice": "50",
+                      "status": "IN_PROGRESS",
+                      "scheduledStart": "2026-09-07T00:59:50.787Z",
+                      "scheduledEnd": "2026-09-14T00:59:50.787Z",
+                      "description": "I wanna update the work order.",
+                      "createdAt": "2026-09-06T06:47:06.434Z",
+                      "updatedAt": "2026-09-06T07:03:04.192Z",
+                      "service": {
+                        "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                        "name": "N/A",
+                        "description": "N/A",
+                        "basePrice": "50",
+                        "isActive": true,
+                        "createdAt": "2026-09-04T15:35:10.899Z",
+                        "updatedAt": "2026-09-04T15:35:10.899Z",
+                        "deletedAt": null
+                      },
+                      "address": {
+                        "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                        "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "label": null,
+                        "addressLine": "Nazirhat, Fatikchari",
+                        "city": "Chittagong",
+                        "state": null,
+                        "postalCode": null,
+                        "country": "Bangladesh",
+                        "latitude": null,
+                        "longitude": null,
+                        "createdAt": "2026-09-04T14:20:05.239Z",
+                        "updatedAt": "2026-09-04T14:24:22.120Z",
+                        "deletedAt": "2026-09-04T14:24:22.118Z"
+                      },
+                      "assignments": []
+                    },
+                    {
+                      "id": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                      "serviceRequestId": "e6413003-c218-4a9e-94f9-0e0d9d890759",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "servicePrice": "50",
+                      "status": "ASSIGNED",
+                      "scheduledStart": "2026-09-07T00:59:50.787Z",
+                      "scheduledEnd": "2026-09-14T00:59:50.787Z",
+                      "description": "I wanna update the work order.",
+                      "createdAt": "2026-09-05T03:59:50.787Z",
+                      "updatedAt": "2026-09-05T16:56:52.100Z",
+                      "service": {
+                        "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                        "name": "N/A",
+                        "description": "N/A",
+                        "basePrice": "50",
+                        "isActive": true,
+                        "createdAt": "2026-09-04T15:35:10.899Z",
+                        "updatedAt": "2026-09-04T15:35:10.899Z",
+                        "deletedAt": null
+                      },
+                      "address": {
+                        "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                        "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "label": null,
+                        "addressLine": "Nazirhat, Fatikchari",
+                        "city": "Chittagong",
+                        "state": null,
+                        "postalCode": null,
+                        "country": "Bangladesh",
+                        "latitude": null,
+                        "longitude": null,
+                        "createdAt": "2026-09-04T14:20:05.239Z",
+                        "updatedAt": "2026-09-04T14:24:22.120Z",
+                        "deletedAt": "2026-09-04T14:24:22.118Z"
+                      },
+                      "assignments": []
+                    }
+                  ],
+                  "meta": {
+                    "page": 1,
+                    "limit": 10,
+                    "total": 2,
+                    "totalPages": 1
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/work-orders/e94ae2cc-99de-4b4b-833c-a87737826c76/schedule": {
+      "patch": {
+        "summary": "Schedule Work Order",
+        "deprecated": false,
+        "description": "Assigns a scheduled start and end time to a work order and updates its status to SCHEDULED. This endpoint is restricted to administrators.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "scheduledStart": "2026-09-07 00:59:50.787",
+                "scheduledEnd": "2026-09-14 00:59:50.787"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/work-orders/technicians/me": {
+      "get": {
+        "summary": "Get My Work Orders",
+        "deprecated": false,
+        "description": "Returns a paginated list of work orders currently assigned to the authenticated technician.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "OPEN",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/admin/dashboard": {
+      "get": {
+        "summary": "Get Admin Dashboard",
+        "deprecated": false,
+        "description": "Returns administrative dashboard statistics and operational metrics for monitoring users, service requests, work orders, invoices, and payments.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "message": "Admin dashboard retrieved successfully",
+                  "data": {
+                    "users": {
+                      "total": 5
+                    },
+                    "customers": {
+                      "total": 5
+                    },
+                    "technicians": {
+                      "total": 1,
+                      "active": 1
+                    },
+                    "serviceRequests": {
+                      "pending": 0
+                    },
+                    "workOrders": {
+                      "active": 1,
+                      "completed": 1
+                    },
+                    "invoices": {
+                      "issued": 1,
+                      "paid": 1
+                    },
+                    "payments": {
+                      "pending": 1,
+                      "paid": 3
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/admin/users": {
+      "get": {
+        "summary": "Get All Users",
+        "deprecated": false,
+        "description": "Returns a list of users for administrative management, including their roles and account status.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/admin/users/f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df/status": {
+      "patch": {
+        "summary": "Update User Status",
+        "deprecated": false,
+        "description": "Activates or deactivates a user account. This endpoint is restricted to administrators.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "isActive": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "User status updated successfully",
+                  "data": {
+                    "id": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                    "email": "hero@gmail.com",
+                    "role": "TECHNICIAN",
+                    "isActive": false,
+                    "updatedAt": "2026-09-05T05:38:32.253Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/admin/technicians": {
+      "get": {
+        "summary": "Get All Technicians",
+        "deprecated": false,
+        "description": "Returns a list of technicians for administrative management, including their profiles and account status.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/admin/payments": {
+      "get": {
+        "summary": "Get All Payments",
+        "deprecated": false,
+        "description": "Returns a list of payment records for administrative monitoring and management.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "message": "Payments retrieved successfully",
+                  "data": [
+                    {
+                      "id": "6fe2c04d-d5c7-44c6-899b-a87f33a8ceab",
+                      "invoiceId": "dac8a128-1670-46ba-8cfe-c201696e49e8",
+                      "amount": "10",
+                      "currency": "BDT",
+                      "provider": "BKASH",
+                      "status": "PAID",
+                      "transactionId": "DI570PCJJ7",
+                      "gatewayReference": "TR0011rQEqjvb1788590578734",
+                      "gatewayResponse": {
+                        "trxID": "DI570PCJJ7",
+                        "amount": "10",
+                        "intent": "sale",
+                        "currency": "BDT",
+                        "payerType": "Customer",
+                        "paymentID": "TR0011rQEqjvb1788590578734",
+                        "statusCode": "0000",
+                        "payerAccount": "01619777282",
+                        "statusMessage": "Successful",
+                        "customerMsisdn": "01619777282",
+                        "payerReference": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                        "transactionStatus": "Completed",
+                        "paymentExecuteTime": "2026-09-05T12:43:54:795 GMT+0600",
+                        "maxRefundableAmount": "10",
+                        "merchantInvoiceNumber": "6fe2c04d-d5c7-44c6-899b-a87f33a8ceab"
+                      },
+                      "paidAt": "2026-09-05T06:43:55.445Z",
+                      "refundedAt": null,
+                      "createdAt": "2026-09-05T06:42:55.443Z",
+                      "updatedAt": "2026-09-05T06:43:55.452Z",
+                      "invoice": {
+                        "id": "dac8a128-1670-46ba-8cfe-c201696e49e8",
+                        "invoiceNumber": "INV-1788433518675-4322",
+                        "total": "10",
+                        "status": "PAID"
+                      }
+                    },
+                    {
+                      "id": "68f10f18-45ee-4c00-ae9a-ed78f1e19331",
+                      "invoiceId": "dac8a128-1670-46ba-8cfe-c201696e49e8",
+                      "amount": "10",
+                      "currency": "BDT",
+                      "provider": "BKASH",
+                      "status": "PAID",
+                      "transactionId": "DI340PCHKU",
+                      "gatewayReference": "TR0011feupIFo1788457709725",
+                      "gatewayResponse": {
+                        "trxID": "DI340PCHKU",
+                        "amount": "10",
+                        "intent": "sale",
+                        "currency": "BDT",
+                        "payerType": "Customer",
+                        "paymentID": "TR0011feupIFo1788457709725",
+                        "statusCode": "0000",
+                        "payerAccount": "01619777282",
+                        "statusMessage": "Successful",
+                        "customerMsisdn": "01619777282",
+                        "payerReference": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                        "transactionStatus": "Completed",
+                        "paymentExecuteTime": "2026-09-03T23:49:13:200 GMT+0600",
+                        "maxRefundableAmount": "10",
+                        "merchantInvoiceNumber": "68f10f18-45ee-4c00-ae9a-ed78f1e19331"
+                      },
+                      "paidAt": "2026-09-03T17:49:13.906Z",
+                      "refundedAt": null,
+                      "createdAt": "2026-09-03T17:48:27.299Z",
+                      "updatedAt": "2026-09-03T17:49:13.908Z",
+                      "invoice": {
+                        "id": "dac8a128-1670-46ba-8cfe-c201696e49e8",
+                        "invoiceNumber": "INV-1788433518675-4322",
+                        "total": "10",
+                        "status": "PAID"
+                      }
+                    },
+                    {
+                      "id": "1c61e69e-b867-4a13-9cc7-8297df272f24",
+                      "invoiceId": "dac8a128-1670-46ba-8cfe-c201696e49e8",
+                      "amount": "10",
+                      "currency": "BDT",
+                      "provider": "BKASH",
+                      "status": "PAID",
+                      "transactionId": "DI350PCHBP",
+                      "gatewayReference": "TR0011WisXu641788456321657",
+                      "gatewayResponse": {
+                        "trxID": "DI350PCHBP",
+                        "amount": "10",
+                        "intent": "sale",
+                        "currency": "BDT",
+                        "payerType": "Customer",
+                        "paymentID": "TR0011WisXu641788456321657",
+                        "statusCode": "0000",
+                        "payerAccount": "01619777282",
+                        "statusMessage": "Successful",
+                        "customerMsisdn": "01619777282",
+                        "payerReference": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                        "transactionStatus": "Completed",
+                        "paymentExecuteTime": "2026-09-03T23:26:25:157 GMT+0600",
+                        "maxRefundableAmount": "10",
+                        "merchantInvoiceNumber": "1c61e69e-b867-4a13-9cc7-8297df272f24"
+                      },
+                      "paidAt": "2026-09-03T17:26:25.764Z",
+                      "refundedAt": null,
+                      "createdAt": "2026-09-03T17:25:19.210Z",
+                      "updatedAt": "2026-09-03T17:26:25.766Z",
+                      "invoice": {
+                        "id": "dac8a128-1670-46ba-8cfe-c201696e49e8",
+                        "invoiceNumber": "INV-1788433518675-4322",
+                        "total": "10",
+                        "status": "PAID"
+                      }
+                    },
+                    {
+                      "id": "c4499cd8-959c-45da-80d0-734cfe8330bb",
+                      "invoiceId": "dac8a128-1670-46ba-8cfe-c201696e49e8",
+                      "amount": "10",
+                      "currency": "BDT",
+                      "provider": "BKASH",
+                      "status": "PENDING",
+                      "transactionId": "DI300PCHAG",
+                      "gatewayReference": "TR0011aYuw5I41788449247641",
+                      "gatewayResponse": {
+                        "trxID": "DI300PCHAG",
+                        "amount": "10",
+                        "intent": "sale",
+                        "currency": "BDT",
+                        "payerType": "Customer",
+                        "paymentID": "TR0011aYuw5I41788449247641",
+                        "statusCode": "0000",
+                        "payerAccount": "01619777282",
+                        "statusMessage": "Successful",
+                        "customerMsisdn": "01619777282",
+                        "payerReference": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                        "transactionStatus": "Completed",
+                        "paymentExecuteTime": "2026-09-03T21:28:06:221 GMT+0600",
+                        "maxRefundableAmount": "10",
+                        "merchantInvoiceNumber": "c4499cd8-959c-45da-80d0-734cfe8330bb"
+                      },
+                      "paidAt": "2026-09-03T15:28:06.432Z",
+                      "refundedAt": null,
+                      "createdAt": "2026-09-03T15:27:27.184Z",
+                      "updatedAt": "2026-09-03T15:28:06.433Z",
+                      "invoice": {
+                        "id": "dac8a128-1670-46ba-8cfe-c201696e49e8",
+                        "invoiceNumber": "INV-1788433518675-4322",
+                        "total": "10",
+                        "status": "PAID"
+                      }
+                    },
+                    {
+                      "id": "0315ceaa-041f-4b88-a5bd-78f14c4c593e",
+                      "invoiceId": "dac8a128-1670-46ba-8cfe-c201696e49e8",
+                      "amount": "10",
+                      "currency": "BDT",
+                      "provider": "BKASH",
+                      "status": "FAILED",
+                      "transactionId": null,
+                      "gatewayReference": "TR0011gDGcTr21788449198635",
+                      "gatewayResponse": {
+                        "amount": "10",
+                        "intent": "sale",
+                        "bkashURL": "https://sandbox.payment.bkash.com/?paymentId=TR0011gDGcTr21788449198635&hash=5*EZjV9FgcrBctt*4d8MNFskcpNSvyomOi!.ODJ-gu(P8adDh8BH2Pz)Vf1k-*TYfjUp!UkX*Ysw*pyq66RwO.aceUE_Qfh252T_1788449198635&mode=0011&apiVersion=v1.2.0-beta/",
+                        "currency": "BDT",
+                        "paymentID": "TR0011gDGcTr21788449198635",
+                        "statusCode": "0000",
+                        "callbackURL": "http://localhost:5000/api/v1/payments/bkash/callback",
+                        "statusMessage": "Successful",
+                        "paymentCreateTime": "2026-09-03T21:26:38:635 GMT+0600",
+                        "transactionStatus": "Initiated",
+                        "failureCallbackURL": "http://localhost:5000/api/v1/payments/bkash/callback?paymentID=TR0011gDGcTr21788449198635&status=failure&signature=ZTYUc5xOu4",
+                        "successCallbackURL": "http://localhost:5000/api/v1/payments/bkash/callback?paymentID=TR0011gDGcTr21788449198635&status=success&signature=ZTYUc5xOu4",
+                        "cancelledCallbackURL": "http://localhost:5000/api/v1/payments/bkash/callback?paymentID=TR0011gDGcTr21788449198635&status=cancel&signature=ZTYUc5xOu4",
+                        "merchantInvoiceNumber": "0315ceaa-041f-4b88-a5bd-78f14c4c593e"
+                      },
+                      "paidAt": null,
+                      "refundedAt": null,
+                      "createdAt": "2026-09-03T15:26:37.026Z",
+                      "updatedAt": "2026-09-03T15:27:15.192Z",
+                      "invoice": {
+                        "id": "dac8a128-1670-46ba-8cfe-c201696e49e8",
+                        "invoiceNumber": "INV-1788433518675-4322",
+                        "total": "10",
+                        "status": "PAID"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/admin/audit-logs": {
+      "get": {
+        "summary": "Get Audit Logs",
+        "deprecated": false,
+        "description": "Returns audit records of important system actions for administrative monitoring and traceability.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/admin/users/f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df/role": {
+      "patch": {
+        "summary": "Update User Role",
+        "deprecated": false,
+        "description": "Updates the role of an existing user. This endpoint is restricted to administrators and allows changing a user between the CUSTOMER and TECHNICIAN roles.\n\nrole:\n• CUSTOMER\n• TECHNICIAN",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "role": "TECHNICIAN"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "User role updated successfully",
+                  "data": {
+                    "id": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                    "email": "hero@gmail.com",
+                    "role": "TECHNICIAN",
+                    "isActive": false,
+                    "createdAt": "2026-09-05T04:33:36.036Z",
+                    "updatedAt": "2026-09-05T16:21:19.922Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/payments/invoices/dac8a128-1670-46ba-8cfe-c201696e49e8": {
+      "post": {
+        "summary": "Create Payment",
+        "deprecated": false,
+        "description": "Initiates a payment for a payable invoice through the configured bKash payment gateway and returns the payment information required to continue the payment process.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "provider": "BKASH"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 201,
+                  "message": "Payment initiated successfully",
+                  "data": {
+                    "paymentId": "6fe2c04d-d5c7-44c6-899b-a87f33a8ceab",
+                    "paymentUrl": "https://sandbox.payment.bkash.com/?paymentId=TR0011rQEqjvb1788590578734&hash=FA-3NzyiWbzvT!bZSpyxR3J5Pv2Tivtz3-lPv3Dav!5sbHJh0rJBpkA_zEPqA4-w.u9zLcPPf9y!UOYil_8K-lKWhXm4EmEcXHkZ1788590578734&mode=0011&apiVersion=v1.2.0-beta/"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/payments/bkash/callback": {
+      "get": {
+        "summary": "bKash Payment Callback",
+        "deprecated": false,
+        "description": "Handles the callback returned by bKash after the customer completes, cancels, or fails a payment and verifies the payment result before updating the payment and invoice status.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "PENDING",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "paymentId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "c4499cd8-959c-45da-80d0-734cfe8330bb",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/invoices/work-orders/00cdd2ec-b514-44e3-91b3-7d6cca470424": {
+      "post": {
+        "summary": "Create Invoice",
+        "deprecated": false,
+        "description": "Creates an invoice for a completed work order. The invoice amount is calculated from the work-order service price and applicable tax rather than being determined by an arbitrary client-supplied total.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "subtotal": 50,
+                "tax": 30,
+                "dueAt": "2026-09-23 20:46:56.928"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Error (400)",
+                    "value": {
+                      "success": false,
+                      "statusCode": 400,
+                      "name": "Error",
+                      "message": "Invoice can only be created for a completed work order",
+                      "error": {
+                        "statusCode": 400
+                      },
+                      "stack": "Error: Invoice can only be created for a completed work order\n    at file:///var/task/dist/src/app/module/invoices/invoice.service.js:23:19\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async Proxy._transactionWithCallback (/var/task/node_modules/.pnpm/@prisma+client@7.10.0_prisma@7.10.0_@types+react@19.2.18_react-dom@19.2.8_react@19.2.8__3150b000ccf5c19bd00ff21a076913e9/node_modules/@prisma/client/runtime/client.js:99:4868)\n    at async createInvoice (file:///var/task/dist/src/app/module/invoices/invoice.controller.js:6:20)"
+                    }
+                  },
+                  "2": {
+                    "summary": "Success (201)",
+                    "value": {
+                      "success": true,
+                      "statusCode": 201,
+                      "message": "Invoice created successfully",
+                      "data": {
+                        "id": "e8c220ab-1ebe-49cf-9e23-f039cfd46016",
+                        "workOrderId": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                        "invoiceNumber": "INV-1788592459972-5864",
+                        "subtotal": "50",
+                        "tax": "0",
+                        "total": "50",
+                        "status": "ISSUED",
+                        "issuedAt": "2026-09-05T07:14:19.980Z",
+                        "dueAt": null,
+                        "createdAt": "2026-09-05T07:14:19.980Z",
+                        "updatedAt": "2026-09-05T07:14:19.980Z"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/invoices/e8c220ab-1ebe-49cf-9e23-f039cfd46016": {
+      "get": {
+        "summary": "Get Invoice",
+        "deprecated": false,
+        "description": "Returns detailed information about a specific invoice, including its associated work order and payment records. Customers can access only their own invoices, while administrators can access any invoice.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Invoice retrieved successfully",
+                  "data": {
+                    "id": "e8c220ab-1ebe-49cf-9e23-f039cfd46016",
+                    "workOrderId": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                    "invoiceNumber": "INV-1788592459972-5864",
+                    "subtotal": "50",
+                    "tax": "0",
+                    "total": "50",
+                    "status": "ISSUED",
+                    "issuedAt": "2026-09-05T07:14:19.980Z",
+                    "dueAt": null,
+                    "createdAt": "2026-09-05T07:14:19.980Z",
+                    "updatedAt": "2026-09-05T07:14:19.980Z",
+                    "workOrder": {
+                      "id": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                      "serviceRequestId": "e6413003-c218-4a9e-94f9-0e0d9d890759",
+                      "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                      "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                      "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                      "servicePrice": "50",
+                      "status": "COMPLETED",
+                      "scheduledStart": "2026-09-07T00:59:50.787Z",
+                      "scheduledEnd": "2026-09-14T00:59:50.787Z",
+                      "description": "I wanna update the work order.",
+                      "createdAt": "2026-09-05T03:59:50.787Z",
+                      "updatedAt": "2026-09-05T04:30:02.092Z",
+                      "customer": {
+                        "id": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "userId": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                        "name": "Usmaan",
+                        "phone": null,
+                        "company": null,
+                        "createdAt": "2026-09-04T06:04:32.466Z",
+                        "updatedAt": "2026-09-04T14:30:52.180Z"
+                      },
+                      "service": {
+                        "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                        "name": "N/A",
+                        "description": "N/A",
+                        "basePrice": "50",
+                        "isActive": true,
+                        "createdAt": "2026-09-04T15:35:10.899Z",
+                        "updatedAt": "2026-09-04T15:35:10.899Z",
+                        "deletedAt": null
+                      },
+                      "address": {
+                        "id": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                        "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "label": null,
+                        "addressLine": "Nazirhat, Fatikchari",
+                        "city": "Chittagong",
+                        "state": null,
+                        "postalCode": null,
+                        "country": "Bangladesh",
+                        "latitude": null,
+                        "longitude": null,
+                        "createdAt": "2026-09-04T14:20:05.239Z",
+                        "updatedAt": "2026-09-04T14:24:22.120Z",
+                        "deletedAt": "2026-09-04T14:24:22.118Z"
+                      }
+                    },
+                    "payments": []
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/invoices": {
+      "get": {
+        "summary": "Get All Invoices",
+        "deprecated": false,
+        "description": "Returns a paginated list of all invoices for administrators, with optional status filtering, sorting, and pagination.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "ISSUED, PAID, OVERDUE, PARTIALLY_PAID, VOID",
+            "required": false,
+            "example": "ISSUED",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "createdAt, issuedAt, dueAt, total",
+            "required": false,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "desc, asc",
+            "required": false,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/invoices/customers/me": {
+      "get": {
+        "summary": "Get My Invoices",
+        "deprecated": false,
+        "description": "Returns a paginated list of invoices belonging to the authenticated customer's work orders.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "ISSUED, PAID, OVERDUE, PARTIALLY_PAID, VOID",
+            "required": false,
+            "example": "ISSUED",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "createdAt, issuedAt, dueAt, total",
+            "required": false,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "desc, asc",
+            "required": false,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Invoices retrieved successfully",
+                  "data": [
+                    {
+                      "id": "e8c220ab-1ebe-49cf-9e23-f039cfd46016",
+                      "workOrderId": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                      "invoiceNumber": "INV-1788592459972-5864",
+                      "subtotal": "50",
+                      "tax": "50",
+                      "total": "100",
+                      "status": "ISSUED",
+                      "issuedAt": "2026-09-05T07:14:19.980Z",
+                      "dueAt": null,
+                      "createdAt": "2026-09-05T07:14:19.980Z",
+                      "updatedAt": "2026-09-05T21:15:45.601Z",
+                      "workOrder": {
+                        "id": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                        "serviceRequestId": "e6413003-c218-4a9e-94f9-0e0d9d890759",
+                        "customerId": "d391ab73-0275-4553-a665-34bdc6549cab",
+                        "serviceId": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                        "addressId": "1f63c96c-e5a5-4896-8152-23bb4121b473",
+                        "servicePrice": "50",
+                        "status": "ASSIGNED",
+                        "scheduledStart": "2026-09-07T00:59:50.787Z",
+                        "scheduledEnd": "2026-09-14T00:59:50.787Z",
+                        "description": "I wanna update the work order.",
+                        "createdAt": "2026-09-05T03:59:50.787Z",
+                        "updatedAt": "2026-09-05T16:56:52.100Z",
+                        "service": {
+                          "id": "5fe66d26-32fd-431d-9309-cf95af82e29e",
+                          "name": "N/A",
+                          "description": "N/A",
+                          "basePrice": "50",
+                          "isActive": true,
+                          "createdAt": "2026-09-04T15:35:10.899Z",
+                          "updatedAt": "2026-09-04T15:35:10.899Z",
+                          "deletedAt": null
+                        }
+                      }
+                    }
+                  ],
+                  "meta": {
+                    "page": 1,
+                    "limit": 10,
+                    "total": 1,
+                    "totalPages": 1
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/invoices/admin/e8c220ab-1ebe-49cf-9e23-f039cfd46016": {
+      "patch": {
+        "summary": "Update Invoice",
+        "deprecated": false,
+        "description": "Updates an existing invoice. This endpoint is restricted to administrators and allows authorized invoice details to be modified according to the current invoice status and business rules.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "tax": 50,
+                "dueAt": null
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Invoice updated successfully",
+                  "data": {
+                    "id": "e8c220ab-1ebe-49cf-9e23-f039cfd46016",
+                    "workOrderId": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                    "invoiceNumber": "INV-1788592459972-5864",
+                    "subtotal": "50",
+                    "tax": "50",
+                    "total": "100",
+                    "status": "ISSUED",
+                    "issuedAt": "2026-09-05T07:14:19.980Z",
+                    "dueAt": null,
+                    "createdAt": "2026-09-05T07:14:19.980Z",
+                    "updatedAt": "2026-09-05T07:28:28.250Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/notifications": {
+      "get": {
+        "summary": "Get My Notifications",
+        "deprecated": false,
+        "description": "Returns the notifications belonging to the currently authenticated user.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit ",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 20,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "isRead",
+            "in": "query",
+            "description": "true, false",
+            "required": false,
+            "example": "true",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "statusCode": 404,
+                  "message": "Route not found"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Create Notification",
+        "deprecated": false,
+        "description": "Creates a notification for a user. This endpoint is restricted to administrators and allows them to send system notifications related to service requests, work orders, assignments, schedules, invoices, payments, or other system events.\n\ntype:\n• SERVICE_REQUEST\n• WORK_ORDER\n• ASSIGNMENT\n• SCHEDULE\n• STATUS_UPDATE\n• INVOICE\n• PAYMENT\n• SYSTEM\n• UNAVAILABLE",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "userId": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                "title": "Request Approval",
+                "message": "Your service request has been approved.",
+                "type": "SERVICE_REQUEST"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 201,
+                  "message": "Notification created successfully",
+                  "data": {
+                    "id": "bfda8d4f-8a54-4cd8-b5d4-38b8ef6bc527",
+                    "userId": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                    "title": "Request Approval",
+                    "message": "Your service request has been approved.",
+                    "type": "SERVICE_REQUEST",
+                    "isRead": false,
+                    "createdAt": "2026-09-05T20:48:29.750Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/notifications/read-all": {
+      "patch": {
+        "summary": "Mark All Notifications as Read",
+        "deprecated": false,
+        "description": "Marks all unread notifications belonging to the authenticated user as read.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "All notifications marked as read",
+                  "data": null
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/notifications/bfda8d4f-8a54-4cd8-b5d4-38b8ef6bc527/read": {
+      "patch": {
+        "summary": "Mark Notification as Read",
+        "deprecated": false,
+        "description": "Marks a specific notification belonging to the authenticated user as read.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Error (404)",
+                    "value": {
+                      "success": false,
+                      "statusCode": 404,
+                      "name": "Error",
+                      "message": "Notification not found.",
+                      "error": {
+                        "statusCode": 404
+                      },
+                      "stack": "Error: Notification not found.\n    at Object.markAsRead (file:///var/task/dist/src/app/module/notifications/notification.service.js:70:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async markAsRead (file:///var/task/dist/src/app/module/notifications/notification.controller.js:25:20)"
+                    }
+                  },
+                  "2": {
+                    "summary": "Success (200)",
+                    "value": {
+                      "success": true,
+                      "message": "Notification marked as read",
+                      "data": {
+                        "id": "bfda8d4f-8a54-4cd8-b5d4-38b8ef6bc527",
+                        "userId": "7b0ac282-9320-4c25-acd7-a0ad788ca074",
+                        "title": "Request Approval",
+                        "message": "Your service request has been approved.",
+                        "type": "SERVICE_REQUEST",
+                        "isRead": true,
+                        "createdAt": "2026-09-05T20:48:29.750Z"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/notes/00cdd2ec-b514-44e3-91b3-7d6cca470424": {
+      "get": {
+        "summary": "Get Work Order Notes",
+        "deprecated": false,
+        "description": "Returns the notes associated with a specific work order that the authenticated user is authorized to access.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "message": "Notes retrieved successfully",
+                  "data": []
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/notes/work-orders/00cdd2ec-b514-44e3-91b3-7d6cca470424": {
+      "post": {
+        "summary": "Create Work Order Note",
+        "deprecated": false,
+        "description": "Adds a new note to a work order for authorized users involved in the work order.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "content": "This note should be taken seriously."
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Note created successfully",
+                  "data": {
+                    "id": "798fe554-4688-4f41-9673-b5ace9c1be2a",
+                    "workOrderId": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                    "authorId": "4082d15e-a67f-4e37-9fa1-fc9781f6cf97",
+                    "content": "This note should be taken seriously.",
+                    "createdAt": "2026-09-05T14:32:31.348Z",
+                    "updatedAt": "2026-09-05T14:32:31.348Z",
+                    "deletedAt": null
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/notes/798fe554-4688-4f41-9673-b5ace9c1be2a/work-orders/00cdd2ec-b514-44e3-91b3-7d6cca470424": {
+      "patch": {
+        "summary": "Update Work Order Note",
+        "deprecated": false,
+        "description": "Updates an existing work-order note when the authenticated user is authorized to modify it.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "content": "This note is optional."
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Note updated successfully",
+                  "data": {
+                    "id": "798fe554-4688-4f41-9673-b5ace9c1be2a",
+                    "workOrderId": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                    "authorId": "4082d15e-a67f-4e37-9fa1-fc9781f6cf97",
+                    "content": "This note is optional.",
+                    "createdAt": "2026-09-05T14:32:31.348Z",
+                    "updatedAt": "2026-09-05T14:39:45.067Z",
+                    "deletedAt": null
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Delete Work Order Note",
+        "deprecated": false,
+        "description": "Soft-deletes an existing work-order note so that it is no longer displayed as an active note.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Note deleted successfully",
+                  "data": {
+                    "id": "798fe554-4688-4f41-9673-b5ace9c1be2a",
+                    "workOrderId": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                    "authorId": "4082d15e-a67f-4e37-9fa1-fc9781f6cf97",
+                    "content": "This note is optional.",
+                    "createdAt": "2026-09-05T14:32:31.348Z",
+                    "updatedAt": "2026-09-05T14:42:33.288Z",
+                    "deletedAt": "2026-09-05T14:42:33.287Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/assignments/work-orders/00cdd2ec-b514-44e3-91b3-7d6cca470424": {
+      "get": {
+        "summary": "Get Work Order Assignments",
+        "deprecated": false,
+        "description": "Returns the technician assignments associated with a specific work order.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Assignments retrieved successfully",
+                  "data": [
+                    {
+                      "id": "999570ed-5b0a-4e00-b967-831d61c3b554",
+                      "workOrderId": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                      "technicianId": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                      "assignedAt": "2026-09-05T16:56:51.366Z",
+                      "unassignedAt": "2026-09-05T16:59:01.967Z",
+                      "technician": {
+                        "id": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                        "userId": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                        "name": "Hero",
+                        "phone": null,
+                        "employeeCode": null,
+                        "isActive": true,
+                        "createdAt": "2026-09-05T16:28:23.681Z",
+                        "updatedAt": "2026-09-05T16:28:23.681Z",
+                        "user": {
+                          "id": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                          "email": "hero@gmail.com",
+                          "role": "TECHNICIAN",
+                          "isActive": false
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Assign Technician",
+        "deprecated": false,
+        "description": "Assigns a technician to a work order and updates the work-order assignment state accordingly.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "technicianId": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Technician assigned successfully",
+                  "data": {
+                    "id": "999570ed-5b0a-4e00-b967-831d61c3b554",
+                    "workOrderId": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                    "technicianId": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                    "assignedAt": "2026-09-05T16:56:51.366Z",
+                    "unassignedAt": null,
+                    "technician": {
+                      "id": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                      "userId": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                      "name": "Hero",
+                      "phone": null,
+                      "employeeCode": null,
+                      "isActive": true,
+                      "createdAt": "2026-09-05T16:28:23.681Z",
+                      "updatedAt": "2026-09-05T16:28:23.681Z"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/assignments/999570ed-5b0a-4e00-b967-831d61c3b554/work-orders/00cdd2ec-b514-44e3-91b3-7d6cca470424": {
+      "delete": {
+        "summary": "Remove Technician Assignment",
+        "deprecated": false,
+        "description": "Removes an active technician assignment from a work order.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Technician unassigned successfully",
+                  "data": {
+                    "id": "999570ed-5b0a-4e00-b967-831d61c3b554",
+                    "workOrderId": "00cdd2ec-b514-44e3-91b3-7d6cca470424",
+                    "technicianId": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                    "assignedAt": "2026-09-05T16:56:51.366Z",
+                    "unassignedAt": "2026-09-05T16:59:01.967Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/availabilities": {
+      "post": {
+        "summary": "Create Availability",
+        "deprecated": false,
+        "description": "Creates an availability time period for the currently authenticated technician.\n\nstatus:\n• AVAILABLE\n• UNAVAILABLE",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "startAt": "2026-09-25 20:46:56.928",
+                "endAt": "2026-09-29 20:46:56.928",
+                "status": "AVAILABLE"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Availability created successfully",
+                  "data": {
+                    "id": "68eff9ad-619d-4814-a48b-3bb51467b5db",
+                    "technicianId": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                    "startAt": "2026-09-25T20:46:56.928Z",
+                    "endAt": "2026-09-29T20:46:56.928Z",
+                    "status": "AVAILABLE",
+                    "createdAt": "2026-09-05T17:16:08.035Z",
+                    "updatedAt": "2026-09-05T17:16:08.035Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/availabilities/technicians/me": {
+      "get": {
+        "summary": "Get My Availability",
+        "deprecated": false,
+        "description": "Returns the availability schedules configured by the currently authenticated technician.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Availabilities retrieved successfully",
+                  "data": [
+                    {
+                      "id": "68eff9ad-619d-4814-a48b-3bb51467b5db",
+                      "technicianId": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                      "startAt": "2026-09-25T20:46:56.928Z",
+                      "endAt": "2026-09-29T20:46:56.928Z",
+                      "status": "AVAILABLE",
+                      "createdAt": "2026-09-05T17:16:08.035Z",
+                      "updatedAt": "2026-09-05T17:16:08.035Z"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/availabilities/2f3e4947-995f-4f64-857d-8c6c469181e2/technicians/me": {
+      "patch": {
+        "summary": "Update Availability",
+        "deprecated": false,
+        "description": "Updates an existing availability period belonging to the authenticated technician.\n\nstatus:\n• AVAILABLE\n• UNAVAILABLE",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "startAt": "2026-09-25 20:46:56.928",
+                "endAt": "2026-09-29 20:46:56.928",
+                "status": "AVAILABLE"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Availability updated successfully",
+                  "data": {
+                    "id": "2f3e4947-995f-4f64-857d-8c6c469181e2",
+                    "technicianId": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                    "startAt": "2026-09-25T20:46:56.928Z",
+                    "endAt": "2026-09-29T20:46:56.928Z",
+                    "status": "AVAILABLE",
+                    "createdAt": "2026-09-05T20:03:34.993Z",
+                    "updatedAt": "2026-09-05T20:03:58.976Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/availabilities/68eff9ad-619d-4814-a48b-3bb51467b5db/technicians/me": {
+      "delete": {
+        "summary": "Delete Availability",
+        "deprecated": false,
+        "description": "Removes an availability period belonging to the authenticated technician.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Availability deleted successfully",
+                  "data": {
+                    "id": "68eff9ad-619d-4814-a48b-3bb51467b5db",
+                    "technicianId": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                    "startAt": "2026-09-25T20:46:56.928Z",
+                    "endAt": "2026-09-29T20:46:56.928Z",
+                    "status": "UNAVAILABLE",
+                    "createdAt": "2026-09-05T17:16:08.035Z",
+                    "updatedAt": "2026-09-05T17:23:29.524Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/technicians/d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf": {
+      "get": {
+        "summary": "Get Technician",
+        "deprecated": false,
+        "description": "Returns the profile information of a specific technician.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Technician retrieved successfully",
+                  "data": {
+                    "id": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                    "userId": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                    "name": "Hero",
+                    "phone": null,
+                    "employeeCode": null,
+                    "isActive": true,
+                    "createdAt": "2026-09-05T16:28:23.681Z",
+                    "updatedAt": "2026-09-05T16:28:23.681Z",
+                    "user": {
+                      "id": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                      "email": "hero@gmail.com",
+                      "role": "TECHNICIAN",
+                      "isActive": true
+                    },
+                    "availabilities": []
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/technicians/technician-profile/me": {
+      "get": {
+        "summary": "Get My Technician Profile",
+        "deprecated": false,
+        "description": "Returns the technician profile associated with the currently authenticated technician account.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Technician profile retrieved successfully",
+                  "data": {
+                    "id": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                    "userId": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                    "name": "Iqbaal",
+                    "phone": "+880 1234 567890",
+                    "employeeCode": null,
+                    "isActive": false,
+                    "createdAt": "2026-09-05T16:28:23.681Z",
+                    "updatedAt": "2026-09-05T17:49:17.608Z",
+                    "user": {
+                      "id": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                      "email": "hero@gmail.com",
+                      "role": "TECHNICIAN",
+                      "isActive": true
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/technicians/me": {
+      "patch": {
+        "summary": "Update My Technician Profile",
+        "deprecated": false,
+        "description": "Updates editable profile information of the currently authenticated technician.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "name": "Iqbaal",
+                "phone": "+880 1234 567890"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Technician profile updated successfully",
+                  "data": {
+                    "id": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                    "userId": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                    "name": "Iqbaal",
+                    "phone": null,
+                    "employeeCode": null,
+                    "isActive": true,
+                    "createdAt": "2026-09-05T16:28:23.681Z",
+                    "updatedAt": "2026-09-05T17:42:59.955Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/technicians": {
+      "get": {
+        "summary": "Get Technicians",
+        "deprecated": false,
+        "description": "Returns a list of active technicians available in the system.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 1,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": 10,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "Iqbaal",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "name, employeeCode, createdAt, updatedAt",
+            "required": false,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "desc, asc",
+            "required": false,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isActive",
+            "in": "query",
+            "description": "true, false",
+            "required": false,
+            "example": "true",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Technicians retrieved successfully",
+                  "data": [
+                    {
+                      "id": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                      "userId": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                      "name": "Iqbaal",
+                      "phone": "+880 1234 567890",
+                      "employeeCode": null,
+                      "isActive": false,
+                      "createdAt": "2026-09-05T16:28:23.681Z",
+                      "updatedAt": "2026-09-05T17:49:17.608Z",
+                      "user": {
+                        "id": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                        "email": "hero@gmail.com",
+                        "role": "TECHNICIAN",
+                        "isActive": true
+                      }
+                    }
+                  ],
+                  "meta": {
+                    "page": 1,
+                    "limit": 10,
+                    "total": 1,
+                    "totalPages": 1
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/technicians/d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf/status": {
+      "patch": {
+        "summary": "Update Technician Profile Status",
+        "deprecated": false,
+        "description": "Updates the active status of a technician. This endpoint is restricted to administrators and allows an administrator to activate or deactivate a technician.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "application/json",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "isActive": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Technician status updated successfully",
+                  "data": {
+                    "id": "d62aaf13-9d45-4c09-b4bd-9dc0a06cc1cf",
+                    "userId": "f40a470c-68e3-4bfe-ba94-ba4fe4f6f5df",
+                    "name": "Iqbaal",
+                    "phone": "+880 1234 567890",
+                    "employeeCode": null,
+                    "isActive": false,
+                    "createdAt": "2026-09-05T16:28:23.681Z",
+                    "updatedAt": "2026-09-05T19:54:27.740Z"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "responses": {
+      "Example 1": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {}
+  },
+  "servers": [
+    {
+      "url": "https://servexa-backend.vercel.app",
+      "description": "Develop Env"
+    }
+  ],
+  "security": []
+}
