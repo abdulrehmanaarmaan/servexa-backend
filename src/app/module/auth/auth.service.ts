@@ -16,7 +16,6 @@ import { prisma } from "../../lib/prisma.js";
 import { AppError } from "../../utils/appError.js";
 import { UserRole } from "../../../generated/prisma/enums.js";
 import { jwtUtils } from "../../utils/jwt.js";
-import { TokenPayload } from "google-auth-library";
 import { googleClient } from "../../lib/googleAuth.js";
 import config from "../../config/index.js";
 import { exchangeGoogleCode, generateGoogleAuthUrl, verifyGoogleIdToken } from "../../../integrations/google/google.service.js";
