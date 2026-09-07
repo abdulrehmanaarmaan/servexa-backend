@@ -163,6 +163,7 @@ The API follows a consistent JSON response structure.
 ```json
 {
   "success": true,
+  "statusCode": 200,
   "message": "Operation successful",
   "data": {}
 }
@@ -173,6 +174,7 @@ The API follows a consistent JSON response structure.
 ```json
 {
   "success": false,
+  "statusCode": 400,
   "message": "Something went wrong",
   "errors": []
 }
