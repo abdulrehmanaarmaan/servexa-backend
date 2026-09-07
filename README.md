@@ -327,9 +327,9 @@ https://servexa-backend.vercel.app
 
 ### API Walkthrough
 
-1. https://drive.google.com/file/d/1K8zENSCxYD5EVkiEabHnelqLMJkQoOvo/view?usp=sharing
+1. https://drive.google.com/file/d/1VHM78_ZEhlamZJt82uGDMKSPksyxxYHJ/view?usp=sharing
 
-2. https://drive.google.com/file/d/1VHM78_ZEhlamZJt82uGDMKSPksyxxYHJ/view?usp=sharing
+2. https://drive.google.com/file/d/1K8zENSCxYD5EVkiEabHnelqLMJkQoOvo/view?usp=sharing
 
 ## Repository
 
