@@ -12,7 +12,6 @@
 export const UserRole = {
   CUSTOMER: 'CUSTOMER',
   TECHNICIAN: 'TECHNICIAN',
-  STAFF: 'STAFF',
   ADMIN: 'ADMIN'
 } as const
 

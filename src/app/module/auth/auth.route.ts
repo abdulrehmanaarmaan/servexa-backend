@@ -20,7 +20,7 @@ router.post(
 
 router.get(
 	"/me",
-	auth(UserRole.ADMIN, UserRole.STAFF, UserRole.TECHNICIAN, UserRole.CUSTOMER),
+	auth(UserRole.ADMIN, UserRole.TECHNICIAN, UserRole.CUSTOMER),
 	authController.getMe
 );
 
