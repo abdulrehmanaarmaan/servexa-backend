@@ -7,7 +7,6 @@ import type { JwtPayload, SignOptions } from "jsonwebtoken";
 import path from "path";
 
 // import { googleClient } from "../../lib/googleAuth";
-// import { transporter } from "../../lib/nodemailer";
 
 import httpStatus from "http-status";
 import { ILoginUserPayload, IRegisterPatientPayload, IRequestUser } from "./auth.interface.js";
