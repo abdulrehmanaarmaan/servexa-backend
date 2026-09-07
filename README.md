@@ -25,7 +25,6 @@ The backend is built as a RESTful API using TypeScript, Node.js, Express.js, Pos
 ### Authentication & Security
 - Email/Password Authentication
 - Google Social Login
-- Bearer Token Authentication
 - Role-Based Access Control (RBAC)
 - Password Hashing
 - Helmet
@@ -271,7 +270,6 @@ Other implemented security measures include:
 - Helmet
 - CORS configuration
 - Password hashing
-- Bearer authentication
 - Role-based access control
 
 ## Running Locally
