@@ -8,7 +8,6 @@ import path from "path";
 
 // import { googleClient } from "../../lib/googleAuth";
 // import { transporter } from "../../lib/nodemailer";
-// import { AppError } from "../../utils/AppError";
 
 import httpStatus from "http-status";
 import { ILoginUserPayload, IRegisterPatientPayload, IRequestUser } from "./auth.interface.js";
