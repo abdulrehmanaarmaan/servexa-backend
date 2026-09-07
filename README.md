@@ -192,7 +192,6 @@ Servexa supports:
 
 - Email/password authentication
 - Google social login
-- Bearer token authentication
 - Protected routes
 - Role-Based Access Control (RBAC)
 - Object-level authorization
