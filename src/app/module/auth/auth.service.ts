@@ -2,7 +2,6 @@
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 // import ejs from "ejs";
-// import type { TokenPayload } from "google-auth-library";
 import type { JwtPayload, SignOptions } from "jsonwebtoken";
 import httpStatus from "http-status";
 import { ILoginUserPayload, IRegisterPatientPayload, IRequestUser } from "./auth.interface.js";
