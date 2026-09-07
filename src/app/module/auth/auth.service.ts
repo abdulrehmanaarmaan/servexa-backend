@@ -1,6 +1,5 @@
 /** biome-ignore-all lint/style/useConst: <explanation> */
 import bcrypt from "bcryptjs";
-import crypto from "crypto";
 import type { JwtPayload, SignOptions } from "jsonwebtoken";
 import httpStatus from "http-status";
 import { ILoginUserPayload, IRegisterPatientPayload, IRequestUser } from "./auth.interface.js";
