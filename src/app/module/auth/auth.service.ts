@@ -4,10 +4,6 @@ import crypto from "crypto";
 // import ejs from "ejs";
 // import type { TokenPayload } from "google-auth-library";
 import type { JwtPayload, SignOptions } from "jsonwebtoken";
-import path from "path";
-
-// import { googleClient } from "../../lib/googleAuth";
-
 import httpStatus from "http-status";
 import { ILoginUserPayload, IRegisterPatientPayload, IRequestUser } from "./auth.interface.js";
 import { prisma } from "../../lib/prisma.js";
