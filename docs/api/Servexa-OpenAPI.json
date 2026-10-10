@@ -3075,7 +3075,7 @@
         "security": []
       }
     },
-    "/api/v1/payments/invoices/dac8a128-1670-46ba-8cfe-c201696e49e8": {
+    "/api/v1/payments/invoices/56646189-a633-4b13-b8c1-0d05f9eb5cf1": {
       "post": {
         "summary": "Create Payment",
         "deprecated": false,
@@ -3169,6 +3169,1480 @@
                 "schema": {
                   "type": "object",
                   "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/payments/me": {
+      "get": {
+        "summary": "Get My Payments",
+        "deprecated": false,
+        "description": "Retrieves the authenticated customer's payment history, including payment amounts, currency, payment provider, transaction details, payment status, payment dates, and associated invoice information where available. The endpoint returns only payments belonging to the currently logged-in customer.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success (200)",
+                    "value": {
+                      "success": true,
+                      "statusCode": 200,
+                      "message": "Payment history fetched successfully",
+                      "data": [
+                        {
+                          "id": "187d0ed2-2f15-42d3-9acd-634f95442d61",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "1100",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "PENDING",
+                          "transactionId": null,
+                          "gatewayReference": "TR0011lTVyaA61791639190723",
+                          "gatewayResponse": {
+                            "amount": "1100.00",
+                            "intent": "sale",
+                            "bkashURL": "https://sandbox.payment.bkash.com/?paymentId=TR0011lTVyaA61791639190723&hash=vBjCzIPleZ2qNqNekWXG!FR!ZzgxRuUU68tDr486W57DJK1RamD(bYbKH7bz3DwLCu1nmISHG1yq4fD21F32dvTV7NL4z59IB!w-1791639190723&mode=0011&apiVersion=v1.2.0-beta/",
+                            "currency": "BDT",
+                            "paymentID": "TR0011lTVyaA61791639190723",
+                            "statusCode": "0000",
+                            "callbackURL": "http://localhost:5000/api/v1/payments/bkash/callback",
+                            "statusMessage": "Successful",
+                            "paymentCreateTime": "2026-10-10T19:33:10:723 GMT+0600",
+                            "transactionStatus": "Initiated",
+                            "failureCallbackURL": "http://localhost:5000/api/v1/payments/bkash/callback?paymentID=TR0011lTVyaA61791639190723&status=failure&signature=eqgqAmTeis",
+                            "successCallbackURL": "http://localhost:5000/api/v1/payments/bkash/callback?paymentID=TR0011lTVyaA61791639190723&status=success&signature=eqgqAmTeis",
+                            "cancelledCallbackURL": "http://localhost:5000/api/v1/payments/bkash/callback?paymentID=TR0011lTVyaA61791639190723&status=cancel&signature=eqgqAmTeis",
+                            "merchantInvoiceNumber": "187d0ed2-2f15-42d3-9acd-634f95442d61"
+                          },
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-10T13:03:18.297Z",
+                          "updatedAt": "2026-10-10T13:03:19.399Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "27f022ec-fa9a-4469-ac52-e0c0b9f28bfd",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-10T13:02:21.499Z",
+                          "updatedAt": "2026-10-10T13:02:21.580Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "d5457600-80cf-4d43-88df-a50b1392c2d0",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T14:47:44.884Z",
+                          "updatedAt": "2026-10-07T14:47:45.134Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "b9330a87-1b37-4b16-a648-3c7abd9731e8",
+                          "invoiceId": "d0eea8bd-998a-4cbd-ab7c-2b59a1423ea5",
+                          "amount": "5",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "PAID",
+                          "transactionId": "DJ740PJDZ2",
+                          "gatewayReference": "TR0011zLfPs6j1791380464508",
+                          "gatewayResponse": {
+                            "trxID": "DJ740PJDZ2",
+                            "amount": "5.00",
+                            "intent": "sale",
+                            "currency": "BDT",
+                            "payerType": "Customer",
+                            "paymentID": "TR0011zLfPs6j1791380464508",
+                            "statusCode": "0000",
+                            "payerAccount": "01619777282",
+                            "statusMessage": "Successful",
+                            "customerMsisdn": "01619777282",
+                            "payerReference": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                            "transactionStatus": "Completed",
+                            "paymentExecuteTime": "2026-10-07T19:41:33:257 GMT+0600",
+                            "maxRefundableAmount": "5.00",
+                            "merchantInvoiceNumber": "b9330a87-1b37-4b16-a648-3c7abd9731e8"
+                          },
+                          "paidAt": "2026-10-07T13:41:33.867Z",
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T13:41:02.564Z",
+                          "updatedAt": "2026-10-07T13:41:33.868Z",
+                          "invoice": {
+                            "id": "d0eea8bd-998a-4cbd-ab7c-2b59a1423ea5",
+                            "total": "5",
+                            "status": "PAID",
+                            "workOrder": {
+                              "id": "23b8093f-8054-4858-a5f5-88089ed88e29"
+                            }
+                          }
+                        },
+                        {
+                          "id": "06f7e449-d6c0-47df-a805-675db1aec552",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T12:58:04.572Z",
+                          "updatedAt": "2026-10-07T12:58:04.754Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "0a42d87b-ea78-4bc1-b52d-e8cbc4d2be58",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T12:58:01.929Z",
+                          "updatedAt": "2026-10-07T12:58:03.095Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "07da71cb-7bf6-48eb-a66b-6e76a42fa616",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:10:30.461Z",
+                          "updatedAt": "2026-10-07T11:10:31.586Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "7fa2fc2c-b381-41b1-a3c5-8f6a91a567ec",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:08:58.283Z",
+                          "updatedAt": "2026-10-07T11:08:58.479Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "57b6488f-521a-47c8-9125-726125489172",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:08:56.542Z",
+                          "updatedAt": "2026-10-07T11:08:56.990Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "24b6c2e9-fc06-41c1-91f8-58fd9e20d4e2",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:05:59.304Z",
+                          "updatedAt": "2026-10-07T11:06:00.414Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "474f6066-8373-470c-8ef4-05ea807cb77e",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:04:46.174Z",
+                          "updatedAt": "2026-10-07T11:04:46.370Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "c2ce0ddd-47f6-40c1-9d26-eb4ebc72c955",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:04:44.931Z",
+                          "updatedAt": "2026-10-07T11:04:45.123Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "61f51218-b895-4baf-b547-6a691bca1206",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:04:42.306Z",
+                          "updatedAt": "2026-10-07T11:04:43.418Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "7e522e19-e7f1-4f15-916d-e9d1bf4d8f31",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:58:11.040Z",
+                          "updatedAt": "2026-10-07T10:58:12.154Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "83ae0dac-7eec-4ef5-b97c-39fd7f1d4097",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:54:16.100Z",
+                          "updatedAt": "2026-10-07T10:54:16.290Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "c3bab804-b03f-4a40-b623-92f3a54826a6",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:54:13.795Z",
+                          "updatedAt": "2026-10-07T10:54:14.286Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "538f7acf-b5f3-4fca-babc-8a817b3dc4e3",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:13.431Z",
+                          "updatedAt": "2026-10-07T10:48:13.632Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "1772393e-06e6-4331-a45c-4f3bd46e17d3",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:11.974Z",
+                          "updatedAt": "2026-10-07T10:48:12.177Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "f19a6543-b560-4cf6-9ea1-b6b0c27756bf",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:10.746Z",
+                          "updatedAt": "2026-10-07T10:48:10.936Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "b399fb07-1735-444d-b72a-54a34de4468c",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:09.359Z",
+                          "updatedAt": "2026-10-07T10:48:09.843Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "e92c929f-7858-47df-a6f3-73a1b205489b",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:08.301Z",
+                          "updatedAt": "2026-10-07T10:48:08.504Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "f4d0f410-ec5f-46e8-9ad7-c5d4e4fa69e5",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:07.164Z",
+                          "updatedAt": "2026-10-07T10:48:07.335Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "8b3a74b2-8955-458e-8fa7-ae63b4406bad",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:05.120Z",
+                          "updatedAt": "2026-10-07T10:48:05.614Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "83532bdb-244e-4dbf-ad0c-7af41611956b",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:16:56.867Z",
+                          "updatedAt": "2026-10-07T10:16:57.305Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "80b072ef-fbff-4e6b-80bb-ddccc5740d0a",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:10:08.056Z",
+                          "updatedAt": "2026-10-07T10:10:08.740Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "921402d3-a2ce-438a-83e1-8d62a2f0cee1",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:08:35.785Z",
+                          "updatedAt": "2026-10-07T10:08:36.192Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "dfd2b00c-8899-4291-ae73-92f9ea955d28",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:06:54.008Z",
+                          "updatedAt": "2026-10-07T10:06:55.111Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "59cb53fa-ee9b-47de-87d1-f0e933d01fd8",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:05:40.047Z",
+                          "updatedAt": "2026-10-07T10:05:42.192Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "c47bfc4b-dcc2-456d-b73f-2bc4fd59933c",
+                          "invoiceId": "e8ad89cc-5981-4f65-99f4-bb67f7b79c68",
+                          "amount": "1",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "PAID",
+                          "transactionId": "DJ240PIKII",
+                          "gatewayReference": "TR0011g9ozh801790954354757",
+                          "gatewayResponse": {
+                            "trxID": "DJ240PIKII",
+                            "amount": "1",
+                            "intent": "sale",
+                            "currency": "BDT",
+                            "payerType": "Customer",
+                            "paymentID": "TR0011g9ozh801790954354757",
+                            "statusCode": "0000",
+                            "payerAccount": "01619777282",
+                            "statusMessage": "Successful",
+                            "customerMsisdn": "01619777282",
+                            "payerReference": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                            "transactionStatus": "Completed",
+                            "paymentExecuteTime": "2026-10-02T21:19:46:720 GMT+0600",
+                            "maxRefundableAmount": "1",
+                            "merchantInvoiceNumber": "c47bfc4b-dcc2-456d-b73f-2bc4fd59933c"
+                          },
+                          "paidAt": "2026-10-02T15:19:46.475Z",
+                          "refundedAt": null,
+                          "createdAt": "2026-10-02T15:19:13.887Z",
+                          "updatedAt": "2026-10-02T15:19:46.485Z",
+                          "invoice": {
+                            "id": "e8ad89cc-5981-4f65-99f4-bb67f7b79c68",
+                            "total": "1",
+                            "status": "PAID",
+                            "workOrder": {
+                              "id": "6cd54c72-df58-4eaa-bb3d-337ab526dffc"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "2": {
+                    "summary": "OK",
+                    "value": {
+                      "success": true,
+                      "statusCode": 200,
+                      "message": "Payment history fetched successfully",
+                      "data": [
+                        {
+                          "id": "187d0ed2-2f15-42d3-9acd-634f95442d61",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "1100",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "PENDING",
+                          "transactionId": null,
+                          "gatewayReference": "TR0011lTVyaA61791639190723",
+                          "gatewayResponse": {
+                            "amount": "1100.00",
+                            "intent": "sale",
+                            "bkashURL": "https://sandbox.payment.bkash.com/?paymentId=TR0011lTVyaA61791639190723&hash=vBjCzIPleZ2qNqNekWXG!FR!ZzgxRuUU68tDr486W57DJK1RamD(bYbKH7bz3DwLCu1nmISHG1yq4fD21F32dvTV7NL4z59IB!w-1791639190723&mode=0011&apiVersion=v1.2.0-beta/",
+                            "currency": "BDT",
+                            "paymentID": "TR0011lTVyaA61791639190723",
+                            "statusCode": "0000",
+                            "callbackURL": "http://localhost:5000/api/v1/payments/bkash/callback",
+                            "statusMessage": "Successful",
+                            "paymentCreateTime": "2026-10-10T19:33:10:723 GMT+0600",
+                            "transactionStatus": "Initiated",
+                            "failureCallbackURL": "http://localhost:5000/api/v1/payments/bkash/callback?paymentID=TR0011lTVyaA61791639190723&status=failure&signature=eqgqAmTeis",
+                            "successCallbackURL": "http://localhost:5000/api/v1/payments/bkash/callback?paymentID=TR0011lTVyaA61791639190723&status=success&signature=eqgqAmTeis",
+                            "cancelledCallbackURL": "http://localhost:5000/api/v1/payments/bkash/callback?paymentID=TR0011lTVyaA61791639190723&status=cancel&signature=eqgqAmTeis",
+                            "merchantInvoiceNumber": "187d0ed2-2f15-42d3-9acd-634f95442d61"
+                          },
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-10T13:03:18.297Z",
+                          "updatedAt": "2026-10-10T13:03:19.399Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "27f022ec-fa9a-4469-ac52-e0c0b9f28bfd",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-10T13:02:21.499Z",
+                          "updatedAt": "2026-10-10T13:02:21.580Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "d5457600-80cf-4d43-88df-a50b1392c2d0",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T14:47:44.884Z",
+                          "updatedAt": "2026-10-07T14:47:45.134Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "b9330a87-1b37-4b16-a648-3c7abd9731e8",
+                          "invoiceId": "d0eea8bd-998a-4cbd-ab7c-2b59a1423ea5",
+                          "amount": "5",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "PAID",
+                          "transactionId": "DJ740PJDZ2",
+                          "gatewayReference": "TR0011zLfPs6j1791380464508",
+                          "gatewayResponse": {
+                            "trxID": "DJ740PJDZ2",
+                            "amount": "5.00",
+                            "intent": "sale",
+                            "currency": "BDT",
+                            "payerType": "Customer",
+                            "paymentID": "TR0011zLfPs6j1791380464508",
+                            "statusCode": "0000",
+                            "payerAccount": "01619777282",
+                            "statusMessage": "Successful",
+                            "customerMsisdn": "01619777282",
+                            "payerReference": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                            "transactionStatus": "Completed",
+                            "paymentExecuteTime": "2026-10-07T19:41:33:257 GMT+0600",
+                            "maxRefundableAmount": "5.00",
+                            "merchantInvoiceNumber": "b9330a87-1b37-4b16-a648-3c7abd9731e8"
+                          },
+                          "paidAt": "2026-10-07T13:41:33.867Z",
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T13:41:02.564Z",
+                          "updatedAt": "2026-10-07T13:41:33.868Z",
+                          "invoice": {
+                            "id": "d0eea8bd-998a-4cbd-ab7c-2b59a1423ea5",
+                            "total": "5",
+                            "status": "PAID",
+                            "workOrder": {
+                              "id": "23b8093f-8054-4858-a5f5-88089ed88e29"
+                            }
+                          }
+                        },
+                        {
+                          "id": "06f7e449-d6c0-47df-a805-675db1aec552",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T12:58:04.572Z",
+                          "updatedAt": "2026-10-07T12:58:04.754Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "0a42d87b-ea78-4bc1-b52d-e8cbc4d2be58",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T12:58:01.929Z",
+                          "updatedAt": "2026-10-07T12:58:03.095Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "07da71cb-7bf6-48eb-a66b-6e76a42fa616",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:10:30.461Z",
+                          "updatedAt": "2026-10-07T11:10:31.586Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "7fa2fc2c-b381-41b1-a3c5-8f6a91a567ec",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:08:58.283Z",
+                          "updatedAt": "2026-10-07T11:08:58.479Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "57b6488f-521a-47c8-9125-726125489172",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:08:56.542Z",
+                          "updatedAt": "2026-10-07T11:08:56.990Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "24b6c2e9-fc06-41c1-91f8-58fd9e20d4e2",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:05:59.304Z",
+                          "updatedAt": "2026-10-07T11:06:00.414Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "474f6066-8373-470c-8ef4-05ea807cb77e",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:04:46.174Z",
+                          "updatedAt": "2026-10-07T11:04:46.370Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "c2ce0ddd-47f6-40c1-9d26-eb4ebc72c955",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:04:44.931Z",
+                          "updatedAt": "2026-10-07T11:04:45.123Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "61f51218-b895-4baf-b547-6a691bca1206",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T11:04:42.306Z",
+                          "updatedAt": "2026-10-07T11:04:43.418Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "7e522e19-e7f1-4f15-916d-e9d1bf4d8f31",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:58:11.040Z",
+                          "updatedAt": "2026-10-07T10:58:12.154Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "83ae0dac-7eec-4ef5-b97c-39fd7f1d4097",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:54:16.100Z",
+                          "updatedAt": "2026-10-07T10:54:16.290Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "c3bab804-b03f-4a40-b623-92f3a54826a6",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:54:13.795Z",
+                          "updatedAt": "2026-10-07T10:54:14.286Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "538f7acf-b5f3-4fca-babc-8a817b3dc4e3",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:13.431Z",
+                          "updatedAt": "2026-10-07T10:48:13.632Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "1772393e-06e6-4331-a45c-4f3bd46e17d3",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:11.974Z",
+                          "updatedAt": "2026-10-07T10:48:12.177Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "f19a6543-b560-4cf6-9ea1-b6b0c27756bf",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:10.746Z",
+                          "updatedAt": "2026-10-07T10:48:10.936Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "b399fb07-1735-444d-b72a-54a34de4468c",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:09.359Z",
+                          "updatedAt": "2026-10-07T10:48:09.843Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "e92c929f-7858-47df-a6f3-73a1b205489b",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:08.301Z",
+                          "updatedAt": "2026-10-07T10:48:08.504Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "f4d0f410-ec5f-46e8-9ad7-c5d4e4fa69e5",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:07.164Z",
+                          "updatedAt": "2026-10-07T10:48:07.335Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "8b3a74b2-8955-458e-8fa7-ae63b4406bad",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:48:05.120Z",
+                          "updatedAt": "2026-10-07T10:48:05.614Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "83532bdb-244e-4dbf-ad0c-7af41611956b",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:16:56.867Z",
+                          "updatedAt": "2026-10-07T10:16:57.305Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "80b072ef-fbff-4e6b-80bb-ddccc5740d0a",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:10:08.056Z",
+                          "updatedAt": "2026-10-07T10:10:08.740Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "921402d3-a2ce-438a-83e1-8d62a2f0cee1",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:08:35.785Z",
+                          "updatedAt": "2026-10-07T10:08:36.192Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "dfd2b00c-8899-4291-ae73-92f9ea955d28",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:06:54.008Z",
+                          "updatedAt": "2026-10-07T10:06:55.111Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "59cb53fa-ee9b-47de-87d1-f0e933d01fd8",
+                          "invoiceId": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                          "amount": "0.08",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "FAILED",
+                          "transactionId": null,
+                          "gatewayReference": null,
+                          "gatewayResponse": null,
+                          "paidAt": null,
+                          "refundedAt": null,
+                          "createdAt": "2026-10-07T10:05:40.047Z",
+                          "updatedAt": "2026-10-07T10:05:42.192Z",
+                          "invoice": {
+                            "id": "56646189-a633-4b13-b8c1-0d05f9eb5cf1",
+                            "total": "1100",
+                            "status": "ISSUED",
+                            "workOrder": {
+                              "id": "b2e77896-1f79-4aaa-8cad-f6ad3cd068fa"
+                            }
+                          }
+                        },
+                        {
+                          "id": "c47bfc4b-dcc2-456d-b73f-2bc4fd59933c",
+                          "invoiceId": "e8ad89cc-5981-4f65-99f4-bb67f7b79c68",
+                          "amount": "1",
+                          "currency": "BDT",
+                          "provider": "BKASH",
+                          "status": "PAID",
+                          "transactionId": "DJ240PIKII",
+                          "gatewayReference": "TR0011g9ozh801790954354757",
+                          "gatewayResponse": {
+                            "trxID": "DJ240PIKII",
+                            "amount": "1",
+                            "intent": "sale",
+                            "currency": "BDT",
+                            "payerType": "Customer",
+                            "paymentID": "TR0011g9ozh801790954354757",
+                            "statusCode": "0000",
+                            "payerAccount": "01619777282",
+                            "statusMessage": "Successful",
+                            "customerMsisdn": "01619777282",
+                            "payerReference": "a6bdb5ee-e361-4747-b626-b6609514997d",
+                            "transactionStatus": "Completed",
+                            "paymentExecuteTime": "2026-10-02T21:19:46:720 GMT+0600",
+                            "maxRefundableAmount": "1",
+                            "merchantInvoiceNumber": "c47bfc4b-dcc2-456d-b73f-2bc4fd59933c"
+                          },
+                          "paidAt": "2026-10-02T15:19:46.475Z",
+                          "refundedAt": null,
+                          "createdAt": "2026-10-02T15:19:13.887Z",
+                          "updatedAt": "2026-10-02T15:19:46.485Z",
+                          "invoice": {
+                            "id": "e8ad89cc-5981-4f65-99f4-bb67f7b79c68",
+                            "total": "1",
+                            "status": "PAID",
+                            "workOrder": {
+                              "id": "6cd54c72-df58-4eaa-bb3d-337ab526dffc"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
                 }
               }
             },
@@ -6952,11 +8426,6 @@
     },
     "securitySchemes": {}
   },
-  "servers": [
-    {
-      "url": "https://servexa-backend.vercel.app",
-      "description": "Develop Env"
-    }
-  ],
+  "servers": [],
   "security": []
 }
