@@ -26,11 +26,14 @@ router.get(
 
 router.post("/refresh-token", authController.refreshToken);
 
-router.get("/google", authController.googleLogin);
-
-router.get(
-  "/google/callback",
-  authController.googleCallback,
+router.post(
+  "/google",
+  validateRequest({
+    body: authValidation.googleLoginSchema,
+  }),
+  authController.googleLogin,
 );
+
+router.post("/logout", authController.logoutUser);
 
 export const authRoutes = router;

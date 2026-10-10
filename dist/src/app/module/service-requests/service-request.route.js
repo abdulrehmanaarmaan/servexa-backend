@@ -14,6 +14,14 @@ router.post("/", auth(UserRole.CUSTOMER), validateRequest({
     body: createServiceRequestSchema,
 }), serviceRequestController.createServiceRequest);
 /*
+ * CUSTOMER
+ *
+ * Get own service requests.
+ */
+router.get("/customers/me", auth(UserRole.CUSTOMER), validateRequest({
+    query: serviceRequestQuerySchema,
+}), serviceRequestController.getMyServiceRequests);
+/*
  * CUSTOMER / ADMIN
  *
  * Get one service request.
@@ -24,14 +32,6 @@ router.post("/", auth(UserRole.CUSTOMER), validateRequest({
 router.get("/:serviceRequestId", auth(UserRole.CUSTOMER, UserRole.ADMIN), validateRequest({
     params: serviceRequestParamsSchema,
 }), serviceRequestController.getServiceRequest);
-/*
- * CUSTOMER
- *
- * Get own service requests.
- */
-router.get("/customers/me", auth(UserRole.CUSTOMER), validateRequest({
-    query: serviceRequestQuerySchema,
-}), serviceRequestController.getMyServiceRequests);
 /*
  * ADMIN
  *

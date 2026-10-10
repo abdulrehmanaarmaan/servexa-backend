@@ -1,17 +1,17 @@
 import type { Request, Response } from "express";
+import httpStatus from "http-status";
 
-import { serviceService } from "./service.service.js";
 import { sendResponse } from "../../utils/sendResponse.js";
-import { IServiceQuery } from "./service.interface.js";
-import httpStatus from "http-status"
+
+import type { IServiceQuery } from "./service.interface.js";
+import { serviceService } from "./service.service.js";
 
 const createService = async (
   req: Request,
   res: Response,
 ) => {
-  const result = await serviceService.createService(
-    req.body,
-  );
+  const result =
+    await serviceService.createService(req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
@@ -25,20 +25,17 @@ const getAllServices = async (
   req: Request,
   res: Response,
 ) => {
-
   const query =
-  res.locals.validated.query as IServiceQuery;
+    res.locals.validated.query as IServiceQuery;
 
-  const result = await serviceService.getAllServices(
-    query,
-  );
+  const result =
+    await serviceService.getAllServices(query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Services retrieved successfully.",
-    data: result.data,
-    meta: result.meta
+    data: result
   });
 };
 
@@ -48,9 +45,10 @@ const getServiceById = async (
 ) => {
   const { serviceId } = req.params;
 
-  const result = await serviceService.getServiceById(
-    serviceId as string,
-  );
+  const result =
+    await serviceService.getServiceById(
+      serviceId as string,
+    );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -66,15 +64,16 @@ const updateService = async (
 ) => {
   const { serviceId } = req.params;
 
-  const result = await serviceService.updateService(
-    serviceId as string,
-    req.body,
-  );
+  const result =
+    await serviceService.updateService(
+      serviceId as string,
+      req.body,
+    );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Service updated successfully",
+    message: "Service updated successfully.",
     data: result,
   });
 };
@@ -85,14 +84,15 @@ const deleteService = async (
 ) => {
   const { serviceId } = req.params;
 
-  const result = await serviceService.deleteService(
-    serviceId as string,
-  );
+  const result =
+    await serviceService.deleteService(
+      serviceId as string,
+    );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Service deleted successfully",
+    message: "Service deleted successfully.",
     data: result,
   });
 };

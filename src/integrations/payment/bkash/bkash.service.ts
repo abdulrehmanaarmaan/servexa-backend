@@ -51,6 +51,8 @@ export const createBkashPayment = async (
 ): Promise<IBkashCreatePaymentResult> => {
 	const idToken = await getBkashIdToken();
 
+	console.log(input)
+
 	const response = await fetch(
 		`${config.bkash_base_url}/tokenized/checkout/create`,
 		{

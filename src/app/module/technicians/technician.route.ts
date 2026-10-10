@@ -24,18 +24,22 @@ router.get(
 );
 
 router.get(
+    "/technician-profile/me",
+    auth(UserRole.TECHNICIAN),
+    technicianController.getMyTechnicianProfile,
+);
+
+router.get(
     "/:technicianId",
-    auth(UserRole.ADMIN, UserRole.CUSTOMER, UserRole.TECHNICIAN),
+    auth(
+        UserRole.ADMIN,
+        UserRole.CUSTOMER,
+        UserRole.TECHNICIAN,
+    ),
     validateRequest({
         params: technicianParamsSchema,
     }),
     technicianController.getTechnicianById,
-);
-
-router.get(
-    "/technician-profile/me",
-    auth(UserRole.TECHNICIAN),
-    technicianController.getMyTechnicianProfile,
 );
 
 router.patch(

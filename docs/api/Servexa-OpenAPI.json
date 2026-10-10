@@ -34,8 +34,8 @@
               },
               "example": {
                 "name": "Hero",
-                "email": "hero@gmail.com",
-                "password": "hero1991",
+                "email": "yousuf@gmail.com",
+                "password": "yousuf1991",
                 "phone": "+880 1725 348534"
               }
             }
@@ -129,8 +129,8 @@
                 "properties": {}
               },
               "example": {
-                "email": "admin@servexa.com",
-                "password": "Admin@123456"
+                "email": "ayman@gmail.com",
+                "password": "ayman1991"
               }
             }
           },
@@ -243,12 +243,26 @@
       }
     },
     "/api/v1/auth/google": {
-      "get": {
+      "post": {
         "summary": "Google Login",
         "deprecated": false,
-        "description": "Initiates Google OAuth authentication and redirects the user to Google's authentication page.",
+        "description": "Authenticates a user using Google OAuth credentials obtained by the frontend. The backend verifies the Google identity, retrieves or creates the corresponding user account according to the registration flow, and establishes the application's authentication session. On success, the authentication credentials are returned or set in cookies according to the backend's authentication strategy. Invalid or unverifiable Google credentials result in an authentication error.",
         "tags": [],
         "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {
+                "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk0M2EzYTVkN2Q5MTk2MjVhNDU0ZTQ4OWI3NWMyOWFkYWI1N2FjYmEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI5NzcyMjI0Njg1NDMtNHI3bW9objJhY25xYmsybTE2MDRyZW9iNnFsc2hqdHUuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI5NzcyMjI0Njg1NDMtNHI3bW9objJhY25xYmsybTE2MDRyZW9iNnFsc2hqdHUuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDQ0NTIzNTI2OTM3NDQyNTA5NTAiLCJlbWFpbCI6ImFiZHVscmVobWFuYWFybWFhbkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmJmIjoxNzkxNTY1MTUwLCJuYW1lIjoiQWJkdWwgUmVobWFuIEFhcm1hYW4iLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSmhsN3FPZHhIc3MtbW1nS1JKLUVDYkVfWHAyOW9td3RYV3dpOHk1akNIMExmTm93PXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkFiZHVsIFJlaG1hbiIsImZhbWlseV9uYW1lIjoiQWFybWFhbiIsImlhdCI6MTc5MTU2NTQ1MCwiZXhwIjoxNzkxNTY5MDUwLCJqdGkiOiJhZTNjZjdkMjZmZTQxNWY3MWMzMWFjNTk2YjM4Y2U2MTdkMzc3OWRiIn0.Bzmg5UgrQs0YQYIpHoWWhbhy5jhv3_X0lzkS1DDy1IT708a6ae_1VN7G0m0VUW8xefi6d6Zvjl-5OC6pHQxrbGco1sdUae6KvKQY62A279S15RyXkRcXnYSibekeEXrtFncErOhYmOhQCzJYNb5FJ4fFmD_DdzTIXQTDQkXZfodMW2SwZbjUGUvQSA-BCpbujQjdyDFWhRGL5hpkoROuE92Ib91hwrQhbFEavSAjjBfNSMkqx8j7Mt-eW7BmBs2ilZ8XoTsTsh6ULvxjmzBbokjAtVi1nVBpwDgsCDnavi1ntLzJ8nn4v-ldVC1cCobHJEuEFCfudXEHFKOyhusc_g"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "",
@@ -257,7 +271,8 @@
                 "schema": {
                   "type": "object",
                   "properties": {}
-                }
+                },
+                "example": "{\r\n    \"success\": true,\r\n    \"statusCode\": 200,\r\n    \"message\": \"Google login successful\",\r\n    \"data\": {\r\n        \"user\": {\r\n            \"id\": \"05d111e3-af9d-43a5-82f8-e410f9e7c799\",\r\n            \"email\": \"abdulrehmanaarmaan@gmail.com\",\r\n            \"role\": \"CUSTOMER\",\r\n            \"isActive\": true\r\n        }\r\n    }\r\n}"
               }
             },
             "headers": {}
@@ -266,13 +281,25 @@
         "security": []
       }
     },
-    "/api/v1/auth/google/callback": {
-      "get": {
-        "summary": "Google OAuth Callback",
+    "/api/v1/auth/logout": {
+      "post": {
+        "summary": "Logout",
         "deprecated": false,
-        "description": "Handles the callback from Google after successful OAuth authentication and creates or authenticates the corresponding user account.",
+        "description": "Logs out the currently authenticated user by invalidating or clearing the authentication session and removing the authentication cookies. After a successful logout, the user must authenticate again to access protected endpoints. This endpoint requires valid authentication.",
         "tags": [],
         "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "examples": {}
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "",
@@ -281,6 +308,12 @@
                 "schema": {
                   "type": "object",
                   "properties": {}
+                },
+                "example": {
+                  "success": true,
+                  "statusCode": 200,
+                  "message": "Logout successful",
+                  "data": null
                 }
               }
             },
@@ -4686,6 +4719,2216 @@
               }
             },
             "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Register Patient",
+        "deprecated": false,
+        "description": "Expected: **201**. Creates a `User` (`role: PATIENT`, `emailVerified: false`) and sends a 6-digit OTP to the given email (valid for a limited time). No tokens are issued yet — call **Verify Email** next with the OTP to receive `accessToken`/`refreshToken`.\n\n`patient` is optional; only `contactNumber` is accepted on it at registration time.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "patient": {
+                    "type": "object",
+                    "properties": {
+                      "contactNumber": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "contactNumber"
+                    ]
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "password",
+                  "patient"
+                ]
+              },
+              "example": {
+                "name": "Samin Ravi",
+                "email": "saminravi.ph@gmail.com",
+                "password": "aA@@@12345678",
+                "patient": {
+                  "contactNumber": "+8801700000000"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/verify-email": {
+      "post": {
+        "summary": "Verify Email",
+        "deprecated": false,
+        "description": "Expected: **201**. Confirms the OTP sent by **Register Patient**, marks the user verified, and returns `data: { accessToken, refreshToken, user, patient }` (also set as `accessToken`/`refreshToken` cookies). The test script saves both tokens as collection variables.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "otp": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "otp"
+                ]
+              },
+              "example": {
+                "email": "saminravi.ph@gmail.com",
+                "otp": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Credential Login",
+        "deprecated": false,
+        "description": "Expected: **200** with `data: { accessToken, refreshToken }` (also set as cookies).\n\nOther outcomes:\n- unknown email → 404\n- `status: BLOCKED` → 403\n- deleted account → 404\n- Google-only account (no password set) → 400\n- wrong password → 401",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              },
+              "example": {
+                "email": "saminravi.ph@gmail.com",
+                "password": "aA@@@12345678"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "summary": "Get Me",
+        "deprecated": false,
+        "description": "Expected: **200** with the logged-in user's profile. Requires `accessToken` (cookie or `Authorization: Bearer` header) — any authenticated role (ADMIN, DOCTOR, PATIENT, SUPER_ADMIN) may call this.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/refresh-token": {
+      "post": {
+        "summary": "Refresh Token",
+        "deprecated": false,
+        "description": "Expected: **200** with a new `data: { accessToken, refreshToken }` pair. Reads the `refreshToken` cookie set by login/register — Postman's cookie jar sends it automatically after a successful login in this same session, so no body is needed.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/forgot-password": {
+      "post": {
+        "summary": "Forgot Password",
+        "deprecated": false,
+        "description": "Expected: **200**. Sends a 6-digit OTP to the given email for use with **Reset Password**.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email"
+                ]
+              },
+              "example": {
+                "email": "saminravi.ph@gmail.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/reset-password": {
+      "post": {
+        "summary": "Reset Password",
+        "deprecated": false,
+        "description": "Expected: **200**. Verifies the OTP sent by **Forgot Password** and updates the account's password.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "newPassword": {
+                    "type": "string"
+                  },
+                  "otp": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "newPassword",
+                  "otp"
+                ]
+              },
+              "example": {
+                "email": "saminravi.ph@gmail.com",
+                "newPassword": "aA@@@12345678",
+                "otp": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/google": {
+      "post": {
+        "summary": "Google Login",
+        "deprecated": false,
+        "description": "Expected: **200**, returning the app's own `accessToken`/`refreshToken` (body + cookies).\n\nResolution order: (1) known `googleId` (matched by the stable `sub` claim), (2) an existing account with the same email gets linked (`googleId` set, `emailVerified` forced true; an existing password is preserved), (3) otherwise a new `PATIENT` user + `Patient` row is provisioned.\n\n`idToken` must be a real Google ID token verified against `GOOGLE_CLIENT_ID` — see `GOOGLE-LOGIN-TESTING.md` in the repo for how to obtain one for manual testing.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "idToken": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "idToken"
+                ]
+              },
+              "example": {
+                "idToken": "<google-id-token-from-frontend-sign-in>"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/profile-image": {
+      "patch": {
+        "summary": "Upload Profile Image",
+        "deprecated": false,
+        "description": "Expected: **200**. Any authenticated role. Uploads `profileImage` to Cloudinary, updates `user.imageUrl`/`imagePublicId`, and deletes the previous image from Cloudinary if one existed. Update the `src` path to a real image file on your machine before sending.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profileImage": {
+                    "example": "/C:/path/to/profile-picture.jpg",
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "profileImage"
+                ]
+              },
+              "example": {
+                "profileImage": "/C:/path/to/profile-picture.jpg"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/doctor/apply-as-doctor": {
+      "post": {
+        "summary": "Apply As Doctor",
+        "deprecated": false,
+        "description": "Expected: **200**. `multipart/form-data`: `resume` (single file), `additionalFiles` (up to 10 files), and `data` — a **JSON string** (not a nested form field) matching `ApplyAsDoctorValidationZodSchema`. Creates a `User` (`role: DOCTOR`, random temp password, `needPasswordChange: true`) + `Doctor` row (`verificationStatus: PENDING`), uploads files to Cloudinary, and emails a 6-digit OTP (1 hour TTL) to the doctor's email for **Verify Doctor Email**.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "resume": {
+                    "example": "/C:/path/to/resume.pdf",
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "additionalFiles": {
+                    "example": "/C:/path/to/certificate1.pdf,/C:/path/to/certificate2.pdf",
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "data": {
+                    "example": "{\n  \"user\": {\n    \"name\": \"Dr. Sarah Jenkins\",\n    \"email\": \"dr.sarah.jenkins@example.com\"\n  },\n  \"doctor\": {\n    \"address\": \"123 Medical Plaza, Suite 400, New York, NY\",\n    \"specialization\": \"Cardiology\",\n    \"licenseNumber\": \"MED-2026-98765\",\n    \"qualifications\": \"MD, FACC - Harvard Medical School\",\n    \"experienceYears\": 12,\n    \"bio\": \"Dedicated cardiologist with over a decade of experience specializing in non-invasive cardiovascular imaging and preventative heart care.\",\n    \"consultationFee\": 150,\n    \"contactNumber\": \"+1-555-0199\"\n  }\n}",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "resume",
+                  "additionalFiles",
+                  "data"
+                ]
+              },
+              "example": {
+                "resume": "/C:/path/to/resume.pdf",
+                "additionalFiles": "/C:/path/to/certificate1.pdf,/C:/path/to/certificate2.pdf",
+                "data": "{\n  \"user\": {\n    \"name\": \"Dr. Sarah Jenkins\",\n    \"email\": \"dr.sarah.jenkins@example.com\"\n  },\n  \"doctor\": {\n    \"address\": \"123 Medical Plaza, Suite 400, New York, NY\",\n    \"specialization\": \"Cardiology\",\n    \"licenseNumber\": \"MED-2026-98765\",\n    \"qualifications\": \"MD, FACC - Harvard Medical School\",\n    \"experienceYears\": 12,\n    \"bio\": \"Dedicated cardiologist with over a decade of experience specializing in non-invasive cardiovascular imaging and preventative heart care.\",\n    \"consultationFee\": 150,\n    \"contactNumber\": \"+1-555-0199\"\n  }\n}"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/doctor/apply-as-doctor/verify-email": {
+      "post": {
+        "summary": "Verify Doctor Email",
+        "deprecated": false,
+        "description": "Expected: **200**. Confirms the OTP emailed by **Apply As Doctor** and sets `user.emailVerified: true`. The application still needs admin approval (see **Approve Doctor**) before the doctor can log in and use doctor-only endpoints.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "otp": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "otp"
+                ]
+              },
+              "example": {
+                "email": "dr.sarah.jenkins@example.com",
+                "otp": "123456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/doctor/approve-doctor": {
+      "post": {
+        "summary": "Approve Doctor",
+        "deprecated": false,
+        "description": "Expected: **200**. ADMIN/SUPER_ADMIN only. `verificationStatus` is `\"APPROVED\"` or `\"REJECTED\"`; `rejectionReason` is required when rejecting. Requires the doctor to have already verified their email. Emails the doctor an approval/rejection notice.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "doctorId": {
+                    "type": "string"
+                  },
+                  "verificationStatus": {
+                    "type": "string"
+                  },
+                  "rejectionReason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "doctorId",
+                  "verificationStatus",
+                  "rejectionReason"
+                ]
+              },
+              "example": {
+                "doctorId": "{{doctorId}}",
+                "verificationStatus": "APPROVED",
+                "rejectionReason": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/doctor/all-doctors": {
+      "get": {
+        "summary": "Get All Doctors (Admin)",
+        "deprecated": false,
+        "description": "Expected: **200**, paginated. ADMIN/SUPER_ADMIN only. Every doctor regardless of verification status, with the linked `user` (password omitted).",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "cardio",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "specialization",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "Cardiology",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "licenseNumber",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "verificationStatus",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "PENDING",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/doctor/update-my-profile": {
+      "patch": {
+        "summary": "Update My Doctor Profile",
+        "deprecated": false,
+        "description": "Expected: **200**. DOCTOR only, updates the caller's own `Doctor` row. All fields optional.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "bio": {
+                    "type": "string"
+                  },
+                  "consultationFee": {
+                    "type": "integer"
+                  },
+                  "contactNumber": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "address",
+                  "bio",
+                  "consultationFee",
+                  "contactNumber"
+                ]
+              },
+              "example": {
+                "address": "456 New Clinic Road, Suite 12, Dhaka",
+                "bio": "Updated bio describing focus areas and patient philosophy.",
+                "consultationFee": 175,
+                "contactNumber": "+1-555-0110"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/doctor/public/available-today": {
+      "get": {
+        "summary": "Get Available Doctors Today (Public)",
+        "deprecated": false,
+        "description": "Expected: **200**, paginated. No auth. `APPROVED`, non-deleted doctors that have at least one `PUBLISHED` schedule today which hasn't started yet and still has open slots. Each doctor includes their matching schedules for today.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "specialization",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/doctor/public/all-doctors": {
+      "get": {
+        "summary": "Get All Doctors (Public)",
+        "deprecated": false,
+        "description": "Expected: **200**, paginated. No auth. Public doctor directory restricted to `APPROVED`, non-deleted doctors, with only patient-safe fields selected (no resume/review metadata/user relation).",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "specialization",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/doctor/public/doctorId": {
+      "get": {
+        "summary": "Get Single Doctor Profile (Public)",
+        "deprecated": false,
+        "description": "Expected: **200**, or **404** if the doctor doesn't exist / isn't `APPROVED` / is deleted. No auth. Replace `{{doctorId}}` (or the path segment) with a real doctor id — grab one from **Get All Doctors (Public)**.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/schedule/create-schedule": {
+      "post": {
+        "summary": "Create Schedule",
+        "deprecated": false,
+        "description": "Expected: **201**. DOCTOR only. `startDateTime`/`endDateTime` must fall on the same calendar day and the doctor may only have one schedule per day. Total slots are computed as `duration / 20 minutes`; `availableSlots` starts equal to `totalSlots`. Created as `status: DRAFT` — publish it separately.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDateTime": {
+                    "type": "string"
+                  },
+                  "endDateTime": {
+                    "type": "string"
+                  },
+                  "meetingLink": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "startDateTime",
+                  "endDateTime",
+                  "meetingLink"
+                ]
+              },
+              "example": {
+                "startDateTime": "2026-08-28T09:00:00.000Z",
+                "endDateTime": "2026-08-28T13:00:00.000Z",
+                "meetingLink": "https://meet.google.com/abc-defg-hij"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/schedule/my-schedules": {
+      "get": {
+        "summary": "Get My Schedules",
+        "deprecated": false,
+        "description": "Expected: **200**, paginated. DOCTOR only — the caller's own schedules, with booked appointments/patients included.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "PUBLISHED",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/schedule/all-schedules": {
+      "get": {
+        "summary": "Get All Schedules (Admin)",
+        "deprecated": false,
+        "description": "Expected: **200**, paginated. ADMIN/SUPER_ADMIN only — every schedule across all doctors.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "doctorId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "PUBLISHED",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/schedule/todays-schedule": {
+      "get": {
+        "summary": "Get Today's Schedules By Doctor",
+        "deprecated": false,
+        "description": "Expected: **200**, paginated, or **400** if `doctorId` is missing from the query. PATIENT only. Today's `PUBLISHED`, not-yet-started schedules with open slots, for the given `doctorId`.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "doctorId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "{{doctorId}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/schedule/update-schedule/scheduleId": {
+      "patch": {
+        "summary": "Update Schedule",
+        "deprecated": false,
+        "description": "Expected: **200**. DOCTOR only, on their own `DRAFT` schedule (or a `PUBLISHED` one with zero bookings so far). All fields optional; omitted fields keep their current value. Recomputes `totalSlots`/`availableSlots`.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDateTime": {
+                    "type": "string"
+                  },
+                  "endDateTime": {
+                    "type": "string"
+                  },
+                  "meetingLink": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "startDateTime",
+                  "endDateTime",
+                  "meetingLink"
+                ]
+              },
+              "example": {
+                "startDateTime": "2026-08-28T10:00:00.000Z",
+                "endDateTime": "2026-08-28T14:00:00.000Z",
+                "meetingLink": "https://meet.google.com/abc-defg-hij"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/schedule/publish-schedule/a0f0379f-4d38-43a7-bbbf-fb074bfbf5a9": {
+      "patch": {
+        "summary": "Publish Schedule",
+        "deprecated": false,
+        "description": "Expected: **200**. DOCTOR only, on their own schedule. Flips `status` from `DRAFT` to `PUBLISHED`, making it visible/bookable to patients. Fails with 409 if already published.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/schedule/scheduleId": {
+      "get": {
+        "summary": "Get Schedule By Id",
+        "deprecated": false,
+        "description": "Expected: **200**, or **404**. DOCTOR/ADMIN/SUPER_ADMIN. Includes the owning doctor (subset of fields) and booked appointments with patients.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "Delete Schedule",
+        "deprecated": false,
+        "description": "Expected: **200**. DOCTOR only, on their own schedule. Soft-deletes (`isDeleted: true`). Fails with 409 if it's `PUBLISHED` and already has bookings.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/appointment/book-appointment": {
+      "post": {
+        "summary": "Book Appointment",
+        "deprecated": false,
+        "description": "Expected: **200** with `data: { paymentUrl }` (bKash checkout URL) — the appointment is created as `PENDING` and only becomes `CONFIRMED` after the bKash payment callback fires. PATIENT only. Requires the schedule to be `PUBLISHED`, for today, not yet started, and to have open slots; the patient may not already have a pending/confirmed/ongoing appointment on it.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "scheduleId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "scheduleId"
+                ]
+              },
+              "example": {
+                "scheduleId": "{{scheduleId}}"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/appointment/pay-appointment": {
+      "post": {
+        "summary": "Pay Appointment",
+        "deprecated": false,
+        "description": "Expected: **200** with `data: { paymentUrl }`. PATIENT only. Re-initiates a bKash checkout for an existing `PENDING` appointment (e.g. if the first checkout was abandoned).",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "appointmentId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "appointmentId"
+                ]
+              },
+              "example": {
+                "appointmentId": "{{appointmentId}}"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/appointment/cancel-appointment": {
+      "post": {
+        "summary": "Cancel Appointment",
+        "deprecated": false,
+        "description": "Expected: **200** with `data: { appointment, payment }`. PATIENT (own appointment)/ADMIN/SUPER_ADMIN. Frees the schedule slot back up. If cancelled more than 1 hour before `startDateTime` and the payment was `PAID`, a bKash refund is issued automatically. Fails with 400 if already `CANCELLED`/`ONGOING`/`COMPLETED`.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "appointmentId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "appointmentId"
+                ]
+              },
+              "example": {
+                "appointmentId": "{{appointmentId}}"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/appointment/book-appointment/payment/callback": {
+      "get": {
+        "summary": "Book Appointment Payment Callback",
+        "deprecated": false,
+        "description": "Expected: **200**, redirect payload. No auth — this is the URL bKash itself redirects the patient's browser to after checkout (`status` is one of `success`/`failure`/`cancel`). On success it confirms the appointment, assigns a serial number/joining time, decrements `availableSlots`, marks the payment `PAID`, and emails a PDF invoice. Not meant to be called manually except to replay a bKash sandbox redirect.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "paymentID",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "<bkash-payment-id>",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "success",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/appointment/update-status/appointmentId": {
+      "patch": {
+        "summary": "Update Appointment Status",
+        "deprecated": false,
+        "description": "Expected: **200**. DOCTOR only, on their own appointment. Enforces `CONFIRMED → ONGOING → COMPLETED` in order — `status` must be `\"ONGOING\"` or `\"COMPLETED\"` and must match the only legal next step for the appointment's current status.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "example": {
+                "status": "ONGOING"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/appointment/my-appointments": {
+      "get": {
+        "summary": "Get My Appointments",
+        "deprecated": false,
+        "description": "Expected: **200**, paginated. PATIENT only — the caller's own appointments with doctor/schedule/payment included.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "CONFIRMED",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/appointment/doctor-appointments": {
+      "get": {
+        "summary": "Get Doctor Appointments",
+        "deprecated": false,
+        "description": "Expected: **200**, paginated. DOCTOR only — the caller's own appointments with patient/schedule/payment included.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "CONFIRMED",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/appointment/all-appointments": {
+      "get": {
+        "summary": "Get All Appointments (Admin)",
+        "deprecated": false,
+        "description": "Expected: **200**, paginated. ADMIN/SUPER_ADMIN only — every appointment across all patients/doctors.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "doctorId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "patientId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "doctorEmail",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "patientEmail",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/appointment/appointmentId": {
+      "get": {
+        "summary": "Get Single Appointment",
+        "deprecated": false,
+        "description": "Expected: **200**, or **403** if a PATIENT/DOCTOR requests an appointment that isn't theirs. PATIENT/DOCTOR/ADMIN/SUPER_ADMIN.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/my-payments": {
+      "get": {
+        "summary": "Get My Payments",
+        "deprecated": false,
+        "description": "Expected: **200**, paginated. PATIENT only — payments for the caller's own appointments.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/all-payments": {
+      "get": {
+        "summary": "Get All Payments (Admin)",
+        "deprecated": false,
+        "description": "Expected: **200**, paginated. ADMIN/SUPER_ADMIN only — every payment record.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "10",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "createdAt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "desc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "patientEmail",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/payment/paymentId": {
+      "get": {
+        "summary": "Get Single Payment",
+        "deprecated": false,
+        "description": "Expected: **200**, or **403** if a PATIENT requests a payment that isn't theirs. PATIENT (own)/ADMIN/SUPER_ADMIN.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/prescription/create-prescription": {
+      "post": {
+        "summary": "Create Prescription",
+        "deprecated": false,
+        "description": "Expected: **201**. DOCTOR only, for an appointment they own that is `COMPLETED`. Generates a PDF and emails it to the patient. `medicines` needs at least one entry; `instructions` is optional per medicine.",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "appointmentId": {
+                    "type": "string"
+                  },
+                  "findings": {
+                    "type": "string"
+                  },
+                  "medicines": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "dosage": {
+                          "type": "string"
+                        },
+                        "duration": {
+                          "type": "string"
+                        },
+                        "instructions": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "dosage",
+                        "duration",
+                        "instructions"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "appointmentId",
+                  "findings",
+                  "medicines"
+                ]
+              },
+              "example": {
+                "appointmentId": "{{appointmentId}}",
+                "findings": "Mild seasonal allergic rhinitis, no signs of infection.",
+                "medicines": [
+                  {
+                    "name": "Cetirizine 10mg",
+                    "dosage": "1 tablet",
+                    "duration": "7 days",
+                    "instructions": "Take once daily at night"
+                  },
+                  {
+                    "name": "Saline Nasal Spray",
+                    "dosage": "2 sprays per nostril",
+                    "duration": "10 days",
+                    "instructions": "Use twice daily"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/prescription/appointmentId": {
+      "get": {
+        "summary": "Get Single Prescription",
+        "deprecated": false,
+        "description": "Expected: **200**, or **404** if no prescription exists yet for that appointment. PATIENT/DOCTOR (own appointment)/ADMIN/SUPER_ADMIN.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analytics/patient-analytics": {
+      "get": {
+        "summary": "Get Patient Analytics",
+        "deprecated": false,
+        "description": "Expected: **200**. PATIENT only. Counts of the caller's total/upcoming/completed/cancelled appointments plus total amount spent and total refunded.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analytics/doctor-analytics": {
+      "get": {
+        "summary": "Get Doctor Analytics",
+        "deprecated": false,
+        "description": "Expected: **200**. DOCTOR only. Schedule counts (total/published) and appointment counts by status for the caller, plus net earnings and refunds.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/analytics/admin-analytics": {
+      "get": {
+        "summary": "Get Admin Analytics",
+        "deprecated": false,
+        "description": "Expected: **200**. ADMIN/SUPER_ADMIN only. Platform-wide doctor/patient/appointment counts, verification-status breakdown, and total revenue/refunded.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/host/": {
+      "get": {
+        "summary": "Root Health Check",
+        "deprecated": false,
+        "description": "Expected: **200**. Basic liveness check at `/`.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/host/test": {
+      "get": {
+        "summary": "bKash Token Test",
+        "deprecated": false,
+        "description": "Expected: **200**. Fetches a fresh bKash grant token server-side (logged to the server console) to sanity-check the bKash sandbox credentials, then returns a generic welcome payload.",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
           }
         },
         "security": []

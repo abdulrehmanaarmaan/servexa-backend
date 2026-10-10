@@ -70,7 +70,18 @@ const createAssignment = async (workOrderId, technicianId, user) => {
                 technicianId,
             },
             include: {
-                technician: true,
+                technician: {
+                    include: {
+                        user: {
+                            select: {
+                                id: true,
+                                email: true,
+                                role: true,
+                                isActive: true,
+                            },
+                        },
+                    },
+                },
             },
         });
         if (workOrder.status === "OPEN" ||

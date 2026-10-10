@@ -16,18 +16,11 @@ router.post("/service-requests/:serviceRequestId", auth(UserRole.ADMIN), validat
     body: createWorkOrderSchema,
 }), workOrderController.createWorkOrder);
 /*
- * ADMIN / CUSTOMER / TECHNICIAN
- *
- * Object-level authorization is performed
- * inside the service.
- */
-router.get("/:workOrderId", auth(UserRole.ADMIN, UserRole.CUSTOMER, UserRole.TECHNICIAN), validateRequest({
-    params: workOrderParamsSchema,
-}), workOrderController.getWorkOrder);
-/*
  * CUSTOMER
  *
  * Get own work orders.
+ *
+ * Must appear before "/:workOrderId".
  */
 router.get("/customers/me", auth(UserRole.CUSTOMER), validateRequest({
     query: workOrderQuerySchema,
@@ -36,6 +29,8 @@ router.get("/customers/me", auth(UserRole.CUSTOMER), validateRequest({
  * TECHNICIAN
  *
  * Get assigned work orders.
+ *
+ * Must appear before "/:workOrderId".
  */
 router.get("/technicians/me", auth(UserRole.TECHNICIAN), validateRequest({
     query: workOrderQuerySchema,
@@ -49,9 +44,15 @@ router.get("/", auth(UserRole.ADMIN), validateRequest({
     query: workOrderQuerySchema,
 }), workOrderController.getAllWorkOrders);
 /*
- * ADMIN
+ * ADMIN / CUSTOMER / TECHNICIAN
  *
- * Update editable work-order information.
+ * Dynamic route comes AFTER all static routes.
+ */
+router.get("/:workOrderId", auth(UserRole.ADMIN, UserRole.CUSTOMER, UserRole.TECHNICIAN), validateRequest({
+    params: workOrderParamsSchema,
+}), workOrderController.getWorkOrder);
+/*
+ * ADMIN
  */
 router.patch("/:workOrderId", auth(UserRole.ADMIN), validateRequest({
     params: workOrderParamsSchema,
@@ -59,11 +60,6 @@ router.patch("/:workOrderId", auth(UserRole.ADMIN), validateRequest({
 }), workOrderController.updateWorkOrder);
 /*
  * ADMIN / TECHNICIAN
- *
- * Change work-order status.
- *
- * The service applies additional object-level
- * and transition rules.
  */
 router.patch("/:workOrderId/status", auth(UserRole.ADMIN, UserRole.TECHNICIAN), validateRequest({
     params: workOrderParamsSchema,
@@ -71,8 +67,6 @@ router.patch("/:workOrderId/status", auth(UserRole.ADMIN, UserRole.TECHNICIAN), 
 }), workOrderController.updateWorkOrderStatus);
 /*
  * ADMIN
- *
- * Schedule a work order.
  */
 router.patch("/:workOrderId/schedule", auth(UserRole.ADMIN), validateRequest({
     params: workOrderParamsSchema,

@@ -10,7 +10,6 @@
 export const UserRole = {
     CUSTOMER: 'CUSTOMER',
     TECHNICIAN: 'TECHNICIAN',
-    STAFF: 'STAFF',
     ADMIN: 'ADMIN'
 };
 export const ServiceRequestStatus = {

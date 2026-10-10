@@ -35,6 +35,23 @@ router.post(
 );
 
 /*
+ * CUSTOMER
+ *
+ * Get own service requests.
+ */
+router.get(
+    "/customers/me",
+
+    auth(UserRole.CUSTOMER),
+
+    validateRequest({
+        query: serviceRequestQuerySchema,
+    }),
+
+    serviceRequestController.getMyServiceRequests,
+);
+
+/*
  * CUSTOMER / ADMIN
  *
  * Get one service request.
@@ -55,23 +72,6 @@ router.get(
     }),
 
     serviceRequestController.getServiceRequest,
-);
-
-/*
- * CUSTOMER
- *
- * Get own service requests.
- */
-router.get(
-    "/customers/me",
-
-    auth(UserRole.CUSTOMER),
-
-    validateRequest({
-        query: serviceRequestQuerySchema,
-    }),
-
-    serviceRequestController.getMyServiceRequests,
 );
 
 /*

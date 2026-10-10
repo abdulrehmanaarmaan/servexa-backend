@@ -1,6 +1,6 @@
-import { serviceService } from "./service.service.js";
-import { sendResponse } from "../../utils/sendResponse.js";
 import httpStatus from "http-status";
+import { sendResponse } from "../../utils/sendResponse.js";
+import { serviceService } from "./service.service.js";
 const createService = async (req, res) => {
     const result = await serviceService.createService(req.body);
     sendResponse(res, {
@@ -17,8 +17,7 @@ const getAllServices = async (req, res) => {
         statusCode: httpStatus.OK,
         success: true,
         message: "Services retrieved successfully.",
-        data: result.data,
-        meta: result.meta
+        data: result
     });
 };
 const getServiceById = async (req, res) => {
@@ -37,7 +36,7 @@ const updateService = async (req, res) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Service updated successfully",
+        message: "Service updated successfully.",
         data: result,
     });
 };
@@ -47,7 +46,7 @@ const deleteService = async (req, res) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Service deleted successfully",
+        message: "Service deleted successfully.",
         data: result,
     });
 };

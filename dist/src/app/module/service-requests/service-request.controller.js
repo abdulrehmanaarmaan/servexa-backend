@@ -29,8 +29,7 @@ const getMyServiceRequests = async (req, res) => {
         statusCode: httpStatus.OK,
         success: true,
         message: "Service requests retrieved successfully",
-        data: result.data,
-        meta: result.meta
+        data: result
     });
 };
 const getAllServiceRequests = async (req, res) => {

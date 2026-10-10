@@ -74,8 +74,7 @@ const getMyServiceRequests = async (
     statusCode: httpStatus.OK,
     success: true,
     message: "Service requests retrieved successfully",
-    data: result.data,
-    meta: result.meta
+    data: result
   })
 };
 

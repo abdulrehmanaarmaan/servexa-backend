@@ -1,33 +1,33 @@
-import crypto from "node:crypto";
+import { OAuth2Client } from "google-auth-library";
 import config from "../../app/config/index.js";
-import { googleOAuth2Client, } from "./google.config.js";
-export const generateGoogleAuthUrl = () => {
-    const state = crypto.randomBytes(32).toString("hex");
-    const authorizationUrl = googleOAuth2Client.generateAuthUrl({
-        access_type: "offline",
-        scope: [
-            "openid",
-            "email",
-            "profile",
-        ],
-        state,
-    });
-    return {
-        authorizationUrl,
-        state,
-    };
-};
-export const exchangeGoogleCode = async (code) => {
-    const { tokens } = await googleOAuth2Client.getToken(code);
-    if (!tokens.id_token) {
-        throw new Error("Google ID token was not returned");
+const googleClient = new OAuth2Client();
+const verifyGoogleIdToken = async (idToken) => {
+    if (!idToken) {
+        throw new Error("Google ID token is required.");
     }
-    return tokens;
-};
-export const verifyGoogleIdToken = async (idToken) => {
-    const ticket = await googleOAuth2Client.verifyIdToken({
+    const ticket = await googleClient.verifyIdToken({
         idToken,
         audience: config.google_client_id,
+        maxExpiry: 60 * 60 * 24, // keep default behavior explicit
     });
-    return ticket.getPayload();
+    const payload = ticket.getPayload();
+    if (!payload) {
+        throw new Error("Invalid Google ID token.");
+    }
+    if (!payload.sub) {
+        throw new Error("Google account ID is missing.");
+    }
+    if (!payload.email) {
+        throw new Error("Google email is missing.");
+    }
+    return {
+        sub: payload.sub,
+        email: payload.email,
+        email_verified: payload.email_verified === true,
+        name: payload.name,
+        picture: payload.picture,
+    };
+};
+export const googleService = {
+    verifyGoogleIdToken,
 };

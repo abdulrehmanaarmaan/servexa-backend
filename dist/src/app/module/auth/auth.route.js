@@ -11,8 +11,10 @@ router.post("/register", validateRequest({
 router.post("/login", validateRequest({
     body: authValidation.loginSchema
 }), authController.loginUser);
-router.get("/me", auth(UserRole.ADMIN, UserRole.STAFF, UserRole.TECHNICIAN, UserRole.CUSTOMER), authController.getMe);
+router.get("/me", auth(UserRole.ADMIN, UserRole.TECHNICIAN, UserRole.CUSTOMER), authController.getMe);
 router.post("/refresh-token", authController.refreshToken);
-router.get("/google", authController.googleLogin);
-router.get("/google/callback", authController.googleCallback);
+router.post("/google", validateRequest({
+    body: authValidation.googleLoginSchema,
+}), authController.googleLogin);
+router.post("/logout", authController.logoutUser);
 export const authRoutes = router;

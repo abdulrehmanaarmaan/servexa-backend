@@ -31,8 +31,7 @@ const getMyWorkOrders = async (req, res) => {
         statusCode: httpStatus.OK,
         success: true,
         message: "Work orders retrieved successfully",
-        data: result.data,
-        meta: result.meta
+        data: result
     });
 };
 const getMyTechnicianWorkOrders = async (req, res) => {
@@ -43,8 +42,7 @@ const getMyTechnicianWorkOrders = async (req, res) => {
         statusCode: httpStatus.OK,
         success: true,
         message: "Assigned work orders retrieved successfully",
-        data: result.data,
-        meta: result.meta
+        data: result
     });
 };
 const getAllWorkOrders = async (req, res) => {
@@ -53,9 +51,8 @@ const getAllWorkOrders = async (req, res) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Work order retrieved successfully",
-        data: result.data,
-        meta: result.meta
+        message: "Work orders retrieved successfully",
+        data: result
     });
 };
 const updateWorkOrder = async (req, res) => {

@@ -12,6 +12,10 @@ export interface ILoginUserPayload {
 	password: string;
 }
 
+export interface IGoogleLoginPayload {
+  idToken: string;
+}
+
 export interface IRequestUser {
 	userId: string;
 	email: string;

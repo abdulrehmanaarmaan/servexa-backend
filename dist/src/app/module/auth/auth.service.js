@@ -1,15 +1,12 @@
 /** biome-ignore-all lint/style/useConst: <explanation> */
 import bcrypt from "bcryptjs";
-// import { googleClient } from "../../lib/googleAuth";
-// import { transporter } from "../../lib/nodemailer";
-// import { AppError } from "../../utils/AppError";
 import httpStatus from "http-status";
 import { prisma } from "../../lib/prisma.js";
 import { AppError } from "../../utils/appError.js";
 import { UserRole } from "../../../generated/prisma/enums.js";
 import { jwtUtils } from "../../utils/jwt.js";
 import config from "../../config/index.js";
-import { exchangeGoogleCode, generateGoogleAuthUrl, verifyGoogleIdToken } from "../../../integrations/google/google.service.js";
+import { googleService } from "../../../integrations/google/google.service.js";
 const registerCustomer = async (payload) => {
     const { name, password, phone } = payload;
     const email = payload.email.trim().toLowerCase();
@@ -55,7 +52,6 @@ const loginUser = async (payload) => {
         where: { email },
     });
     if (!user) {
-        // throw new Error("User not found");
         throw new AppError(httpStatus.NOT_FOUND, "User Not Found.");
     }
     if (!user.isActive) {
@@ -73,8 +69,14 @@ const loginUser = async (payload) => {
     const accessToken = jwtUtils.createToken(jwtPayload, config.jwt_access_secret, config.jwt_access_expires_in);
     const refreshToken = jwtUtils.createToken(jwtPayload, config.jwt_refresh_secret, config.jwt_refresh_expires_in);
     return {
+        user: {
+            id: user.id,
+            email: user.email,
+            role: user.role,
+            isActive: user.isActive,
+        },
         accessToken,
-        refreshToken,
+        refreshToken
     };
 };
 const getMe = async (user) => {
@@ -120,34 +122,14 @@ const refreshToken = async (token) => {
         refreshToken,
     };
 };
-const getGoogleAuthorizationUrl = () => {
-    return generateGoogleAuthUrl();
-};
-const googleCallback = async (code) => {
-    let tokens;
-    try {
-        tokens = await exchangeGoogleCode(code);
-    }
-    catch (error) {
-        console.error("Google authorization code exchange failed:", error);
-        throw new AppError(httpStatus.UNAUTHORIZED, "Google authentication failed.");
-    }
+const googleLogin = async (payload) => {
     let googlePayload;
     try {
-        googlePayload = await verifyGoogleIdToken(tokens.id_token);
+        googlePayload = await googleService.verifyGoogleIdToken(payload.idToken);
     }
     catch (error) {
         console.error("Google ID token verification failed:", error);
         throw new AppError(httpStatus.UNAUTHORIZED, "Invalid Google authentication.");
-    }
-    if (!googlePayload) {
-        throw new AppError(httpStatus.UNAUTHORIZED, "Invalid Google authentication.");
-    }
-    if (!googlePayload.sub) {
-        throw new AppError(httpStatus.UNAUTHORIZED, "Google account ID not found.");
-    }
-    if (!googlePayload.email) {
-        throw new AppError(httpStatus.BAD_REQUEST, "Google email not found.");
     }
     if (!googlePayload.email_verified) {
         throw new AppError(httpStatus.UNAUTHORIZED, "Google email is not verified.");
@@ -156,7 +138,7 @@ const googleCallback = async (code) => {
         throw new AppError(httpStatus.BAD_REQUEST, "Google account name not found.");
     }
     const googleId = googlePayload.sub;
-    const email = googlePayload.email;
+    const email = googlePayload.email.trim().toLowerCase();
     const name = googlePayload.name;
     let user = await prisma.user.findFirst({
         where: {
@@ -199,9 +181,6 @@ const googleCallback = async (code) => {
             });
         }
     }
-    if (!user) {
-        throw new AppError(httpStatus.NOT_FOUND, "User not found.");
-    }
     if (!user.isActive) {
         throw new AppError(httpStatus.FORBIDDEN, "User is not active.");
     }
@@ -213,6 +192,12 @@ const googleCallback = async (code) => {
     const accessToken = jwtUtils.createToken(jwtPayload, config.jwt_access_secret, config.jwt_access_expires_in);
     const refreshToken = jwtUtils.createToken(jwtPayload, config.jwt_refresh_secret, config.jwt_refresh_expires_in);
     return {
+        user: {
+            id: user.id,
+            email: user.email,
+            role: user.role,
+            isActive: user.isActive,
+        },
         accessToken,
         refreshToken,
     };
@@ -222,6 +207,5 @@ export const authService = {
     loginUser,
     getMe,
     refreshToken,
-    getGoogleAuthorizationUrl,
-    googleCallback
+    googleLogin
 };

@@ -6,41 +6,56 @@ import { sendResponse } from "../../utils/sendResponse.js";
 import { IRequestUser } from "../auth/auth.interface.js";
 import { customerService } from "./customer.service.js";
 
-const getMyCustomerProfile = catchAsync(async (req: Request, res: Response) => {
-	const user = req.user as unknown as IRequestUser;
+const getMyCustomerProfile = catchAsync(
+    async (req: Request, res: Response) => {
+        const user = req.user as IRequestUser | undefined;
 
-	if (!user) {
-		throw new AppError(httpStatus.UNAUTHORIZED, "User information is missing in the request.");
-	}
+        if (!user) {
+            throw new AppError(
+                httpStatus.UNAUTHORIZED,
+                "User information is missing in the request.",
+            );
+        }
 
-	const result = await customerService.getCustomerProfile(user);
+        const result = await customerService.getCustomerProfile(user);
 
-	sendResponse(res, {
-		statusCode: httpStatus.OK,
-		success: true,
-		message: "Customer profile fetched successfully",
-		data: result,
-	});
-});
+        sendResponse(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: "Customer profile fetched successfully.",
+            data: result,
+        });
+    },
+);
 
-const updateMyCustomerProfile = catchAsync(async (req: Request, res: Response) => {
+const updateMyCustomerProfile = catchAsync(
+    async (req: Request, res: Response) => {
+        const user = req.user as IRequestUser | undefined;
 
-	const payload = await req.body;
-	const user = req.user!;
+        if (!user) {
+            throw new AppError(
+                httpStatus.UNAUTHORIZED,
+                "User information is missing in the request.",
+            );
+        }
 
-	const result = await customerService.updateCustomerProfile(payload, user);
-	
-	sendResponse(res, {
-		statusCode: httpStatus.OK,
-		success: true,
-		message: result.changed
-      ? "Customer profile updated successfully"
-      : "No changes detected. Profile is already up to date",
-		data: result?.data,
-	});
-});
+        const result = await customerService.updateCustomerProfile(
+            req.body,
+            user,
+        );
+
+        sendResponse(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: result.changed
+                ? "Customer profile updated successfully."
+                : "No changes detected. Profile is already up to date.",
+            data: result.data,
+        });
+    },
+);
 
 export const customerController = {
-	getMyCustomerProfile,
-	updateMyCustomerProfile,
+    getMyCustomerProfile,
+    updateMyCustomerProfile,
 };

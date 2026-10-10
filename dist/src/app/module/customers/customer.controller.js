@@ -12,21 +12,23 @@ const getMyCustomerProfile = catchAsync(async (req, res) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: "Customer profile fetched successfully",
+        message: "Customer profile fetched successfully.",
         data: result,
     });
 });
 const updateMyCustomerProfile = catchAsync(async (req, res) => {
-    const payload = await req.body;
     const user = req.user;
-    const result = await customerService.updateCustomerProfile(payload, user);
+    if (!user) {
+        throw new AppError(httpStatus.UNAUTHORIZED, "User information is missing in the request.");
+    }
+    const result = await customerService.updateCustomerProfile(req.body, user);
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: result.changed
-            ? "Customer profile updated successfully"
-            : "No changes detected. Profile is already up to date",
-        data: result?.data,
+            ? "Customer profile updated successfully."
+            : "No changes detected. Profile is already up to date.",
+        data: result.data,
     });
 });
 export const customerController = {

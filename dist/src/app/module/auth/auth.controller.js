@@ -4,56 +4,42 @@ import { AppError } from "../../utils/appError.js";
 import { sendResponse } from "../../utils/sendResponse.js";
 import { authService } from "./auth.service.js";
 import config from "../../config/index.js";
+const getAuthCookieOptions = (maxAge) => ({
+    httpOnly: true,
+    secure: config.node_env === "production",
+    sameSite: (config.node_env === "production" ? "none" : "lax"),
+    path: "/",
+    maxAge,
+});
 const registerCustomer = catchAsync(async (req, res) => {
-    const payload = await req.body;
+    const payload = req.body;
     const result = await authService.registerCustomer(payload);
     const { accessToken, refreshToken, createdUser } = result;
-    res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "none",
-        maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
-    });
-    res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "none",
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-    });
+    res.cookie("accessToken", accessToken, getAuthCookieOptions(1000 * 60 * 60 * 24));
+    res.cookie("refreshToken", refreshToken, getAuthCookieOptions(1000 * 60 * 60 * 24 * 7));
+    res.cookie("servexa_role", createdUser.role, getAuthCookieOptions(1000 * 60 * 60 * 24));
     sendResponse(res, {
         statusCode: httpStatus.CREATED,
         success: true,
         message: "User registered successfully",
         data: {
-            accessToken,
-            refreshToken,
-            createdUser
+            createdUser,
         },
     });
 });
 const loginUser = catchAsync(async (req, res) => {
-    const payload = await req.body;
+    const payload = req.body;
     const result = await authService.loginUser(payload);
-    const { accessToken, refreshToken } = result;
-    res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "none",
-        maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
-    });
-    res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "none",
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-    });
+    const { user, accessToken, refreshToken } = result;
+    res.cookie("accessToken", accessToken, getAuthCookieOptions(1000 * 60 * 60 * 24));
+    res.cookie("refreshToken", refreshToken, getAuthCookieOptions(1000 * 60 * 60 * 24 * 7));
+    res.cookie("servexa_role", user.role, getAuthCookieOptions(1000 * 60 * 60 * 24));
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: "User logged in successfully",
         data: {
-            accessToken,
-            refreshToken,
+            user,
         },
     });
 });
@@ -71,23 +57,14 @@ const getMe = catchAsync(async (req, res) => {
     });
 });
 const refreshToken = catchAsync(async (req, res) => {
-    if (!req.cookies.refreshToken) {
+    const currentRefreshToken = req.cookies.refreshToken;
+    if (!currentRefreshToken) {
         throw new AppError(httpStatus.UNAUTHORIZED, "Refresh token is missing");
     }
-    const result = await authService.refreshToken(req.cookies.refreshToken);
-    const { accessToken, refreshToken: newRefreshToken } = result;
-    res.cookie("accessToken", accessToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "none",
-        maxAge: 1000 * 60 * 60 * 24, // 24 hour or 1 day
-    });
-    res.cookie("refreshToken", newRefreshToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "none",
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-    });
+    const result = await authService.refreshToken(currentRefreshToken);
+    const { accessToken, refreshToken: newRefreshToken, } = result;
+    res.cookie("accessToken", accessToken, getAuthCookieOptions(1000 * 60 * 60 * 24));
+    res.cookie("refreshToken", newRefreshToken, getAuthCookieOptions(1000 * 60 * 60 * 24 * 7));
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
@@ -99,51 +76,37 @@ const refreshToken = catchAsync(async (req, res) => {
     });
 });
 const googleLogin = catchAsync(async (req, res) => {
-    const { authorizationUrl, state, } = authService.getGoogleAuthorizationUrl();
-    res.cookie("googleOAuthState", state, {
-        httpOnly: true,
-        secure: config.node_env === "production",
-        sameSite: config.node_env === "production"
-            ? "none"
-            : "lax",
-        maxAge: 1000 * 60 * 10,
+    const payload = req.body;
+    const result = await authService.googleLogin(payload);
+    const { user, accessToken, refreshToken } = result;
+    res.cookie("accessToken", accessToken, getAuthCookieOptions(1000 * 60 * 60 * 24));
+    res.cookie("refreshToken", refreshToken, getAuthCookieOptions(1000 * 60 * 60 * 24 * 7));
+    res.cookie("servexa_role", user.role, getAuthCookieOptions(1000 * 60 * 60 * 24));
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Google login successful",
+        data: {
+            user
+        }
     });
-    res.redirect(authorizationUrl);
 });
-const googleCallback = catchAsync(async (req, res) => {
-    const { code, state } = req.query;
-    const storedState = req.cookies.googleOAuthState;
-    if (typeof code !== "string" ||
-        typeof state !== "string") {
-        throw new AppError(httpStatus.BAD_REQUEST, "Invalid Google authentication callback");
-    }
-    if (!storedState ||
-        storedState !== state) {
-        throw new AppError(httpStatus.UNAUTHORIZED, "Invalid Google authentication state.");
-    }
-    res.clearCookie("googleOAuthState");
-    const result = await authService.googleCallback(code);
-    res.cookie("accessToken", result.accessToken, {
+const logoutUser = catchAsync(async (_req, res) => {
+    const cookieOptions = {
         httpOnly: true,
         secure: config.node_env === "production",
-        sameSite: config.node_env === "production"
-            ? "none"
-            : "lax",
-        maxAge: 1000 * 60 * 60,
+        sameSite: (config.node_env === "production" ? "none" : "lax"),
+        path: "/",
+    };
+    res.clearCookie("accessToken", cookieOptions);
+    res.clearCookie("refreshToken", cookieOptions);
+    res.clearCookie("servexa_role", cookieOptions);
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Logout successful",
+        data: null,
     });
-    res.cookie("refreshToken", result.refreshToken, {
-        httpOnly: true,
-        secure: config.node_env === "production",
-        sameSite: config.node_env === "production"
-            ? "none"
-            : "lax",
-        maxAge: 1000 *
-            60 *
-            60 *
-            24 *
-            7,
-    });
-    res.redirect(`${config.client_url}/auth/success`);
 });
 export const authController = {
     registerCustomer,
@@ -151,5 +114,5 @@ export const authController = {
     getMe,
     refreshToken,
     googleLogin,
-    googleCallback
+    logoutUser,
 };

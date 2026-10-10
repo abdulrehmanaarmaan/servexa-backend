@@ -8,9 +8,7 @@ const getCustomerProfile = async (user) => {
         },
         include: {
             addresses: true,
-            serviceRequests: true,
-            workOrders: true
-        }
+        },
     });
     if (!customerProfile) {
         throw new AppError(httpStatus.NOT_FOUND, "Customer profile not found.");
@@ -20,8 +18,8 @@ const getCustomerProfile = async (user) => {
 const updateCustomerProfile = async (updateProfile, user) => {
     const customerProfile = await prisma.customer.findUnique({
         where: {
-            userId: user?.userId,
-        }
+            userId: user.userId,
+        },
     });
     if (!customerProfile) {
         throw new AppError(httpStatus.NOT_FOUND, "Customer profile not found.");
@@ -31,17 +29,23 @@ const updateCustomerProfile = async (updateProfile, user) => {
     }
     const hasChanges = Object.entries(updateProfile).some(([key, value]) => customerProfile[key] !== value);
     if (!hasChanges) {
-        return { data: customerProfile, changed: false };
+        return {
+            data: customerProfile,
+            changed: false,
+        };
     }
     const updatedProfile = await prisma.customer.update({
         where: {
-            userId: user?.userId,
+            userId: user.userId,
         },
-        data: updateProfile
+        data: updateProfile,
     });
-    return { data: updatedProfile, changed: true };
+    return {
+        data: updatedProfile,
+        changed: true,
+    };
 };
 export const customerService = {
     getCustomerProfile,
-    updateCustomerProfile
+    updateCustomerProfile,
 };

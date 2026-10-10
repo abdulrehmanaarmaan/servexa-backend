@@ -100,7 +100,18 @@ const createAssignment = async (
                 technicianId,
             },
             include: {
-                technician: true,
+                technician: {
+                    include: {
+                        user: {
+                            select: {
+                                id: true,
+                                email: true,
+                                role: true,
+                                isActive: true,
+                            },
+                        },
+                    },
+                },
             },
         });
 

@@ -1,10 +1,47 @@
 import { prisma } from "../../lib/prisma.js";
-import { createBkashPayment, executeBkashPayment } from "../../../integrations/payment/bkash/bkash.service.js";
+import { createBkashPayment, executeBkashPayment, } from "../../../integrations/payment/bkash/bkash.service.js";
 import config from "../../config/index.js";
+const getMyPayments = async (user) => {
+    const customer = await prisma.customer.findUnique({
+        where: {
+            userId: user.userId,
+        },
+        select: {
+            id: true,
+        },
+    });
+    if (!customer) {
+        throw new Error("Customer profile not found.");
+    }
+    const payments = await prisma.payment.findMany({
+        where: {
+            invoice: {
+                workOrder: {
+                    customerId: customer.id,
+                },
+            },
+        },
+        include: {
+            invoice: {
+                select: {
+                    id: true,
+                    total: true,
+                    status: true,
+                    workOrder: {
+                        select: {
+                            id: true
+                        },
+                    },
+                },
+            },
+        },
+        orderBy: {
+            createdAt: "desc",
+        },
+    });
+    return payments;
+};
 const createPayment = async (invoiceId, user) => {
-    // ---------------------------------------
-    // 1. Find the customer
-    // ---------------------------------------
     const customer = await prisma.customer.findUnique({
         where: {
             userId: user.userId,
@@ -13,9 +50,6 @@ const createPayment = async (invoiceId, user) => {
     if (!customer) {
         throw new Error("Customer profile not found.");
     }
-    // ---------------------------------------
-    // 2. Find the invoice
-    // ---------------------------------------
     const invoice = await prisma.invoice.findUnique({
         where: {
             id: invoiceId,
@@ -27,22 +61,13 @@ const createPayment = async (invoiceId, user) => {
     if (!invoice) {
         throw new Error("Invoice not found.");
     }
-    // ---------------------------------------
-    // 3. Ownership check
-    // ---------------------------------------
     if (invoice.workOrder.customerId !== customer.id) {
         throw new Error("You are not allowed to pay this invoice.");
     }
-    // ---------------------------------------
-    // 4. Invoice status check
-    // ---------------------------------------
     if (invoice.status !== "ISSUED" &&
         invoice.status !== "PARTIALLY_PAID") {
         throw new Error("This invoice is not payable.");
     }
-    // ---------------------------------------
-    // 5. Check existing pending payment
-    // ---------------------------------------
     const existingPendingPayment = await prisma.payment.findFirst({
         where: {
             invoiceId: invoice.id,
@@ -52,32 +77,28 @@ const createPayment = async (invoiceId, user) => {
     if (existingPendingPayment) {
         throw new Error("A payment for this invoice is already pending.");
     }
-    // ---------------------------------------
-    // 6. Create Servexa payment
-    // ---------------------------------------
     const payment = await prisma.payment.create({
         data: {
             invoiceId: invoice.id,
-            // NEVER accept amount from frontend.
             amount: invoice.total,
             currency: "BDT",
             provider: "BKASH",
             status: "PENDING",
         },
     });
-    // ---------------------------------------
-    // 7. Call bKash
-    // ---------------------------------------
     try {
+        const amount = Number(invoice.total);
+        if (!Number.isFinite(amount) || amount < 1) {
+            throw new Error("Invoices below ৳1 cannot be paid online.");
+        }
+        // ...then use it when calling bKash:
         const bkashPayment = await createBkashPayment({
-            amount: invoice.total.toString(),
+            amount: amount.toFixed(2),
             payerReference: customer.id,
             merchantInvoiceNumber: payment.id,
             callbackURL: config.bkash_callback_url,
         });
-        // ---------------------------------------
-        // 8. Save bKash information
-        // ---------------------------------------
+        console.log("bKash amount:", invoice.total.toString());
         const updatedPayment = await prisma.payment.update({
             where: {
                 id: payment.id,
@@ -93,9 +114,6 @@ const createPayment = async (invoiceId, user) => {
         };
     }
     catch (error) {
-        // ---------------------------------------
-        // 9. bKash initialization failed
-        // ---------------------------------------
         await prisma.payment.update({
             where: {
                 id: payment.id,
@@ -117,7 +135,6 @@ export const markPaymentSuccess = async (paymentId, transactionId, gatewayRespon
         if (!payment) {
             throw new Error("Payment not found");
         }
-        // Idempotency
         if (payment.status === "PAID") {
             return payment;
         }
@@ -179,9 +196,6 @@ export const markPaymentCancelled = async (paymentId) => {
     });
 };
 export const handleBkashCallback = async (paymentId, status) => {
-    // ---------------------------------------
-    // 1. Find Servexa payment
-    // ---------------------------------------
     const payment = await prisma.payment.findFirst({
         where: {
             gatewayReference: paymentId,
@@ -193,18 +207,12 @@ export const handleBkashCallback = async (paymentId, status) => {
     if (!payment) {
         throw new Error("Payment not found");
     }
-    // ---------------------------------------
-    // 2. Idempotency
-    // ---------------------------------------
     if (payment.status === "PAID") {
         return {
             success: true,
             message: "Payment already processed",
         };
     }
-    // ---------------------------------------
-    // 3. Customer cancelled payment
-    // ---------------------------------------
     if (status === "cancel") {
         await markPaymentCancelled(payment.id);
         return {
@@ -212,9 +220,6 @@ export const handleBkashCallback = async (paymentId, status) => {
             message: "Payment cancelled",
         };
     }
-    // ---------------------------------------
-    // 4. Customer payment failed
-    // ---------------------------------------
     if (status === "failure") {
         await markPaymentFailed(payment.id);
         return {
@@ -222,13 +227,7 @@ export const handleBkashCallback = async (paymentId, status) => {
             message: "Payment failed",
         };
     }
-    // ---------------------------------------
-    // 5. Verify/execute with bKash
-    // ---------------------------------------
     const bkashResult = await executeBkashPayment(paymentId);
-    // ---------------------------------------
-    // 6. Do NOT trust callback alone
-    // ---------------------------------------
     if (bkashResult.status !== "Completed") {
         await markPaymentFailed(payment.id);
         return {
@@ -236,26 +235,15 @@ export const handleBkashCallback = async (paymentId, status) => {
             message: "Payment could not be verified",
         };
     }
-    // ---------------------------------------
-    // 7. Verify amount
-    // ---------------------------------------
     if (bkashResult.amount &&
-        Number(bkashResult.amount) !==
-            Number(payment.amount)) {
+        Number(bkashResult.amount) !== Number(payment.amount)) {
         await markPaymentFailed(payment.id);
         throw new Error("Payment amount mismatch");
     }
-    // ---------------------------------------
-    // 8. Verify transaction reference
-    // ---------------------------------------
-    if (bkashResult.paymentId !==
-        payment.gatewayReference) {
+    if (bkashResult.paymentId !== payment.gatewayReference) {
         await markPaymentFailed(payment.id);
         throw new Error("Payment reference mismatch");
     }
-    // ---------------------------------------
-    // 9. Mark payment successful
-    // ---------------------------------------
     await markPaymentSuccess(payment.id, bkashResult.transactionId, bkashResult.rawResponse);
     return {
         success: true,
@@ -263,6 +251,7 @@ export const handleBkashCallback = async (paymentId, status) => {
     };
 };
 export const paymentService = {
+    getMyPayments,
     createPayment,
-    handleBkashCallback
+    handleBkashCallback,
 };

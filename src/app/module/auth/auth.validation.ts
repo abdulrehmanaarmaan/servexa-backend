@@ -12,10 +12,17 @@ const loginSchema = z.object({
   password: z.string().min(1),
 });
 
+const googleLoginSchema = z.object({
+  idToken: z
+    .string()
+    .min(1, "Google ID token is required."),
+});
+
 const refreshSchema = z.object({});
 
 export const authValidation = {
     registerSchema,
     loginSchema,
+    googleLoginSchema,
     refreshSchema
 }

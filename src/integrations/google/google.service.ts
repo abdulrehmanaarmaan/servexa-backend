@@ -1,55 +1,52 @@
-import crypto from "node:crypto";
-
+import { OAuth2Client } from "google-auth-library";
 import config from "../../app/config/index.js";
-import {
-  googleOAuth2Client,
-} from "./google.config.js";
 
-export const generateGoogleAuthUrl = () => {
-  const state = crypto.randomBytes(32).toString("hex");
+const googleClient = new OAuth2Client();
 
-  const authorizationUrl =
-    googleOAuth2Client.generateAuthUrl({
-      access_type: "offline",
+export interface GoogleUserPayload {
+  sub: string;
+  email: string;
+  email_verified: boolean;
+  name?: string;
+  picture?: string;
+}
 
-      scope: [
-        "openid",
-        "email",
-        "profile",
-      ],
+const verifyGoogleIdToken = async (
+  idToken: string,
+): Promise<GoogleUserPayload> => {
+  if (!idToken) {
+    throw new Error("Google ID token is required.");
+  }
 
-      state,
-    });
+  const ticket = await googleClient.verifyIdToken({
+    idToken,
+    audience: config.google_client_id,
+    maxExpiry: 60 * 60 * 24, // keep default behavior explicit
+  });
+
+  const payload = ticket.getPayload();
+
+  if (!payload) {
+    throw new Error("Invalid Google ID token.");
+  }
+
+  if (!payload.sub) {
+    throw new Error("Google account ID is missing.");
+  }
+
+  if (!payload.email) {
+    throw new Error("Google email is missing.");
+  }
 
   return {
-    authorizationUrl,
-    state,
+    sub: payload.sub,
+    email: payload.email,
+    email_verified: payload.email_verified === true,
+    name: payload.name,
+    picture: payload.picture,
   };
 };
 
-export const exchangeGoogleCode = async (
-  code: string,
-) => {
-  const { tokens } =
-    await googleOAuth2Client.getToken(code);
-
-  if (!tokens.id_token) {
-    throw new Error(
-      "Google ID token was not returned",
-    );
-  }
-
-  return tokens;
-};
-
-export const verifyGoogleIdToken = async (
-  idToken: string,
-) => {
-  const ticket =
-    await googleOAuth2Client.verifyIdToken({
-      idToken,
-      audience: config.google_client_id,
-    });
-
-  return ticket.getPayload();
+export const googleService = {
+  verifyGoogleIdToken,
 };

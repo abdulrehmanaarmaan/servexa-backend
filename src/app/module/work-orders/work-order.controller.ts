@@ -59,74 +59,64 @@ const getMyWorkOrders = async (
   req: Request,
   res: Response,
 ) => {
-  const user =
-    req.user as IRequestUser;
+  const user = req.user as IRequestUser;
 
-    const query =
-  res.locals.validated.query as IWorkOrderQuery;
+  const query =
+    res.locals.validated.query as IWorkOrderQuery;
 
   const result =
     await workOrderService.getMyWorkOrders(
       user,
-      query
+      query,
     );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: "Work orders retrieved successfully",
-    data: result.data,
-    meta: result.meta
-  })
+    data: result
+  });
 };
 
-const getMyTechnicianWorkOrders =
-  async (
-    req: Request,
-    res: Response,
-  ) => {
-    const user =
-      req.user as IRequestUser;
-
-        const query =
-  res.locals.validated.query as IWorkOrderQuery;
-
-    const result =
-      await workOrderService.getMyTechnicianWorkOrders(
-        user,
-        query
-      );
-
-    sendResponse(res, {
-      statusCode: httpStatus.OK,
-      success: true,
-      message: "Assigned work orders retrieved successfully",
-      data: result.data,
-      meta: result.meta
-    })
-  };
-
-const getAllWorkOrders = async (
+const getMyTechnicianWorkOrders = async (
   req: Request,
   res: Response,
 ) => {
+  const user = req.user as IRequestUser;
 
   const query =
-  res.locals.validated.query as IWorkOrderQuery;
+    res.locals.validated.query as IWorkOrderQuery;
 
   const result =
-
-    await workOrderService.getAllWorkOrders(
-      query
+    await workOrderService.getMyTechnicianWorkOrders(
+      user,
+      query,
     );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Work order retrieved successfully",
-    data: result.data,
-    meta: result.meta
-  })
+    message: "Assigned work orders retrieved successfully",
+    data: result
+  });
+};
+
+const getAllWorkOrders = async (
+  req: Request,
+  res: Response,
+) => {
+  const query =
+    res.locals.validated.query as IWorkOrderQuery;
+
+  const result =
+    await workOrderService.getAllWorkOrders(query);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Work orders retrieved successfully",
+    data: result
+  });
 };
 
 const updateWorkOrder = async (
