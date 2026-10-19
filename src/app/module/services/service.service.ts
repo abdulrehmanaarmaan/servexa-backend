@@ -1,6 +1,11 @@
 import httpStatus from "http-status";
 
 import { prisma } from "../../lib/prisma.js";
+import {
+  deleteServiceImage,
+  isValidServiceImage,
+  uploadServiceImage as uploadToCloudinary,
+} from "../../lib/cloudinary.js";
 import { AppError } from "../../utils/appError.js";
 import type {
   ICreateServicePayload,
@@ -8,9 +13,39 @@ import type {
   IServiceQuery,
 } from "./service.interface.js";
 
-const createService = async (
-  payload: ICreateServicePayload,
+const assertValidImagePair = (
+  imageUrl: string | null | undefined,
+  imagePublicId: string | null | undefined,
 ) => {
+  if (!imageUrl && !imagePublicId) return;
+
+  if (
+    !imageUrl ||
+    !imagePublicId ||
+    !isValidServiceImage(imageUrl, imagePublicId)
+  ) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Invalid service image");
+  }
+};
+
+const uploadServiceImage = async (file: Express.Multer.File) => {
+  try {
+    const result = await uploadToCloudinary(file.buffer);
+
+    return {
+      imageUrl: result.secure_url,
+      imagePublicId: result.public_id,
+    };
+  } catch (error) {
+    console.error("Cloudinary upload failed:", error);
+    throw new AppError(
+      httpStatus.BAD_GATEWAY,
+      "Image upload failed. Please try again.",
+    );
+  }
+};
+
+const createService = async (payload: ICreateServicePayload) => {
   const existingService = await prisma.service.findFirst({
     where: {
       name: {
@@ -28,11 +63,15 @@ const createService = async (
     );
   }
 
+  assertValidImagePair(payload.imageUrl, payload.imagePublicId);
+
   const service = await prisma.service.create({
     data: {
       name: payload.name,
       description: payload.description,
       basePrice: payload.basePrice,
+      imageUrl: payload.imageUrl ?? null,
+      imagePublicId: payload.imagePublicId ?? null,
       isActive: true,
     },
   });
@@ -40,17 +79,8 @@ const createService = async (
   return service;
 };
 
-const getAllServices = async (
-  query: IServiceQuery,
-) => {
-  const {
-    page,
-    limit,
-    search,
-    isActive,
-    sortBy,
-    sortOrder,
-  } = query;
+const getAllServices = async (query: IServiceQuery) => {
+  const { page, limit, search, isActive, sortBy, sortOrder } = query;
 
   const skip = (page - 1) * limit;
 
@@ -74,11 +104,7 @@ const getAllServices = async (
           ],
         }
       : {}),
-    ...(isActive !== undefined
-      ? {
-          isActive,
-        }
-      : {}),
+    ...(isActive !== undefined ? { isActive } : {}),
   };
 
   const [services, total] = await prisma.$transaction([
@@ -91,9 +117,7 @@ const getAllServices = async (
       },
     }),
 
-    prisma.service.count({
-      where,
-    }),
+    prisma.service.count({ where }),
   ]);
 
   return {
@@ -107,9 +131,7 @@ const getAllServices = async (
   };
 };
 
-const getServiceById = async (
-  serviceId: string,
-) => {
+const getServiceById = async (serviceId: string) => {
   const service = await prisma.service.findFirst({
     where: {
       id: serviceId,
@@ -118,10 +140,7 @@ const getServiceById = async (
   });
 
   if (!service) {
-    throw new AppError(
-      httpStatus.NOT_FOUND,
-      "Service not found",
-    );
+    throw new AppError(httpStatus.NOT_FOUND, "Service not found");
   }
 
   return service;
@@ -139,26 +158,22 @@ const updateService = async (
   });
 
   if (!existingService) {
-    throw new AppError(
-      httpStatus.NOT_FOUND,
-      "Service not found",
-    );
+    throw new AppError(httpStatus.NOT_FOUND, "Service not found");
   }
 
   if (payload.name) {
-    const duplicateService =
-      await prisma.service.findFirst({
-        where: {
-          id: {
-            not: serviceId,
-          },
-          name: {
-            equals: payload.name,
-            mode: "insensitive",
-          },
-          deletedAt: null,
+    const duplicateService = await prisma.service.findFirst({
+      where: {
+        id: {
+          not: serviceId,
         },
-      });
+        name: {
+          equals: payload.name,
+          mode: "insensitive",
+        },
+        deletedAt: null,
+      },
+    });
 
     if (duplicateService) {
       throw new AppError(
@@ -166,6 +181,13 @@ const updateService = async (
         "A service with this name already exists",
       );
     }
+  }
+
+  const isChangingImage =
+    payload.imageUrl !== undefined || payload.imagePublicId !== undefined;
+
+  if (isChangingImage) {
+    assertValidImagePair(payload.imageUrl, payload.imagePublicId);
   }
 
   const service = await prisma.service.update({
@@ -188,15 +210,27 @@ const updateService = async (
       ...(payload.isActive !== undefined && {
         isActive: payload.isActive,
       }),
+
+      ...(isChangingImage && {
+        imageUrl: payload.imageUrl ?? null,
+        imagePublicId: payload.imagePublicId ?? null,
+      }),
     },
   });
+
+  // Remove the old Cloudinary asset only AFTER the database update succeeded.
+  if (
+    isChangingImage &&
+    existingService.imagePublicId &&
+    existingService.imagePublicId !== service.imagePublicId
+  ) {
+    await deleteServiceImage(existingService.imagePublicId);
+  }
 
   return service;
 };
 
-const deleteService = async (
-  serviceId: string,
-) => {
+const deleteService = async (serviceId: string) => {
   const existingService = await prisma.service.findFirst({
     where: {
       id: serviceId,
@@ -205,12 +239,10 @@ const deleteService = async (
   });
 
   if (!existingService) {
-    throw new AppError(
-      httpStatus.NOT_FOUND,
-      "Service not found",
-    );
+    throw new AppError(httpStatus.NOT_FOUND, "Service not found");
   }
 
+  // Soft delete: the image is intentionally kept so the record stays intact.
   const service = await prisma.service.update({
     where: {
       id: serviceId,
@@ -225,6 +257,7 @@ const deleteService = async (
 };
 
 export const serviceService = {
+  uploadServiceImage,
   createService,
   getAllServices,
   getServiceById,

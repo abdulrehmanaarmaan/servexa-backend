@@ -1,18 +1,20 @@
 model Service {
-  id          String @id @default(uuid())
+  id             String   @id @default(uuid())
+  name           String
+  description    String?
+  basePrice      Decimal? @db.Decimal(10, 2)
 
-  name        String
-  description String?
-  basePrice   Decimal? @db.Decimal(10, 2)
+  imageUrl       String?
+  imagePublicId  String?
 
-  isActive    Boolean @default(true)
+  isActive       Boolean  @default(true)
 
   serviceRequests ServiceRequest[]
-  workOrders      WorkOrder[]
+  workOrders     WorkOrder[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  deletedAt DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  deletedAt      DateTime?
 
   @@index([isActive])
   @@map("services")

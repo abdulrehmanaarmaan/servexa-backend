@@ -4,6 +4,7 @@ import { UserRole } from "../../../generated/prisma/enums.js";
 
 import { auth } from "../../middleware/checkAuth.js";
 import { validateRequest } from "../../middleware/validateRequest.js";
+import { uploadSingleImage } from "../../middleware/uploadImage.js";
 
 import { serviceController } from "./service.controller.js";
 
@@ -24,6 +25,15 @@ router.get(
     query: serviceQuerySchema,
   }),
   serviceController.getAllServices,
+);
+
+
+// Admin uploads a service image (auth runs BEFORE the file is accepted)
+router.post(
+  "/upload-image",
+  auth(UserRole.ADMIN),
+  uploadSingleImage,
+  serviceController.uploadServiceImage,
 );
 
 

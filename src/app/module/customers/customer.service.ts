@@ -10,7 +10,7 @@ const getCustomerProfile = async (user: IRequestUser) => {
         userId: user.userId,
     },
     include: {
-        addresses: true,
+        addresses: true
     },
 });
 

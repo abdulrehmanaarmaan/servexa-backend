@@ -17,6 +17,9 @@ export const createServiceSchema = z.object({
     .number()
     .nonnegative("Base price cannot be negative")
     .finite("Base price must be a valid number"),
+
+  imageUrl: z.string().url().max(500).optional(),
+  imagePublicId: z.string().max(300).optional(),
 });
 
 export const serviceParamsSchema = z.object({
@@ -45,6 +48,10 @@ export const updateServiceSchema = z
       .optional(),
 
     isActive: z.boolean().optional(),
+
+    // null = remove the current image
+    imageUrl: z.string().url().max(500).nullable().optional(),
+    imagePublicId: z.string().max(300).nullable().optional(),
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field must be provided",
@@ -53,18 +60,9 @@ export const updateServiceSchema = z
 export const serviceQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
 
-  limit: z.coerce
-    .number()
-    .int()
-    .min(1)
-    .max(100)
-    .default(10),
+  limit: z.coerce.number().int().min(1).max(100).default(10),
 
-  search: z
-    .string()
-    .trim()
-    .max(100)
-    .optional(),
+  search: z.string().trim().max(100).optional(),
 
   isActive: z
     .enum(["true", "false"])
@@ -75,7 +73,5 @@ export const serviceQuerySchema = z.object({
     .enum(["name", "basePrice", "createdAt", "updatedAt"])
     .default("createdAt"),
 
-  sortOrder: z
-    .enum(["asc", "desc"])
-    .default("desc"),
+  sortOrder: z.enum(["asc", "desc"]).default("desc"),
 });

@@ -22,6 +22,7 @@ import { availabilityRoutes } from "./app/module/availability/availability.route
 import { technicianRoutes } from "./app/module/technicians/technician.route.js";
 import { apiRateLimiter } from "./app/middleware/rateLimiter.js";
 import helmet from "helmet";
+import { aiRoutes } from "./app/module/ai/ai.route.js";
 const app = express();
 app.use(cors({
     origin: config.client_url,
@@ -48,6 +49,7 @@ app.use('/api/v1/notes', noteRoutes);
 app.use("/api/v1/assignments", assignmentRoutes);
 app.use("/api/v1/availabilities", availabilityRoutes);
 app.use('/api/v1/technicians', technicianRoutes);
+app.use("/api/v1/ai", aiRoutes);
 // Basic route
 app.get("/", async (req, res) => {
     sendResponse(res, {
